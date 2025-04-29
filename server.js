@@ -12,6 +12,8 @@ const app=express()
 app.use(cors(corsOptions))
 app.use(express.json())
 
+app.use('/api/auth',require('./routes/authRouts'))
+
 connectDB()
 
 mongoose.connection.once('open',()=>{
