@@ -1,6 +1,7 @@
 require("dotenv").config()
 const mongoose=require("mongoose")
 const connectDB=require('./config/dbConn')
+const createInitialAdmin=require('./Admin/CreateInitialAdmin')
 
 const express=require ("express")
 const cors=require("cors")
@@ -12,13 +13,16 @@ const app=express()
 app.use(cors(corsOptions))
 app.use(express.json())
 
-app.use('/api/auth',require('./routes/authRouts'))
+app.use('/api/auth',require('./routes/authRoutes'))
+app.use('/api/users',require('./routes/userRoute'))
 
 connectDB()
 
 mongoose.connection.once('open',()=>{
     console.log('connected successfuly to DB')
     app.listen(PORT,()=>{console.log(`server is running on port ${PORT}`)})
+    //create admin user
+    createInitialAdmin()
 })
 
 mongoose.connection.on("error",(err)=>{
