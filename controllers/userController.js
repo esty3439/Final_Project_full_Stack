@@ -17,7 +17,7 @@ const getSingleUser = async (req, res) => {
     const { id } = req.params
     if (!id)
         return res.status(400).send('id is required')
-    //chek if user is admin
+    //chek if user is admin or user
     const user= req.user
     let findedUser
     if (user.roles === "Admin")
@@ -36,7 +36,7 @@ const updateUser = async (req, res) => {
     //validation
     //required fields
     if (!id || !fullName || !email || !password)
-        return res.status(400).send('id fullName email and paswword are required required')
+        return res.status(400).send('id fullName email and paswword are required')
 
     const user= req.user
     const findedUser = await User.findOne({ userName: user.userName, _id: id }).exec()
@@ -86,11 +86,11 @@ const deleteUser = async (req, res) => {
 }
 
 //update active only admin
-const updateUserActive = async (req, res) => {
+const updateUserByAdmin = async (req, res) => {
     //validation:
 
     //chek required fields
-    const { id } = req.body
+    const { id,active,roles} = req.body
     if (!id)
         return res.status(400).send('id is required')
 
@@ -102,11 +102,12 @@ const updateUserActive = async (req, res) => {
     const findedUser = await User.findOne({ _id: id }).exec()
     if (!findedUser)
         return res.status(400).json({ message: "no user found" })
-    findedUser.active = !findedUser.active
+    findedUser.active = active?active:findedUser.active
+    findedUser.roles=roles?roles:findedUser.roles
     const updatedUser = await findedUser.save()
     if (!updatedUser)
         return res.status(400).json({ message: `error occurred while updating user ${userName}` })
     return res.status(201).json({ message: `user with ID ${id} was updated successfully` })
 }
 
-module.exports = { getAllUsers, getSingleUser, updateUser, deleteUser, updateUserActive }
+module.exports = { getAllUsers, getSingleUser, updateUser, deleteUser, updateUserByAdmin }

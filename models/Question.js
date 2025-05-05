@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { applyTimestamps } = require('./Challenge')
 
-const QuestionSchema = new mongoose.Schemama(
+const QuestionSchema = new mongoose.Schema(
     {
         question: {
             type: String,
@@ -31,6 +31,7 @@ const QuestionSchema = new mongoose.Schemama(
             required:true,
             ref:"Word"
         }
+         
     },
     {
         timestamps: true

@@ -10,11 +10,12 @@ const RecommendtionSchema=new mongoose.Schema({
         required:true,
     },
     rating:{
-        tupe:Number,
+        type:Number,
         required:true,
         min:0,
         max:5
     }  
+    
 },{
     timestamps:true
 })

@@ -14,7 +14,13 @@ app.use(cors(corsOptions))
 app.use(express.json())
 
 app.use('/api/auth',require('./routes/authRoutes'))
-app.use('/api/users',require('./routes/userRoutes'))
+app.use('/api/user',require('./routes/userRoutes'))
+app.use('/api/category',require('./routes/categoryRoutes'))
+app.use('/api/challenge',require('./routes/challengeRoute'))
+app.use('/api/course',require('./routes/courseRoutes'))
+app.use('/api/question',require('./routes/questionsRoutes'))
+// app.use('/api/recommendion',require('./routes/recommendionRoutes'))
+app.use('/api/word',require('./routes/wordRoutes'))
 
 connectDB()
 

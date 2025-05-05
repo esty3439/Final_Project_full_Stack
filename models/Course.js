@@ -20,10 +20,10 @@ const CourseSchema=new mongoose.Schema(
         solvedChalenges:
         {
             type:[mongoose.Schema.Types.ObjectId],
-            required:true,
+            default:[],
             ref:"Challenge" 
         },
-        user:{
+        userId:{
             type:mongoose.Schema.Types.ObjectId,
             required:true,
             ref:"User" 
@@ -34,4 +34,4 @@ const CourseSchema=new mongoose.Schema(
     }
 )
 
-module.exports('Course',CourseSchema)
+module.exports=mongoose.model('Course',CourseSchema)
