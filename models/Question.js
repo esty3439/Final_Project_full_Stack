@@ -4,10 +4,9 @@ const { applyTimestamps } = require('./Challenge')
 const QuestionSchema = new mongoose.Schema(
     {
         question: {
-            type: String,
+            type:mongoose.Schema.Types.ObjectId,
             required:true,
-            lowerCase:true,
-            trim:true
+            ref:"Word"
         },
         usersAnswer:{
             type:String,

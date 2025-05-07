@@ -6,6 +6,7 @@ const createInitialAdmin=require('./Admin/CreateInitialAdmin')
 const express=require ("express")
 const cors=require("cors")
 const corsOptions=require("./config/corsOptions")
+const insertData=require('./insertData/inserData')
 
 const PORT=process.env.PORT||2001
 const app=express()
@@ -29,6 +30,8 @@ mongoose.connection.once('open',()=>{
     app.listen(PORT,()=>{console.log(`server is running on port ${PORT}`)})
     //create admin user
     createInitialAdmin()
+    //create words
+    insertData.insertWords()
 })
 
 mongoose.connection.on("error",(err)=>{
