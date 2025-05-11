@@ -1,7 +1,11 @@
 const path = require('path')
 const fs = require('fs')
-const Word = require('../models/Word')
 
+//models
+const Word = require('../models/Word')
+const Question =require('../models/Question')
+
+//functions
 //help function that checks if the word is already selected in questions
 const chekWordInQuestions = (id, questionArr) => {
     for (let i = 0; i < questionArr.length; i++)
@@ -18,6 +22,8 @@ const chekWordInoptions = (id, options) => {
     return false
 }
 
+
+//data
 const words = [
     //vegtables words
     { word: "pepper", translation: "פלפל", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "pepper.jpg")), contentType: "jpg" } },
@@ -34,6 +40,7 @@ const words = [
     { word: "cabbage", translation: "כרוב", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "cabbage.jpg")), contentType: "jpg" } },
 ]
 
+//vegtable questions
 const createVegtableQuestions = async () => {
     const vegtablesQuestions = []
 
@@ -63,5 +70,16 @@ const createVegtableQuestions = async () => {
     return vegtablesQuestions
 }
 
+//vegtable challenge
+const createVegtableChallenge=async()=>{
+    const questionsFromDB=await Question.find().populate({
+        path:'question',
+        match:{categoryName:"vegtables"}
+    }).lean()
+    const filteredQuestions=questionsFromDB.filter((q)=>{return q.question!==null})
+    const challenge={questions:filteredQuestions}
+    return challenge
+}
 
-module.exports = { words, createVegtableQuestions}
+
+module.exports = { words, createVegtableQuestions,createVegtableChallenge}
