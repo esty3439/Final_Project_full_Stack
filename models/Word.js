@@ -13,6 +13,12 @@ const wordSchema = new mongoose.Schema(
             required:true,
             trim:true
         },
+        categoryName:{
+            type:String,
+            required:true,
+            lowerCase:true,
+            trim:true
+        },
         img:{
             data:Buffer,
             contentType:String

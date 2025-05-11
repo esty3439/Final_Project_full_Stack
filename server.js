@@ -25,13 +25,15 @@ app.use('/api/word',require('./routes/wordRoutes'))
 
 connectDB()
 
-mongoose.connection.once('open',()=>{
+mongoose.connection.once('open',async()=>{
     console.log('connected successfuly to DB')
     app.listen(PORT,()=>{console.log(`server is running on port ${PORT}`)})
     //create admin user
-    createInitialAdmin()
+    await createInitialAdmin()
     //create words
-    insertData.insertWords()
+    await insertData.insertWords()
+    //create questions
+    await insertData.insertQuestions()
 })
 
 mongoose.connection.on("error",(err)=>{

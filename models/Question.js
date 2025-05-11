@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { applyTimestamps } = require('./Challenge')
 
 const QuestionSchema = new mongoose.Schema(
     {
@@ -14,8 +13,9 @@ const QuestionSchema = new mongoose.Schema(
             default:"-",
         },
         correctAnswer:{
-            type:String,
+            type:mongoose.Schema.Types.ObjectId,
             required:true,
+            ref:"Word"
         },
         grade:{
             type:Number,

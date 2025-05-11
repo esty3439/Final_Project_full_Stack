@@ -21,7 +21,7 @@ const getSingleWord = async (req, res) => {
 
 //create word only for admin
 const createNewWord = async (req, res) => {
-    const { word, translation } = req.body
+    const { word, translation,categoryName} = req.body
 
     //validation:
     //chek if user is admin
@@ -30,10 +30,10 @@ const createNewWord = async (req, res) => {
         return res.status(403).json({ message: 'forbidden' })
 
     //required fields
-    if (!word || !translation)
+    if (!word || !translation || !categoryName)
         return res.status(400).send('all fields are required')
 
-    const newWord = await Word.create({ word, translation })
+    const newWord = await Word.create({ word, translation,categoryName})
     if (!newWord)
         return res.status(400).json({ message: `error occurred while creating word ${word}` })
     return res.status(201).json({ message: `word ${word} was created successfully` })
@@ -41,7 +41,7 @@ const createNewWord = async (req, res) => {
 
 //update word only for admin
 const updateWord = async (req, res) => {
-    const { id, word, translation } = req.body
+    const { id, word, translation,categoryName} = req.body
 
     //validation:
     //chek if user is admin
@@ -50,7 +50,7 @@ const updateWord = async (req, res) => {
         return res.status(403).json({ message: 'forbidden' })
 
     //required fields
-    if (!word || !translation || !id)
+    if (!word || !translation || !id ||!categoryName)
         return res.status(400).send('all fields are required')
 
     const foundWord = await Word.findById(id).exec()
@@ -60,6 +60,7 @@ const updateWord = async (req, res) => {
     //update fields
     foundWord.word = word
     foundWord.translation = translation
+    foundWord.categoryName=categoryName
 
     const updatedWord = await foundWord.save()
     if (!updatedWord)
