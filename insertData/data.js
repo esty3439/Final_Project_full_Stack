@@ -4,6 +4,7 @@ const fs = require('fs')
 //models
 const Word = require('../models/Word')
 const Question =require('../models/Question')
+const Challenge=require('../models/Challenge')
 
 //functions
 //help function that checks if the word is already selected in questions
@@ -72,7 +73,7 @@ const createVegtableQuestions = async () => {
 
 //vegtable challenge
 const createVegtableChallenge=async()=>{
-    const questionsFromDB=await Question.find().populate({
+    const questionsFromDB=await Question.find().populate({//find all question that the word is in category of vegtables
         path:'question',
         match:{categoryName:"vegtables"}
     }).lean()
@@ -81,5 +82,24 @@ const createVegtableChallenge=async()=>{
     return challenge
 }
 
+//create vegtable category
+const createVegtableCategory=async()=>{
+    //find the vegtable challenge
+    const challengesFromDB=await Challenge.find({},{questions:1}).lean()
+    const foundChallenge=challengesFromDB.find(async(challenge)=>{
+        const foundQuestion=await Question.findById(challenge.questions[0]).lean()
+        const foundWord=await Word.findById(foundQuestion.question).lean()
+        return foundWord.categoryName==="vegtables"
+    }) 
 
-module.exports = { words, createVegtableQuestions,createVegtableChallenge}
+    //find the vegtable words
+    const wordsFromDB = await Word.find({ categoryName: "vegtables" }).lean()//get all words that category is vegtables
+
+    //create object category
+    const vegtableCategory={name:"vegtable", wordsList:wordsFromDB,challenge:foundChallenge}
+    return vegtableCategory
+}
+
+createVegtableCategory()
+
+module.exports = { words, createVegtableQuestions,createVegtableChallenge,createVegtableCategory}
