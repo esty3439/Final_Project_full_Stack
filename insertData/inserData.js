@@ -3,9 +3,10 @@ const Word = require('../models/Word')
 const Question = require('../models/Question')
 const Challenge = require('../models/Challenge')
 const Category = require('../models/Category')
+const Course =require('../models/Course')
 
 //data
-const { words, createVegtableQuestions, createVegtableChallenge, createVegtableCategory } = require('./data')
+const { words, createVegtableQuestions, createVegtableChallenge, createVegtableCategory,createCourses} = require('./data')
 
 
 //functions
@@ -84,8 +85,10 @@ const insertCategories = async () => {
         const newCategory=await Category.create({
             name:vegtableCategory.name,
             wordsList:vegtableCategory.wordsList,
-            challenge:vegtableCategory.challenge
+            challenge:vegtableCategory.challenge,
+            level:vegtableCategory.level
         })
+        
         if(!newCategory)
         {
             console.log(`error creating category ${vegtableCategory.name}`)
@@ -95,5 +98,28 @@ const insertCategories = async () => {
     }
 }
 
+//insert courses to database
+const insertCourses=async()=>{
+    const checkCourses=await Course.find().lean()
+    let courseCounter=0
+    if(!checkCourses.length)
+    {
+        const courses=await createCourses()
+        for(let i=0;i<courses.length;i++)
+        {
+            const newCourse=await Course.create({
+                level:courses[i].level,
+                categories:courses[i].categories
+            })
 
-module.exports = { insertWords, insertQuestions, insertChallenges,insertCategories}
+            if(!newCourse)
+                console.log(`error creating course`)
+            else
+              courseCounter++
+        }
+        console.log(`${courseCounter} courses were inserted successfully to courses table`)
+    }
+}
+
+
+module.exports = { insertWords, insertQuestions, insertChallenges,insertCategories,insertCourses}

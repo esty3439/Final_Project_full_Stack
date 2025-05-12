@@ -7,11 +7,6 @@ const ChallengeSchema = new mongoose.Schema(
         required:true,
         ref:"Question"
        },
-       finalGrade:{ 
-        type:Number,
-        required:true,
-        default:0
-       }
     },
 
     {

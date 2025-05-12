@@ -5,6 +5,7 @@ const fs = require('fs')
 const Word = require('../models/Word')
 const Question =require('../models/Question')
 const Challenge=require('../models/Challenge')
+const Category=require('../models/Category')
 
 //functions
 //help function that checks if the word is already selected in questions
@@ -27,18 +28,33 @@ const chekWordInoptions = (id, options) => {
 //data
 const words = [
     //vegtables words
-    { word: "pepper", translation: "פלפל", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "pepper.jpg")), contentType: "jpg" } },
-    { word: "cucumber", translation: "מלפפון", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "cucumber.jpg")), contentType: "jpg" } },
-    { word: "tomato", translation: "עגבניה", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "tomato.jpg")), contentType: "jpg" } },
-    { word: "potato", translation: "תפוח אדמה", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "potato.jpg")), contentType: "jpg" } },
-    { word: "eggplant", translation: "חציל", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "eggplant.jpg")), contentType: "jpg" } },
-    { word: "onion", translation: "בצל", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "onion.jpg")), contentType: "jpg" } },
-    { word: "sweet potato", translation: "בטטה", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "sweet potato.jpg")), contentType: "jpg" } },
-    { word: "carrot", translation: "גזר", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "carrot.jpg")), contentType: "jpg" } },
-    { word: "mushroome", translation: "פטריה", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "mushroom.jpg")), contentType: "jpg" } },
-    { word: "lettuce", translation: "חסה", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "lettuce.jpg")), contentType: "jpg" } },
-    { word: "garlic", translation: "שום", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "garlic.jpg")), contentType: "jpg" } },
-    { word: "cabbage", translation: "כרוב", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images", "cabbage.jpg")), contentType: "jpg" } },
+    { word: "pepper", translation: "פלפל", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "pepper.jpg")), contentType: "jpg" } },
+    { word: "cucumber", translation: "מלפפון", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "cucumber.jpg")), contentType: "jpg" } },
+    { word: "tomato", translation: "עגבניה", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "tomato.jpg")), contentType: "jpg" } },
+    { word: "potato", translation: "תפוח אדמה", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "potato.jpg")), contentType: "jpg" } },
+    { word: "eggplant", translation: "חציל", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables","eggplant.jpg")), contentType: "jpg" } },
+    { word: "onion", translation: "בצל", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "onion.jpg")), contentType: "jpg" } },
+    { word: "sweet potato", translation: "בטטה", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "sweet potato.jpg")), contentType: "jpg" } },
+    { word: "carrot", translation: "גזר", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "carrot.jpg")), contentType: "jpg" } },
+    { word: "mushroome", translation: "פטריה", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "mushroom.jpg")), contentType: "jpg" } },
+    { word: "lettuce", translation: "חסה", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "lettuce.jpg")), contentType: "jpg" } },
+    { word: "garlic", translation: "שום", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "garlic.jpg")), contentType: "jpg" } },
+    { word: "cabbage", translation: "כרוב", categoryName: "vegtables", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vegtables", "cabbage.jpg")), contentType: "jpg" } },
+
+    //vehicles
+    { word: "airplane", translation: "מטוס", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "airplane.jpg")), contentType: "jpg" } },
+    { word: "ambulance", translation:"אמבולנס", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "ambulance.jpg")), contentType: "jpg" } },
+    { word: "bike", translation: "אופניים", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "bike.jpg")), contentType: "jpg" } },
+    { word: "boat", translation: "סירה", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "boat.jpg")), contentType: "jpg" } },
+    { word: "bus", translation: "אוטובוס", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "bus.jpg")), contentType: "jpg" } },
+    { word: "cable car", translation: "רכבלית", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "cablecar.jpg")), contentType: "jpg" } },
+    { word: "car", translation: "רכב", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "car.jpg")), contentType: "jpg" } },
+    { word: "helicopter", translation: "מסוק", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "helicopter.jpg")), contentType: "jpg" } },
+    { word: "motorcycle", translation: "אופנוע", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "motorcycle.jpg")), contentType: "jpg" } },
+    { word: "ship", translation: "אנייה", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "ship.jpg")), contentType: "jpg" } },
+    { word: "train", translation: "רכבת", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "train.jpg")), contentType: "jpg" } },
+    { word: "truck", translation: "משאית", categoryName: "vehicles", img: { data: fs.readFileSync(path.join(__dirname, "..", "images","vehicles", "truck.jpg")), contentType: "jpg" } },
+    
 ]
 
 //vegtable questions
@@ -92,14 +108,25 @@ const createVegtableCategory=async()=>{
         return foundWord.categoryName==="vegtables"
     }) 
 
-    //find the vegtable words
-    const wordsFromDB = await Word.find({ categoryName: "vegtables" }).lean()//get all words that category is vegtables
-
     //create object category
-    const vegtableCategory={name:"vegtable", wordsList:wordsFromDB,challenge:foundChallenge}
+    const vegtableCategory={name:"vegtable",challenge:foundChallenge,level:"Easy"}
     return vegtableCategory
 }
 
-createVegtableCategory()
+//courses
+const createCourses=async()=>{
+    //find all the categories
+    const easyCategoriesFromDB=await Category.find({level:"Easy"}).lean()
+    const mediumCategoriesFromDB=await Category.find({level:"Medium"}).lean()
+    const hardCategoriesFromDB=await Category.find({level:"Hard"}).lean()
+    
+    const courses=[
+        {level:"Easy",categories:easyCategoriesFromDB},
+        {level:"Medium",categories:mediumCategoriesFromDB},
+        {level:"Hard",categories:hardCategoriesFromDB}
+    ]
+    return courses
+}
 
-module.exports = { words, createVegtableQuestions,createVegtableChallenge,createVegtableCategory}
+
+module.exports = { words, createVegtableQuestions,createVegtableChallenge,createVegtableCategory,createCourses}

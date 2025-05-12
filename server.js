@@ -38,6 +38,8 @@ mongoose.connection.once('open',async()=>{
     await insertData.insertChallenges()
     //create categories
     await insertData.insertCategories()
+    //create courses
+    await insertData.insertCourses()
 })
 
 mongoose.connection.on("error",(err)=>{

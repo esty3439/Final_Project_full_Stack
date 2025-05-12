@@ -7,23 +7,13 @@ const QuestionSchema = new mongoose.Schema(
             required:true,
             ref:"Word"
         },
-        usersAnswer:{
-            type:String,
-            required:true,
-            default:"-",
-        },
+        
         correctAnswer:{
             type:mongoose.Schema.Types.ObjectId,
             required:true,
             ref:"Word"
         },
-        grade:{
-            type:Number,
-            required:true,
-            default:0,
-            min:0,
-            max:10
-        },
+
         //אפשרויות למענה
         options:{
             type:[mongoose.Schema.Types.ObjectId],
