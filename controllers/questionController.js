@@ -25,7 +25,7 @@ const getSingleQuestion = async (req, res) => {
 
 //create new question for admin
 const createNewQuestion = async (req, res) => {
-    const { question, usersAnswer, correctAnswer, grade, options } = req.body
+    const { question, correctAnswer,options } = req.body
 
     //validation
     //chek if user is admin
@@ -38,7 +38,7 @@ const createNewQuestion = async (req, res) => {
         return res.status(400).send('all fields are required')
 
 
-    const newQuestion = await Question.create({ question, usersAnswer, correctAnswer, grade, options })
+    const newQuestion = await Question.create({ question,correctAnswer,options })
     if (!newQuestion)
         return res.status(400).json({ message: `error occurred while creating the question` })
     return res.status(201).json({ message: `Question created successfully` })
@@ -46,7 +46,7 @@ const createNewQuestion = async (req, res) => {
 
 //update question for admin
 const updateQuestion = async (req, res) => {
-    const { question, usersAnswer, correctAnswer, grade, options, id } = req.body
+    const { question, correctAnswer, options, id } = req.body
 
     //validation
     //chek if user is admin
@@ -65,9 +65,7 @@ const updateQuestion = async (req, res) => {
 
     //update fields
     foundQuestion.question = question
-    foundQuestion.usersAnswer = usersAnswer ? usersAnswer : foundQuestion.usersAnswer
     foundQuestion.correctAnswer = correctAnswer
-    foundQuestion.grade = grade ? grade : foundQuestion.grade
     foundQuestion.options = options
 
     const updatedQuestion = await foundQuestion.save()

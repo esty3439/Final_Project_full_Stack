@@ -24,20 +24,19 @@ const getSingleCourse = async (req, res) => {
 
 //create new course for admin
 const createNewCourse = async (req, res) => {
-    const { level, fullWordList, categories, solvedChalenges, userId } = req.body
+    const { level,categories} = req.body
 
     //validation
-    
     //chek if user is admin
     const user = req.user
     if (user.roles === "User")
         return res.status(403).json({ message: 'forbidden' })
 
     //required fields
-    if (!level || !fullWordList || !categories || !userId)
+    if (!level || !categories)
         return res.status(400).send('all fields are required')
 
-    const newCourse = await Course.create({ level, fullWordList, categories, solvedChalenges, userId })
+    const newCourse = await Course.create({ level,categories})
     if (!newCourse)
         return res.status(400).json({ message: `error occurred while creating the course` })
     return res.status(201).json({ message: `course created successfully` })
@@ -45,7 +44,7 @@ const createNewCourse = async (req, res) => {
 
 //update course for admin
 const updateCourse = async (req, res) => {
-    const { level, fullWordList, categories, solvedChalenges, userId,id } = req.body
+    const { level,categories,id} = req.body
 
     //validation
     //chek if user is admin
@@ -54,7 +53,7 @@ const updateCourse = async (req, res) => {
         return res.status(403).json({ message: 'forbidden' })
 
     //required fields
-    if (!level || !fullWordList || !categories || !userId|| !id)
+    if (!level || !categories || !id)
         return res.status(400).send('all fields are required')
 
     const foundCourse = await Course.findById(id).exec()
@@ -63,10 +62,7 @@ const updateCourse = async (req, res) => {
 
     //update fields
     foundCourse.level=level
-    foundCourse.fullWordList=fullWordList
     foundCourse.categories=categories
-    foundCourse.solvedChalenges=solvedChalenges?solvedChalenges:foundCourse.solvedChalenges
-    foundCourse.userId=userId
 
     const updatedCourse = await foundCourse.save()
     if (!updatedCourse)

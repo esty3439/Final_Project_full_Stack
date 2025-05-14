@@ -21,7 +21,7 @@ const getSingleCategory = async (req,res) => {
 
 //create only for admin
 const createCategory = async (req, res) => {
-    const { name, wordsList, challenge } = req.body
+    const { name, challenge,level} = req.body
 
     //validation:
     //chek if user is admin
@@ -30,10 +30,10 @@ const createCategory = async (req, res) => {
         return res.status(403).json({ message: 'forbidden' })
     
     //required fields
-    if (!name || !wordsList || !challenge)
+    if (!name || !level || !challenge)
         return res.status(400).send('all fields are required')
 
-    const newCategory = await Category.create({ name, wordsList, challenge })
+    const newCategory = await Category.create({ name,level,challenge})
     if (!newCategory)
         return res.status(400).json({ message: `error occurred while creating category ${name}` })
     return res.status(201).json({ message: `category ${name} was created successfully` })
@@ -59,7 +59,7 @@ const updateCategory = async (req, res) => {
 
     //update fields
     foundCategory.name = name
-    foundCategory.wordsList = wordsList
+    foundCategory.level = level
     foundCategory.challenge = challenge
 
     const updatedCategory = await foundCategory.save()

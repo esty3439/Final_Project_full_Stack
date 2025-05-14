@@ -21,7 +21,7 @@ const getSingleWord = async (req, res) => {
 
 //create word only for admin
 const createNewWord = async (req, res) => {
-    const { word, translation,categoryName} = req.body
+    const { word, translation,categoryName,} = req.body
 
     //validation:
     //chek if user is admin
