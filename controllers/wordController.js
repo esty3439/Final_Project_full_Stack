@@ -2,7 +2,7 @@ const Word = require('../models/Word')
 
 //get all words for admin and user
 const getAllWords = async (req, res) => {
-    const words = await Word.find().lean()
+    const words = await Word.find({},{img:0}).lean()
     if (!words)
         return res.status(400).json({ message: "no words found" })
     res.json(words)
