@@ -16,9 +16,8 @@ const QuestionSchema = new mongoose.Schema(
 
         //אפשרויות למענה
         options:{
-            type:[mongoose.Schema.Types.ObjectId],
-            required:true,
-            ref:"Word"
+            type:[{type:mongoose.Schema.Types.ObjectId,ref:"Word"}],
+            required:true
         }
          
     },

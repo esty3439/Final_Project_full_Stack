@@ -7,10 +7,10 @@ const CourseSchema=new mongoose.Schema(
             required:true,
             enum:["Easy","Medium","Hard"]
         },
+
         categories:{
-            type:[mongoose.Schema.Types.ObjectId],
+            type:[{type:mongoose.Schema.Types.ObjectId,ref:"Category"}],
             required:true,
-            ref:"Category" 
         },
     },
     {

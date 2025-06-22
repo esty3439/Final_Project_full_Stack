@@ -3,9 +3,8 @@ const mongoose = require('mongoose')
 const ChallengeSchema = new mongoose.Schema(
     {
        questions:{
-        type:[mongoose.Schema.Types.ObjectId],
+        type:[{type:mongoose.Schema.Types.ObjectId,ref:"Question"}],
         required:true,
-        ref:"Question"
        },
     },
 
