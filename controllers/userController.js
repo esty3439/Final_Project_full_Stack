@@ -29,9 +29,9 @@ const getSingleUser = async (req, res) => {
     res.json(findedUser)
 }
 
-//put only for user
+//put only for user and admin
 const updateUser = async (req, res) => {
-    const { id, fullName, email, phone, password, userName } = req.body
+    const { id, fullName, email, phone, password, userName,active,roles} = req.body
 
     //validation
     //required fields
@@ -39,24 +39,31 @@ const updateUser = async (req, res) => {
         return res.status(400).send('id fullName email and paswword are required')
 
     const user= req.user
-    const findedUser = await User.findOne({ userName: user.userName, _id: id }).exec()
-    if (!findedUser)
+    let foundUser
+    if(user.roles==="User")
+        foundUser = await User.findOne({ userName: user.userName, _id: id }).exec()
+    else
+        foundUser=await User.findById(id).exec()
+    if (!foundUser)
         return res.status(400).json({ message: "no user found" })
 
+    const prevUserName=foundUser.userName
     //update fields
-    findedUser.userName = userName?userName:user.userName
-    findedUser.password = password
-    findedUser.phone = phone
-    findedUser.email = email
-    findedUser.fullName = fullName
+    foundUser.userName = userName?userName:user.userName
+    foundUser.password = password
+    foundUser.phone = phone
+    foundUser.email = email
+    foundUser.fullName = fullName
+    foundUser.roles=user.roles==="Admin"?roles:user.roles
+    foundUser.active=user.roles==="Admin"?active:user.roles
 
     //chek if userName is unique
-    if (userName != user.userName) {
+    if (userName != prevUserName) {
         const existUser = await User.findOne({ userName: userName }).lean()
         if (existUser)
             return res.status(409).json({ message: 'userName must be unique' })
     }
-    const updatedUser = await findedUser.save()
+    const updatedUser = await foundUser.save()
     if (!updatedUser)
         return res.status(400).json({ message: `error occurred while updating user ${userName}` })
     return res.status(201).json({ message: `user ${user.userName} was updated successfully` })
@@ -85,29 +92,4 @@ const deleteUser = async (req, res) => {
     return res.status(201).json({ message: `user with id ${id} was deleted successfully` })
 }
 
-//update active only admin
-const updateUserByAdmin = async (req, res) => {
-    //validation:
-
-    //chek required fields
-    const { id,active,roles} = req.body
-    if (!id)
-        return res.status(400).send('id is required')
-
-    //chek if user is admin
-    const user= req.user
-    if (user.roles === "User")
-        return res.status(403).json({ message: 'forbidden' })
-
-    const findedUser = await User.findOne({ _id: id }).exec()
-    if (!findedUser)
-        return res.status(400).json({ message: "no user found" })
-    findedUser.active = active?active:findedUser.active
-    findedUser.roles=roles?roles:findedUser.roles
-    const updatedUser = await findedUser.save()
-    if (!updatedUser)
-        return res.status(400).json({ message: `error occurred while updating user ${userName}` })
-    return res.status(201).json({ message: `user with ID ${id} was updated successfully` })
-}
-
-module.exports = { getAllUsers, getSingleUser, updateUser, deleteUser, updateUserByAdmin }
+module.exports = { getAllUsers, getSingleUser, updateUser, deleteUser}

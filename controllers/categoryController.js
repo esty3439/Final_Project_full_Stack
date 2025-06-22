@@ -41,7 +41,7 @@ const createCategory = async (req, res) => {
 
 //update only for admin
 const updateCategory = async (req, res) => {
-    const { id, name, wordsList, challenge } = req.body
+    const { id, name, challenge,level} = req.body
 
     //validation:
     //chek if user is admin
@@ -50,7 +50,7 @@ const updateCategory = async (req, res) => {
         return res.status(403).json({ message: 'forbidden' })
 
     //required fields
-    if (!name || !wordsList || !challenge || !id)
+    if (!name || !challenge || !id || !level)
         return res.status(400).send('all fields are required')
 
     const foundCategory = await Category.findById(id).exec()

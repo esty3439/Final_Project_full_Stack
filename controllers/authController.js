@@ -2,7 +2,6 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const jwt= require('jsonwebtoken')
 
-
 const register = async (req, res) => {
     const { userName, password, fullName, email, phone } = req.body
 
@@ -37,7 +36,7 @@ const login = async (req, res) => {
 
     //required fields
     if (!userName || !password) 
-        return res.status(400).json({ message: 'userName and password are required' })
+        return res.status(400).json({ message: 'userName and password are required'})
 
     //exist user or active
     const existUser=await User.findOne({userName}).lean()
@@ -52,6 +51,7 @@ const login = async (req, res) => {
     //create token
     const userInfo={_id:existUser._id,fullName:existUser.fullName,roles:existUser.roles,userName:existUser.userName,email:existUser.email}
     const accessToken=jwt.sign(userInfo,process.env.ACCESS_TOKEN_SECRET)
+
     res.json({accessToken:accessToken})
 }
 

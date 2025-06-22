@@ -20,8 +20,9 @@ app.use('/api/category',require('./routes/categoryRoutes'))
 app.use('/api/challenge',require('./routes/challengeRoute'))
 app.use('/api/course',require('./routes/courseRoutes'))
 app.use('/api/question',require('./routes/questionsRoutes'))
-// app.use('/api/recommendion',require('./routes/recommendionRoutes'))
 app.use('/api/word',require('./routes/wordRoutes'))
+app.use('/api/recommendion',require('./routes/recommendionRoutes'))
+app.use('/api/userProgress',require('./routes/userProgressRoutes'))
 
 connectDB()
 
