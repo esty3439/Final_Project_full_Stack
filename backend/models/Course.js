@@ -12,6 +12,7 @@ const CourseSchema=new mongoose.Schema(
             type:[{type:mongoose.Schema.Types.ObjectId,ref:"Category"}],
             required:true,
         },
+        //final exam
     },
     {
         timestamps:true
