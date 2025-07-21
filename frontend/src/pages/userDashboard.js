@@ -1,5 +1,7 @@
+import {Link}from 'react-router-dom'
+
 const UserDashboard=()=>{
-  return <h1>loby</h1>
+  return <Link to="/courseList">courses</Link>
 }
 
 export default UserDashboard
