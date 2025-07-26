@@ -1,8 +1,10 @@
-import { useParams } from "react-router-dom"
+import { useParams , useNavigate} from "react-router-dom"
 import { useGetCourseCategoriesQuery } from "./courseApi"
 
 const CategoriesSection = () => {
+
     const { courseId } = useParams()
+    const navigate=useNavigate()
 
     const { data: categories, isLoading, error } = useGetCourseCategoriesQuery(courseId)
 
@@ -15,7 +17,7 @@ const CategoriesSection = () => {
     return (
         <div>
             {categories.map((category) => (
-                <button >{category.name}</button>
+                <button onClick={()=>navigate(`/category-dashboard/${category._id}`)}>{category.name}</button>
             ))}
         </div>
     )
