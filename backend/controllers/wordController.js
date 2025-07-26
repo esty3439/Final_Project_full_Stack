@@ -92,4 +92,18 @@ const deleteWord = async (req, res) => {
     return res.status(201).json({ message: `word with id ${id} was deleted successfully` })
 }
 
-module.exports = { getAllWords, getSingleWord, createNewWord, updateWord, deleteWord }
+const getWordsByCategory = async (req,res) => {
+  const { categoryName } = req.params
+
+  //required fields
+  if (!categoryName)
+    return res.status(400).json({ message: 'category name is required' })
+
+  const words = await Word.find({categoryName}).lean()
+  if(!words)
+    return res.status(400).json({message:`error occurred while getting words with from category ${categoryName}`})
+  res.json(words)
+}
+
+
+module.exports = { getAllWords, getSingleWord, createNewWord, updateWord, deleteWord,getWordsByCategory}
