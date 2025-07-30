@@ -24,7 +24,6 @@ const getSingleUserProgressByAdmin = async (req, res) => {
         return res.status(403).json({ message: 'forbidden' });
 
     const foundUserProgress = await UserProgress.findOne({ user: userId }).populate([
-        { path: 'course' },
         { path: 'completedCategories' },
         { path: 'challengeResults.challenge' },
         { path: 'challengeResults.answers.question' }
@@ -44,7 +43,6 @@ const getSingleUserProgressByUser = async (req, res) => {
         return res.status(403).json({ message: 'forbidden' });
 
     const foundUserProgress = await UserProgress.findOne({ user: user._id }).populate([
-        { path: 'course' },
         { path: 'completedCategories' },
         { path: 'challengeResults.challenge' },
         { path: 'challengeResults.answers.question' }
