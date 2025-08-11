@@ -9,6 +9,8 @@ import PublicLayout from "./layouts/publicLayout";
 import CourseLayout from "./layouts/courseLayout";
 import UserLayout from "./layouts/userLayout";
 import CategoryLayout from "./layouts/categoryLayout";
+import WordSection from "../features/course/wordsSection";
+import HomePage from "../pages/homePage";
 
 const AppRoutes = () => {
   return (
@@ -26,7 +28,8 @@ const AppRoutes = () => {
       {/* Layout פרטי - רק לאחר התחברות */}
       <Route path='/user' element={<UserLayout />}>
 
-        <Route index element={<Navigate to='course-list' />} />
+        <Route index element={<Navigate to='home-page' />} />
+        <Route path='home-page' element={<HomePage/>}/>
         <Route path='course-list' element={<CourseList />} />
         <Route path='my-words' element={<h1>המילים שלי</h1>} />
         <Route path='forums' element={<h1>פורומים</h1>} />
@@ -35,7 +38,7 @@ const AppRoutes = () => {
         <Route path='course/:courseId' element={<CourseLayout />}>
           <Route index element={<Navigate to='category' />} />
           <Route path='category' element={<CategoriesSection />} />
-          <Route path='words' element={<h1>רשימת מילים כוללת לקורס</h1>} />
+          <Route path='words' element={<WordSection/>} />
           <Route path='final-test' element={<h1>מבחן סופי על כל מילות הקורס</h1>} />
         </Route>
 

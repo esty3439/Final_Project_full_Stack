@@ -55,42 +55,60 @@ const getSingleUserProgressByUser = async (req, res) => {
 }
 
 //craete user progress
-const createUserProgress = async () => {
-    const { user1, course, completedCategories, challengeResults } = req.body
-    if (!user1 || !course)
+const createUserProgress = async (req, res) => {
+    const { userId, courseId} = req.body
+    if (!userId || !courseId)
         return res.status(400).send('user and course are required')
     const user = req.user
+    console.log(`userId:${userId} user._id:${user._id}`)
 
     //chek if the user parameter is the same of user only if user is not admin
     if (user.roles === "User") {
-        if (user._id !== user1)
-            return res.status(403).json({ message:'forbidden!!!! you can create for yourself only'})
+        if (user._id !== userId)
+            return res.status(403).json({ message: 'forbidden!!!! you can create for yourself only' })
     }
-    const newUserProgress = await UserProgress.create({ user:user1, course, completedCategories, challengeResults })
-    if(!newUserProgress)
-        return res.status(400).json({ message: `error occurred while creating user progress`})
-    return res.status(201).json({ message: `users progress was created successfully`})
+
+    //check if current user has a userProgress
+    const foundUserProgress = await UserProgress.findOne({ user: userId })
+    //if not creates a userProgress
+    if (!foundUserProgress) {
+        const newUserProgress = await UserProgress.create({ user: userId, courses: [courseId] })
+        if (!newUserProgress)
+            return res.status(400).json({ message: `error occurred while creating user progress` })
+        return res.status(201).json({ message: `user's progress was created successfully` })
+    }
+    //else update the exsisting userProgress
+    else {
+        //check if userProgress containes course
+        if (foundUserProgress.courses.includes(courseId))
+            return res.status(400).json({ message: `course exsists` })
+        foundUserProgress.courses = [...foundUserProgress.courses, courseId]
+        const updatedUserProgress = await foundUserProgress.save()
+        if (!updatedUserProgress)
+            return res.status(400).json({ message: `error occurred while updating user progress` })
+        return res.status(200).json({ message: `user progress was updated successfully` })
+    }
 }
 
 //update only for user and admin
 const updateUserProgress = async (req, res) => {
-    const{ user1, course, completedCategories, challengeResults,id} = req.body
-    const user=req.user
+    const { user1, courses, completedCategories, challengeResults, id } = req.body
+    const user = req.user
 
     //validation
     //required fields
-    if (!id || !user1 || !course)
+    if (!id || !user1 || !courses)
         return res.status(400).send('id user and course are required')
 
-    const foundUserProgress = await UserProgress.findOne({user:user._id, _id: id }).exec()
+    const foundUserProgress = await UserProgress.findOne({ user: user._id, _id: id }).exec()
     if (!foundUserProgress)
         return res.status(400).json({ message: "no user progress found" })
 
     //update fields
-    foundUserProgress.user=user1
-    foundUserProgress.course=course
-    foundUserProgress.completedCategories=completedCategories
-    foundUserProgress.challengeResults=challengeResults
+    foundUserProgress.user = user1
+    foundUserProgress.courses = courses
+    foundUserProgress.completedCategories = completedCategories
+    foundUserProgress.challengeResults = challengeResults
 
     const updatedUserProgress = await foundUserProgress.save()
     if (!updatedUserProgress)
@@ -122,4 +140,4 @@ const deleteUserProgress = async (req, res) => {
 }
 
 
-module.exports = { getAllUsersProgress, getSingleUserProgressByAdmin,getSingleUserProgressByUser,createUserProgress, updateUserProgress, deleteUserProgress}
+module.exports = { getAllUsersProgress, getSingleUserProgressByAdmin, getSingleUserProgressByUser, createUserProgress, updateUserProgress, deleteUserProgress }

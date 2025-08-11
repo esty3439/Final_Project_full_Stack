@@ -216,7 +216,10 @@ const createCategories = async () => {
             }
         }
 
-        const newCategory = {name: categoryName,challenge: foundChallenge,level: "Easy"}
+        //find the category's words
+        const words = await Word.find({ categoryName:categoryName}).lean() || []
+
+        const newCategory = {name: categoryName,challenge: foundChallenge,level: "Easy",words:words}
         categories.push({...newCategory})
     }
     return categories
