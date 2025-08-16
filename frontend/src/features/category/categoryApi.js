@@ -14,8 +14,15 @@ const categoryApi=baseApi.injectEndpoints({
                 url:`/category/${categoryId}/challenge`,
                 method:'GET'
             })
-        })
+        }),
+
+        getCategoryWords:builder.query({
+            query:(categoryId)=>({
+                url:`/category/${categoryId}/words`,
+                method:'GET'
+            })
+        }),
     })
 })
 
-export const{useGetCategoryByIdQuery,useGetCategoryChallengeQuery}=categoryApi
+export const{useGetCategoryByIdQuery,useGetCategoryChallengeQuery,useGetCategoryWordsQuery}=categoryApi
