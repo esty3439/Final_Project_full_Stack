@@ -18,8 +18,17 @@ const userProgressApi = baseApi.injectEndpoints({
             }),
             providesTags: ["UserProgress"]
         }),
+
+        updateChallengeResultInUserProgress:builder.mutation({
+            query:(challengeResults)=>({
+                url:'/userProgress/challengeResults/',
+                method:'PUT',
+                body:challengeResults
+            }),
+            invalidatesTags: ["UserProgress"]
+        })
         
     })
 })
 
-export const {useCreateUserProgressMutation,useGetUserProgressByUserQuery}=userProgressApi
+export const {useCreateUserProgressMutation,useGetUserProgressByUserQuery,useUpdateChallengeResultInUserProgressMutation}=userProgressApi

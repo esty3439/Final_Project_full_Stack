@@ -117,7 +117,7 @@ const getChallengeOfCategory = async (req, res) => {
     return res.json(category.challenge)
 }
 
-//get category with challenge
+//get category with words
 const getWordsOfCategory = async (req, res) => {
     const { id } = req.params
 

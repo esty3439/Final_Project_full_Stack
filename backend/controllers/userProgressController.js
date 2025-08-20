@@ -91,7 +91,7 @@ const createUserProgress = async (req, res) => {
     }
 }
 
-//update only for user and admin
+//update only for user
 const updateUserProgress = async (req, res) => {
     const { user1, courses, completedCategories, challengeResults, id } = req.body
     const user = req.user
@@ -134,11 +134,32 @@ const deleteUserProgress = async (req, res) => {
     const foundUserProgress = await UserProgress.findById(id).exec()
     if (!foundUserProgress)
         return res.status(400).json({ message: "no user progress found" })
+
     const deletedUserProgress = await foundUserProgress.deleteOne()
     if (!deletedUserProgress)
         return res.status(400).json({ message: `error occurred while deleting user progress` })
     return res.status(201).json({ message: `user progress was deleted successfully` })
 }
 
+const updateChallengeResultInUserProgress = async (req, res) => {
+    const { challengeResults ,categoryId} = req.body
 
-module.exports = { getAllUsersProgress, getSingleUserProgressByAdmin, getSingleUserProgressByUser, createUserProgress, updateUserProgress, deleteUserProgress }
+    if(!challengeResults || !categoryId)
+        return res.status(400).send('challenge results and categoryId are required')
+
+    const user = req.user
+
+    const foundUserProgress = await UserProgress.findOne({user:user._id}).exec()
+    if (!foundUserProgress)
+        return res.status(400).json({ message: "no user progress found" })
+
+    foundUserProgress.challengeResults=[...foundUserProgress.challengeResults,challengeResults]
+    foundUserProgress.completedCategories=[...foundUserProgress.completedCategories,categoryId]
+
+    const updatedUserProgress = await foundUserProgress.save()
+    if (!updatedUserProgress)
+        return res.status(400).json({ message: `error occurred while updating user progress` })
+    return res.status(201).json({ message: `user progress was updated successfully` })
+}
+
+module.exports = { getAllUsersProgress, getSingleUserProgressByAdmin, getSingleUserProgressByUser, createUserProgress, updateUserProgress, deleteUserProgress, updateChallengeResultInUserProgress }
