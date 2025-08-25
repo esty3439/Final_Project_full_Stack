@@ -7,16 +7,28 @@ const userProgressApi = baseApi.injectEndpoints({
                 url:'/userProgress/',
                 method:'POST',
                 body:userProgressData
-            })
+            }),
+            invalidatesTags: ["UserProgress"]
         }),
 
         getUserProgressByUser:builder.query({
             query:()=>({
                 url:'/userProgress/getUserProgress/',
                 method:'GET'
-            })
+            }),
+            providesTags: ["UserProgress"]
+        }),
+
+        updateChallengeResultInUserProgress:builder.mutation({
+            query:(challengeResults)=>({
+                url:'/userProgress/challengeResults/',
+                method:'PUT',
+                body:challengeResults
+            }),
+            invalidatesTags: ["UserProgress"]
         })
+        
     })
 })
 
-export const {useCreateUserProgressMutation,useGetUserProgressByUserQuery}=userProgressApi
+export const {useCreateUserProgressMutation,useGetUserProgressByUserQuery,useUpdateChallengeResultInUserProgressMutation}=userProgressApi

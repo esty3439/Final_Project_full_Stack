@@ -15,7 +15,7 @@ const CategoryLayout = () => {
    return (
       <div>
          <h1>{category.name} category</h1>
-         <CategoryNavigation categoryName={category.name}/>
+         <CategoryNavigation/>
          <Outlet/>
       </div>
    )

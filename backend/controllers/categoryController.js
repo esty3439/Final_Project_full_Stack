@@ -94,9 +94,10 @@ const deleteCategory = async (req, res) => {
 
 //get category with challenge
 const getChallengeOfCategory = async (req, res) => {
-    const { id } = req.params
+    const {id } = req.params
 
-    if (!id) return res.status(400).send("id is required");
+    if (!id) 
+        return res.status(400).send("id is required");
 
     const category = await Category.findById(id).populate({
         path: "challenge",
@@ -116,4 +117,18 @@ const getChallengeOfCategory = async (req, res) => {
     return res.json(category.challenge)
 }
 
-module.exports = { getAllCategories, getSingleCategory, createCategory, updateCategory, deleteCategory,getChallengeOfCategory}
+//get category with words
+const getWordsOfCategory = async (req, res) => {
+    const { id } = req.params
+
+    if (!id) 
+        return res.status(400).send("id is required");
+
+    const category = await Category.findById(id).populate({path: "words"})
+
+    if (!category)
+        return res.status(404).json({ message: "Category not found" });
+    return res.json(category.words)
+}
+
+module.exports = { getAllCategories, getSingleCategory, createCategory, updateCategory, deleteCategory,getChallengeOfCategory,getWordsOfCategory}

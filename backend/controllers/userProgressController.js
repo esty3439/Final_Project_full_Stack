@@ -24,6 +24,7 @@ const getSingleUserProgressByAdmin = async (req, res) => {
         return res.status(403).json({ message: 'forbidden' });
 
     const foundUserProgress = await UserProgress.findOne({ user: userId }).populate([
+        { path: 'courses' },
         { path: 'completedCategories' },
         { path: 'challengeResults.challenge' },
         { path: 'challengeResults.answers.question' }
@@ -37,12 +38,13 @@ const getSingleUserProgressByAdmin = async (req, res) => {
 
 //get one userProgress only for user
 const getSingleUserProgressByUser = async (req, res) => {
-    const user = req.user;
+    const user = req.user
 
-    if (user.roles?.includes("Admin"))
+    if (user.roles === "Admin")
         return res.status(403).json({ message: 'forbidden' });
 
     const foundUserProgress = await UserProgress.findOne({ user: user._id }).populate([
+        { path: 'courses' },
         { path: 'completedCategories' },
         { path: 'challengeResults.challenge' },
         { path: 'challengeResults.answers.question' }
@@ -56,11 +58,10 @@ const getSingleUserProgressByUser = async (req, res) => {
 
 //craete user progress
 const createUserProgress = async (req, res) => {
-    const { userId, courseId} = req.body
+    const { userId, courseId } = req.body
     if (!userId || !courseId)
         return res.status(400).send('user and course are required')
     const user = req.user
-    console.log(`userId:${userId} user._id:${user._id}`)
 
     //chek if the user parameter is the same of user only if user is not admin
     if (user.roles === "User") {
@@ -90,7 +91,7 @@ const createUserProgress = async (req, res) => {
     }
 }
 
-//update only for user and admin
+//update only for user
 const updateUserProgress = async (req, res) => {
     const { user1, courses, completedCategories, challengeResults, id } = req.body
     const user = req.user
@@ -133,11 +134,32 @@ const deleteUserProgress = async (req, res) => {
     const foundUserProgress = await UserProgress.findById(id).exec()
     if (!foundUserProgress)
         return res.status(400).json({ message: "no user progress found" })
+
     const deletedUserProgress = await foundUserProgress.deleteOne()
     if (!deletedUserProgress)
         return res.status(400).json({ message: `error occurred while deleting user progress` })
     return res.status(201).json({ message: `user progress was deleted successfully` })
 }
 
+const updateChallengeResultInUserProgress = async (req, res) => {
+    const { challengeResults ,categoryId} = req.body
 
-module.exports = { getAllUsersProgress, getSingleUserProgressByAdmin, getSingleUserProgressByUser, createUserProgress, updateUserProgress, deleteUserProgress }
+    if(!challengeResults || !categoryId)
+        return res.status(400).send('challenge results and categoryId are required')
+
+    const user = req.user
+
+    const foundUserProgress = await UserProgress.findOne({user:user._id}).exec()
+    if (!foundUserProgress)
+        return res.status(400).json({ message: "no user progress found" })
+
+    foundUserProgress.challengeResults=[...foundUserProgress.challengeResults,challengeResults]
+    foundUserProgress.completedCategories=[...foundUserProgress.completedCategories,categoryId]
+
+    const updatedUserProgress = await foundUserProgress.save()
+    if (!updatedUserProgress)
+        return res.status(400).json({ message: `error occurred while updating user progress` })
+    return res.status(201).json({ message: `user progress was updated successfully` })
+}
+
+module.exports = { getAllUsersProgress, getSingleUserProgressByAdmin, getSingleUserProgressByUser, createUserProgress, updateUserProgress, deleteUserProgress, updateChallengeResultInUserProgress }
