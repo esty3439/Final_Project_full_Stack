@@ -11,6 +11,8 @@ import UserLayout from "./layouts/userLayout";
 import CategoryLayout from "./layouts/categoryLayout";
 import WordSection from "../features/course/wordsSection";
 import HomePage from "../pages/homePage";
+import MyWordNavigation from "./navigations/myWordsNavigation";
+import FavoriteWordsList from "../features/favoriteWords/FavoriteWordsList";
 
 const AppRoutes = () => {
   return (
@@ -29,16 +31,15 @@ const AppRoutes = () => {
       <Route path='/user' element={<UserLayout />}>
 
         <Route index element={<Navigate to='home-page' />} />
-        <Route path='home-page' element={<HomePage/>}/>
+        <Route path='home-page' element={<HomePage />} />
         <Route path='course-list' element={<CourseList />} />
-        <Route path='my-words' element={<h1>המילים שלי</h1>} />
         <Route path='forums' element={<h1>פורומים</h1>} />
         <Route path='profile' element={<h1>הפרופיל שלי</h1>} />
 
         <Route path='course/:courseId' element={<CourseLayout />}>
           <Route index element={<Navigate to='category' />} />
           <Route path='category' element={<CategoriesSection />} />
-          <Route path='words' element={<WordSection/>} />
+          <Route path='words' element={<WordSection />} />
           <Route path='final-test' element={<h1>מבחן סופי על כל מילות הקורס</h1>} />
         </Route>
 
@@ -48,8 +49,15 @@ const AppRoutes = () => {
           <Route path='challenge' element={<ChallengeSection />} />
         </Route>
 
+
+        <Route path='my-words'>
+          <Route index element={<MyWordNavigation />} />
+          <Route path='favorites' element={<FavoriteWordsList/>} />
+          <Route path='list' element={<h1>my words</h1>} />
+        </Route>
+
       </Route>
-      
+
     </Routes>)
 }
 

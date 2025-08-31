@@ -21,7 +21,7 @@ const WordsSection = () => {
         words.map((wordObj) => {
           return (
             <div >
-              <WordCard word={wordObj.word} translation={wordObj.translation}/>
+              <WordCard word={wordObj.word} translation={wordObj.translation} id={wordObj._id}/>
             </div>
           )
         })
