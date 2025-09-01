@@ -15,7 +15,7 @@ const getAllMyWords = async (req, res) => {
         .skip((page - 1) * limit)
         .limit(limit)
         .lean()
-    if (!foundWords)
+    if (!foundWords || foundWords.length===0)
         return res.status(400).json({ message: "no Words found" })
 
     const totalPages = Math.ceil(await MyWord.countDocuments({ user: user._id }) / limit)
@@ -40,7 +40,7 @@ const createMyWord = async (req, res) => {
     return res.status(201).json({ message: `word created successfully` })
 }
 //delete my word for user
-const deleteMyeWord = async (req, res) => {
+const deleteMyWord = async (req, res) => {
     const { id } = req.body
 
     //validation
@@ -111,4 +111,4 @@ const updateMyWord = async (req, res) => {
     return res.status(201).json({ message: `word was updated successfully` })
 }
 
-module.exports = { getAllMyWords, createMyWord, deleteMyeWord, updateMyWordRaiting, updateMyWord }
+module.exports = { getAllMyWords, createMyWord, deleteMyWord, updateMyWordRaiting, updateMyWord }

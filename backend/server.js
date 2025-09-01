@@ -25,6 +25,7 @@ app.use('/api/recommendion', require('./routes/recommendionRoutes'))
 app.use('/api/userProgress', require('./routes/userProgressRoutes'))
 app.use('/api/favoriteWord', require('./routes/favoriteWordRoutes'))
 app.use('/api/myWord', require('./routes/myWordRoutes'))
+app.use('/api/myCategory' , require('./routes/myCategoryRoutes'))
 
 connectDB()
 

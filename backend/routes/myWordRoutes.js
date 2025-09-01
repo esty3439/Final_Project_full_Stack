@@ -9,7 +9,7 @@ router.use(verifyJWT)
 router.get('/',myWordController.getAllMyWords)
 router.post('/',myWordController.createMyWord)
 router.put('/',myWordController.updateMyWord)
-router.put('/rateing',myWordController.updateMyWordRaiting)
-router.delete('/',myWordController.deleteMyeWord)
+router.put('/rating',myWordController.updateMyWordRaiting)
+router.delete('/',myWordController.deleteMyWord)
 
 module.exports = router
