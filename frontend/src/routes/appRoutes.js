@@ -13,6 +13,9 @@ import WordSection from "../features/course/wordsSection";
 import HomePage from "../pages/homePage";
 import MyWordNavigation from "./navigations/myWordsNavigation";
 import FavoriteWordsList from "../features/favoriteWords/FavoriteWordsList";
+import MyWordList from "../features/myWords/words/myWordList";
+import MyCategoryList from "../features/myWords/categories/myCategoryList";
+import MyWords from "../features/myWords/myWords";
 
 const AppRoutes = () => {
   return (
@@ -52,13 +55,18 @@ const AppRoutes = () => {
 
         <Route path='my-words'>
           <Route index element={<MyWordNavigation />} />
-          <Route path='favorites' element={<FavoriteWordsList/>} />
-          <Route path='list' element={<h1>my words</h1>} />
+          <Route path='favorites' element={<FavoriteWordsList />} />
+          <Route path='list' element={<MyWords/>}>
+            <Route index element={<Navigate to='words' />} />
+            <Route path='words' element={<MyWordList/>}/>
+            <Route path='categories' element={<MyCategoryList/>}/>
+          </Route>
         </Route>
 
       </Route>
-
-    </Routes>)
+      
+    </Routes>
+    )
 }
 
 export default AppRoutes

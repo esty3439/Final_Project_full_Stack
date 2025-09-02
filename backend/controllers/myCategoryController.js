@@ -1,10 +1,11 @@
 const MyCategory = require('../models/MyCategory')
+const MyWord = require('../models/MyWord')
 
 //get all categories for user
 const getAllCategories = async (req, res) => {
     const user = req.user
     const categories = await MyCategory.find({ user: user._id }).lean()
-    if (!categories || categories.length === 0)
+    if (!categories)
         return res.status(400).json({ message: "no categories found" })
     res.json(categories)
 }
@@ -28,7 +29,7 @@ const createCategory = async (req, res) => {
 
 //update for user
 const updateCategory = async (req, res) => {
-    const { id, name} = req.body
+    const { id, name } = req.body
 
     //validation:
     //required fields
@@ -37,7 +38,7 @@ const updateCategory = async (req, res) => {
 
     const user = req.user
 
-    const foundCategory = await MyCategory.findOne({_id:id,user:user._id}).exec()
+    const foundCategory = await MyCategory.findOne({ _id: id, user: user._id }).exec()
     if (!foundCategory)
         return res.status(400).json({ message: "no Category found" })
 
@@ -61,15 +62,24 @@ const deleteCategory = async (req, res) => {
 
     const user = req.user
 
-    const foundCategory = await MyCategory.findOne({_id:id,user:user._id}).exec()
+    const foundCategory = await MyCategory.findOne({ _id: id, user: user._id }).exec()
 
     if (!foundCategory)
         return res.status(400).json({ message: "no Category found" })
 
+    //delete category words from myWords table
+    await Promise.all(
+        foundCategory.words.map(async (word) => {
+            const foundWord = await MyWord.findById(word).exec()
+            if (foundWord)
+                await foundWord.deleteOne()
+        })
+    )
+
     const deletedCategory = await foundCategory.deleteOne()
     if (!deletedCategory)
         return res.status(400).json({ message: `error occurred while deleting category with id ${id}` })
-    return res.status(201).json({ message: `category with id ${id} was deleted successfully` })
+    return res.status(200).json({ message: `category with id ${id} was deleted successfully` })
 }
 
 //get category words

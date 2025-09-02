@@ -1,31 +1,19 @@
 const MyWord = require('../models/MyWord')
+const MyCategory = require('../models/MyCategory')
 
 //get all my words for user
 const getAllMyWords = async (req, res) => {
-    const page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || 10
-    let sortBy = req.query.sortBy
-
-    if (!sortBy || sortBy === 'none' || sortBy === 'sort by')
-        sortBy = 'createdAt'
-
     const user = req.user
-    const foundWords = await MyWord.find({ user: user._id })
-        .sort({ [sortBy]: 1 })
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .lean()
-    if (!foundWords || foundWords.length===0)
+    const foundWords = await MyWord.find({ user: user._id }).lean()
+    if (!foundWords)
         return res.status(400).json({ message: "no Words found" })
-
-    const totalPages = Math.ceil(await MyWord.countDocuments({ user: user._id }) / limit)
-
-    return res.json({ words: foundWords, totalPages })
+    return res.json(foundWords)
 }
 
 //create my word for user
 const createMyWord = async (req, res) => {
-    const { word, rateing } = req.body
+    const { word} = req.body
+    const rateing =Number(req.body.rateing)
 
     //validation
     //required fields
@@ -35,10 +23,26 @@ const createMyWord = async (req, res) => {
     const user = req.user
 
     const newWord = await MyWord.create({ word, user: user._id, rateing })
+
     if (!newWord)
         return res.status(400).json({ message: `error occurred while creating the word` })
+
+    //add the word to the category array
+    const foundCategory = await MyCategory.findOne({user:user._id,name:newWord.word.categoryName})
+
+    if(!foundCategory)
+        return res.status(404).json({message:'Category not found'})
+
+    //update field
+    foundCategory.words=[...foundCategory.words,newWord._id]
+
+    const updatedCategory= await foundCategory.save()
+    if(!updatedCategory)
+        return res.status(400).json({ message: `error occurred while creating the word` })
+
     return res.status(201).json({ message: `word created successfully` })
 }
+
 //delete my word for user
 const deleteMyWord = async (req, res) => {
     const { id } = req.body
@@ -60,7 +64,8 @@ const deleteMyWord = async (req, res) => {
 
 //update my word raiting 
 const updateMyWordRaiting = async (req, res) => {
-    const { id, rateing } = req.body
+    const { id} = req.body
+    const rateing =Number(req.body.rateing)
 
     //validation
     //required fields
@@ -86,7 +91,8 @@ const updateMyWordRaiting = async (req, res) => {
 
 //update my word 
 const updateMyWord = async (req, res) => {
-    const { id, rateing, word } = req.body
+    const { id, word } = req.body
+    const rateing =Number(req.body.rateing)
 
     //validation
     //required fields

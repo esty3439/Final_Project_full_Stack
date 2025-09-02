@@ -1,4 +1,3 @@
-
 const FormInput = ({label,htmlFor,type,register,error,placeholder}) => {
     return (
         <div>
