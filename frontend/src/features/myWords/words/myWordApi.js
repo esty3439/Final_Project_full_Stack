@@ -16,10 +16,7 @@ const myWordApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: myWordData
             }),
-            invalidatesTags: (result, error, myWordData) => [
-                "MyWord", 
-                { type: "MyCategory", id: myWordData.categoryId } 
-            ]
+            invalidatesTags: ["MyWord", "MyCategory"]
         }),
 
         updateMyWordRaiting: builder.mutation({
@@ -37,7 +34,7 @@ const myWordApi = baseApi.injectEndpoints({
                 method: 'PUT',
                 body: myWordData
             }),
-            invalidatesTags: ["MyWord"]
+            invalidatesTags: ["MyWord", "MyCategory"]
         }),
 
         deleteMyWord: builder.mutation({
@@ -46,7 +43,7 @@ const myWordApi = baseApi.injectEndpoints({
                 method: 'DELETE',
                 body: myWordData
             }),
-            invalidatesTags: ["MyWord"]
+            invalidatesTags: ["MyWord", "MyCategory"]
         }),
     })
 })

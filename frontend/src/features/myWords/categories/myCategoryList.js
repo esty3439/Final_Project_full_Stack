@@ -29,7 +29,10 @@ const MyCategoryList = () => {
                         <button onClick={() => setShowAddForm(true)}>➕</button>
                     </header>
 
-                    {filteredCategories.map((category) => (<CategoryCard category={category} setShowSingleCategory={setShowSingleCategory} />))}
+                    {
+                    filteredCategories.length===0 ? <h1>No categories found!!</h1>:
+                    filteredCategories.map((category) => (<CategoryCard category={category} setShowSingleCategory={setShowSingleCategory} />))
+                    }
                 </div>
             }
             

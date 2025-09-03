@@ -5,7 +5,6 @@ import { useState } from "react";
 import UpdateWordForm from "./updateWordForm";
 import MyWordDetailsModal from "./myWordDetailsModal";
 
-
 const MyWordCard = ({ myWord }) => {
     const [showUpdateForm, setShowUpdateForm] = useState(false)
     const [showModal, setShowModal] =useState(null)

@@ -4,6 +4,7 @@ import { z } from "zod"
 import FormInput from "../../../components/formInput"
 import { useState } from "react"
 import { useCreateMyWordMutation } from "./myWordApi"
+import WordFormSelectCategory from "./wordFormSelectCategory"
 
 const addMyWordSchema = z.object({
   word: z.object({
@@ -15,7 +16,7 @@ const addMyWordSchema = z.object({
   rateing: z.number().min(0).max(5).default(0)
 })
 
-const AddWordForm = ({ setShowAddForm }) => {
+const AddWordForm = ({ setShowAddForm, currentCategory}) => {
   const [message, setMessage] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
 
@@ -29,7 +30,7 @@ const AddWordForm = ({ setShowAddForm }) => {
       word: {
         word: "",
         translation: "",
-        categoryName: "",
+        categoryName: currentCategory|| "",
         img: null
       },
       rateing: 0
@@ -41,7 +42,6 @@ const AddWordForm = ({ setShowAddForm }) => {
   const onSubmit = async (data) => {
     try {
       setErrorMsg("")
-      // img תמיד null
       data.word.img = null
 
       const res = await createMyWord(data).unwrap()
@@ -60,7 +60,7 @@ const AddWordForm = ({ setShowAddForm }) => {
       position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
       backgroundColor: "rgba(0, 0, 0, 0.12)", display: "flex", justifyContent: "center", alignItems: "center"
     }}>
-      <h1>Add My Word</h1>
+      
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{
@@ -70,6 +70,9 @@ const AddWordForm = ({ setShowAddForm }) => {
           fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
         }}
       >
+
+        <h1>Add My Word</h1>
+        
         <FormInput
           label="Word"
           type="text"
@@ -86,15 +89,15 @@ const AddWordForm = ({ setShowAddForm }) => {
           placeholder="enter translation..."
         />
 
-        <FormInput
+        <WordFormSelectCategory
+          currentCategory={currentCategory}
           label="Category"
-          type="text"
-          register={register("word.categoryName")}
+          registerProps={register("word.categoryName")}
           error={errors.word?.categoryName?.message}
-          placeholder="enter category name..."
+          placeholder="choose category name..."
         />
 
-        <FormInput
+        <FormInput 
           label="Rating"
           type="number"
           register={register("rateing", { valueAsNumber: true })}

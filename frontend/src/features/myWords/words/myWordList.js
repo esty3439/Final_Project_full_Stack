@@ -2,10 +2,14 @@ import { useState } from "react"
 import { useGetAllMyWordsQuery } from "./myWordApi"
 import MyWordCard from "./myWordCard"
 import AddWordForm from "./addWordForm"
+import SearchInput from "../../../components/searchInput"
 
 const MyWordList = () => {
-    const { data: words, isLoading, error } = useGetAllMyWordsQuery()
-        const [showAddForm, setShowAddForm] = useState(false)
+    const [showAddForm, setShowAddForm] = useState(false)
+    const [searchText , setSearchText] =useState('')
+
+    const { data: words=[], isLoading, error } = useGetAllMyWordsQuery()
+    const filteredWords = words.filter(word => word.word.word.indexOf(searchText.toLowerCase()) > -1)
 
     if (isLoading)
         return <p>Loading categories...</p>
@@ -15,8 +19,11 @@ const MyWordList = () => {
 
     return <div>
         <button onClick={()=>setShowAddForm(true)}>➕</button>
+        <SearchInput searchText={searchText} setSearchText={setSearchText} placeholder={'🔎Search word...'}/>
+        
         {
-            words.map((word) => <MyWordCard myWord={word} />)
+            filteredWords.length===0 ? <h1>no words found!!!</h1>:
+            filteredWords.map((word) => <MyWordCard myWord={word} />)
         }
         {showAddForm && <AddWordForm setShowAddForm={setShowAddForm} />}
     </div>

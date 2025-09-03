@@ -28,7 +28,7 @@ const CategoryCard = ({ category,setShowSingleCategory}) => {
     return (
         <div>
             <div style={{ backgroundColor: 'green', height: "10vh", width: '60vw', marginBottom: '1vh', marginLeft: '20vw' }}>
-                <button onClick={()=>setShowSingleCategory(category._id)}>{category.name}</button>
+                <button onClick={()=>setShowSingleCategory(category)}>{category.name}</button>
                 <button onClick={() => handleDelete()} disabled={loadingDelete}>{loadingDelete ? 'deleting...' : '🗑️'}</button>
                 <button onClick={() => setShowUpdateForm(true)}>✏️</button>
             </div>

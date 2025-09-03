@@ -48,6 +48,20 @@ const updateCategory = async (req, res) => {
     const updatedCategory = await foundCategory.save()
     if (!updatedCategory)
         return res.status(400).json({ message: `error occurred while updating category ${name}` })
+
+    //rename the category name field in words
+    await Promise.all(
+        foundCategory.words.map(async (word) => {
+            const foundWord = await MyWord.findById(word).exec()
+            if (foundWord)
+            {
+                foundWord.word.categoryName=updatedCategory.name
+                await foundWord.save()
+            }
+                
+        })
+    )
+
     return res.status(201).json({ message: `category ${name} was updated successfully` })
 }
 

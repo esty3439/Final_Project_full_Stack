@@ -36,8 +36,9 @@ const UpdateCategoryForm = ({ setShowUpdateForm, category }) => {
 
     return (
         <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(0, 0, 0, 0.12)", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <h1>Update category</h1>
             <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", gap: 12, width: "100%", maxWidth: 480, margin: "0 auto", padding: 14, border: "1px solid #eee", borderRadius: 8, background: "#fff", boxShadow: "0 1px 4px rgba(16,24,40,0.04)", fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial" }}>
+                <h1>Update category</h1>
+                
                 <FormInput
                     label="name"
                     type="text"
