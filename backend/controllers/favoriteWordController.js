@@ -25,7 +25,7 @@ const getAllFavoriteWords = async (req, res) => {
 }
 
 //create favorite word for user
-const createFavoriteWord = async (req, res) => {
+const toggleFavoriteWord = async (req, res) => {
     const { word } = req.body
 
     //validation
@@ -35,10 +35,22 @@ const createFavoriteWord = async (req, res) => {
 
     const user = req.user
 
+    //check if word exsists
+    const foundWord = await FavoriteWord.findOne({user:user._id,word}).exec()
+    if(foundWord)
+    {
+        console.log("in if")
+        //remove from favorites
+        const deletedWord = await foundWord.deleteOne()
+        if(!deletedWord)
+            return res.status(400).json({ message: `error occurred while deleting the word` })
+        return res.json({message:`word with id: ${word} was removed successfully from favorites`})
+    }
+    //add to favorites
     const newWord = await FavoriteWord.create({ word, user: user._id })
     if (!newWord)
         return res.status(400).json({ message: `error occurred while creating the word` })
-    return res.status(201).json({ message: `word created successfully` })
+    return res.status(201).json({ message: `word with id: ${word} was added successfully to favorites` })
 }
 //delete favorite word for user
 const deleteFavoriteWord = async (req, res) => {
@@ -85,4 +97,4 @@ const updateFavoriteWordRaiting = async (req, res) => {
     return res.status(201).json({ message: `favorite word ratenig was updated successfully` })
 }
 
-module.exports = { getAllFavoriteWords, createFavoriteWord, deleteFavoriteWord, updateFavoriteWordRaiting }
+module.exports = { getAllFavoriteWords,toggleFavoriteWord, deleteFavoriteWord, updateFavoriteWordRaiting }

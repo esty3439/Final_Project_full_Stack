@@ -1,4 +1,5 @@
 const Category = require('../models/Category')
+const FavoriteWord = require('../models/FavoriteWord')
 
 //get all categories for admin and user
 const getAllCategories = async (req, res) => {
@@ -94,9 +95,9 @@ const deleteCategory = async (req, res) => {
 
 //get category with challenge
 const getChallengeOfCategory = async (req, res) => {
-    const {id } = req.params
+    const { id } = req.params
 
-    if (!id) 
+    if (!id)
         return res.status(400).send("id is required");
 
     const category = await Category.findById(id).populate({
@@ -120,15 +121,26 @@ const getChallengeOfCategory = async (req, res) => {
 //get category with words
 const getWordsOfCategory = async (req, res) => {
     const { id } = req.params
+    const user = req.user
 
-    if (!id) 
+    if (!id)
         return res.status(400).send("id is required");
 
-    const category = await Category.findById(id).populate({path: "words"})
+    const category = await Category.findById(id).populate({ path: "words" })
 
     if (!category)
         return res.status(404).json({ message: "Category not found" });
-    return res.json(category.words)
+
+    //get all favorite words
+    const favWords = await FavoriteWord.find({ user: user._id }, { word: 1 }).lean()
+    const favWordIds = favWords.map(f => f.word.toString())
+
+    const wordsWithFavorites = category.words.map((word) => ({
+        ...word.toObject(),
+        isFavorite: favWordIds.includes(word._id.toString())
+    }))
+
+    return res.json(wordsWithFavorites)
 }
 
-module.exports = { getAllCategories, getSingleCategory, createCategory, updateCategory, deleteCategory,getChallengeOfCategory,getWordsOfCategory}
+module.exports = { getAllCategories, getSingleCategory, createCategory, updateCategory, deleteCategory, getChallengeOfCategory, getWordsOfCategory }

@@ -1,30 +1,31 @@
 import { useState } from "react"
-import speak from "../../utils/speech"
-import useFavoriteWord from "../favoriteWords/useFavoriteWord"
+import speak from "../../../utils/speech"
+import useFavoriteWord from "../../favoriteWords/useFavoriteWord"
+import { AiFillHeart} from "react-icons/ai";
 
-const WordCard = ({ word, translation,id}) => {
+const WordCard = ({ word}) => {
     const { handleCreateFavoriteWord, message } = useFavoriteWord()
     const [showWord, setShowWord] = useState(true)
 
     const handleSpeak = () => {
-        speak(word)
+        speak(word.word)
     }
 
     return <div>
         {showWord ?
             // front card
             <div style={{ width: "20vW", marginRight: "40vw", marginLeft: "40vw", height: "40vh", display: "flex", flexDirection: "column", backgroundColor: "red", borderColor: "black", borderStyle: "solid", marginBottom: "3%" }}>
-                <div>{word}</div>
+                <div>{word.word}</div>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                     <button onClick={handleSpeak}>🔊</button>
-                    <button onClick={() => handleCreateFavoriteWord({word:id})} >💗</button>
+                    <button onClick={() => handleCreateFavoriteWord({word:word._id})} >{word.isFavorite ? <AiFillHeart color="red" size={15} /> : <AiFillHeart color="white" size={15} />}</button>
                     <button onClick={() => setShowWord(false)}>translation⬅️</button>
                 </div>
             </div>
             :
             // back card
             <div style={{ width: "20vW", marginRight: "40vw", marginLeft: "40vw", height: "40vh", display: "flex", flexDirection: "column", backgroundColor: "green", borderColor: "black", borderStyle: "solid", marginBottom: "3%" }}>
-                <div>{translation}</div>
+                <div>{word.translation}</div>
                 <button onClick={() => setShowWord(true)}>English➡️</button>
             </div>}
         {message && <p style={{ color: message.type === "error" ? "red" : "green" }}>{message.text}</p>}

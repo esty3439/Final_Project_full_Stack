@@ -1,4 +1,5 @@
 import useFavoriteWord from "../favoriteWords/useFavoriteWord"
+import { AiFillHeart} from "react-icons/ai";
 
 const WordSectionTable = ({ words, handleSpeak }) => {
     const { handleCreateFavoriteWord, message } = useFavoriteWord()
@@ -23,7 +24,7 @@ const WordSectionTable = ({ words, handleSpeak }) => {
                             <td style={{ border: "1px solid black", padding: "8px" }}>{word.categoryName}</td>
                             <td style={{ border: "1px solid black", padding: "8px" }}>
                                 <button onClick={() => handleSpeak(word.word)}>🔊</button>
-                                <button onClick={() => handleCreateFavoriteWord({ word: word._id })}>💗</button>
+                                <button onClick={() => handleCreateFavoriteWord({ word: word._id })}>{word.isFavorite ? <AiFillHeart color="red" size={15} /> : <AiFillHeart color="white" size={15} />}</button>
                             </td>
                         </tr>
                     ))}
