@@ -1,5 +1,5 @@
 //models
-const Word = require('../models/Word')
+const {Word} = require('../models/Word')
 const Question = require('../models/Question')
 const Challenge = require('../models/Challenge')
 const Category = require('../models/Category')
@@ -36,7 +36,7 @@ const insertWords = async () => {
 }
 
 //insert questions to database
-const insertQuestions = async () => {
+const insertQuestions = async () => { 
     const checkQuestions = await Question.find().lean()
     let questionCounter = 0
     if (!checkQuestions.length) {

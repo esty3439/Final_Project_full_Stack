@@ -1,0 +1,60 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import FormInput from '../../../components/formInput'
+import { useState } from 'react'
+import { useCreateMyCategoryMutation } from './myCategoryApi'
+
+const addCategorySchema = z.object({
+    name: z.string({ required_error: 'category name is required' }).nonempty('category name must contain at least 1 character')
+})
+
+const AddCategoryForm = ({ setShowAddForm }) => {
+    const [message, setMessage] = useState("")
+    const [errorMsg, setErrorMsg] = useState("")
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({ resolver: zodResolver(addCategorySchema) })
+
+    const [createMyCategory, { isLoading }] = useCreateMyCategoryMutation()
+
+    const onSubmit = async (data) => {
+        try {
+            setErrorMsg('')
+            const res = await createMyCategory(data).unwrap()
+            setMessage(res.message)
+            setTimeout(() => { setMessage(''); setShowAddForm(false) }, 2000)
+        }
+        catch (err) {
+            setErrorMsg(err?.data?.message || "Something went wrong. Please try again!!")
+        }
+    }
+
+    return (
+        <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(0, 0, 0, 0.12)", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <form onSubmit={handleSubmit(onSubmit)} style={{display: "flex",flexDirection: "column",gap: 12,width: "100%",maxWidth: 480,margin: "0 auto",padding: 14,border: "1px solid #eee",borderRadius: 8,background: "#fff",boxShadow: "0 1px 4px rgba(16,24,40,0.04)",fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"}}>
+                <h1>Add category</h1>
+                
+                <FormInput
+                    label="name"
+                    type="text"
+                    register={register("name")}
+                    error={errors.name?.message}
+                    placeholder={"enter category name..."}
+                    htmlFor="name"
+                />
+
+                <button type={'submit'} disabled={isLoading}>add</button>
+                <button type={'button'} disabled={isLoading} onClick={() => setShowAddForm(false)}>cancle</button>
+
+                {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+                {message && <p style={{ color: "rgb(64, 255, 102)" }}>{message}</p>}
+            </form>
+        </div>
+    )
+}
+
+export default AddCategoryForm

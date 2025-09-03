@@ -1,4 +1,4 @@
-const Word = require('../models/Word')
+const {Word} = require('../models/Word')
 
 //get all words for admin and user
 const getAllWords = async (req, res) => {

@@ -1,12 +1,18 @@
-const SearchInput=({value,handleSearch})=>{
-     return (
+const SearchInput = ({ searchText, setSearchText, placeholder }) => {
+
+    const handleSearch = (e) => {
+        setSearchText(e.target.value)
+    }
+
+    return (
         <input
             type="text"
-            placeholder="Search word or translation..."
-            value={value}
-            onChange={(e) => handleSearch(e.target.value)}
+            placeholder={placeholder}
+            value={searchText}
+            onChange={(e) => handleSearch(e)}
             style={{
-                width: "100%",
+                width: "10vw",
+                marginLeft:'45vw',
                 padding: "8px",
                 marginBottom: "16px",
                 fontSize: "16px",
@@ -14,7 +20,7 @@ const SearchInput=({value,handleSearch})=>{
                 borderRadius: "4px"
             }}
         />
-    );
+    )
 }
 
 export default SearchInput
