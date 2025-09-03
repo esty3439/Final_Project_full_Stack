@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
-import WordCard from "../word/wordCard"
-import { useGetCategoryWordsQuery } from "./categoryApi"
+import WordCard from "./wordCard"
+import { useGetCategoryWordsQuery } from "../categoryApi"
+import NavigateButton from "../../../components/navigateButton"
 
 const WordsSection = () => {
   const { categoryId} = useParams()
@@ -17,11 +18,12 @@ const WordsSection = () => {
 
   return (
     <div>
+      <NavigateButton navigation={'/user/my-words/favorites'} buttonText={'➡️favorite words'}/>
       {
         words.map((wordObj) => {
           return (
             <div >
-              <WordCard word={wordObj.word} translation={wordObj.translation} id={wordObj._id}/>
+              <WordCard word={wordObj}/>
             </div>
           )
         })
