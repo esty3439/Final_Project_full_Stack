@@ -5,13 +5,13 @@ import CourseNavigation from '../navigations/courseNavigation'
 const CourseLayout = () => {
     const { courseId} = useParams()
 
-    const {data:course, isLoading, error}=useGetCourseByIdQuery(courseId)
+    const {data:course, isLoading, error}= useGetCourseByIdQuery(courseId)
 
     if(isLoading)
         return <p>Loading course detailes....</p>
 
     if(error)
-        return <p>Error loading course detailes!!</p>
+        return <p>{error?.data?.message || 'Error loading course detailes!!'}</p>
     
     return (
         <div>

@@ -17,7 +17,7 @@ const CategoriesSection = () => {
     return (
         <div>
             {categories.map((category) => (
-                <button onClick={()=>navigate(`/user/category/${category._id}`)}>{category.name}</button>
+                <button onClick={()=>navigate(`${category._id}`)}>{category.name}</button>
             ))}
         </div>
     )

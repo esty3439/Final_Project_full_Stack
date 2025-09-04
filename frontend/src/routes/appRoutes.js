@@ -44,29 +44,27 @@ const AppRoutes = () => {
           <Route path='category' element={<CategoriesSection />} />
           <Route path='words' element={<WordSection />} />
           <Route path='final-test' element={<h1>מבחן סופי על כל מילות הקורס</h1>} />
+          <Route path='category/:categoryId' element={<CategoryLayout />}>
+            <Route index element={<Navigate to='words' />} />
+            <Route path='words' element={<CategoryWordSection />} />
+            <Route path='challenge' element={<ChallengeSection />} />
+          </Route>
         </Route>
-
-        <Route path='category/:categoryId' element={<CategoryLayout />}>
-          <Route index element={<Navigate to='words' />} />
-          <Route path='words' element={<CategoryWordSection />} />
-          <Route path='challenge' element={<ChallengeSection />} />
-        </Route>
-
 
         <Route path='my-words'>
           <Route index element={<MyWordNavigation />} />
           <Route path='favorites' element={<FavoriteWordsList />} />
-          <Route path='list' element={<MyWords/>}>
+          <Route path='list' element={<MyWords />}>
             <Route index element={<Navigate to='words' />} />
-            <Route path='words' element={<MyWordList/>}/>
-            <Route path='categories' element={<MyCategoryList/>}/>
+            <Route path='words' element={<MyWordList />} />
+            <Route path='categories' element={<MyCategoryList />} />
           </Route>
         </Route>
 
       </Route>
-      
+
     </Routes>
-    )
+  )
 }
 
 export default AppRoutes
