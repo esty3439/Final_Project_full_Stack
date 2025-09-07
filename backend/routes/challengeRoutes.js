@@ -8,7 +8,7 @@ const verifyRoles = require('../middleware/verifyRoles')
 router.use(verifyJWT)
 
 router.get('/',challengeController.getAllChallenges)
-router.get('/getChallenge/:id',challengeController.getSingleChallenge)
+router.get('/:id',challengeController.getSingleChallenge)
 router.get('/:id/results',challengeController.getChallengeResults)
 router.post('/',verifyRoles('Admin') ,challengeController.createNewChallenge)
 router.put('/',verifyRoles('Admin') ,challengeController.updateChallenge)

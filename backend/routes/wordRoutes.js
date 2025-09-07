@@ -8,8 +8,8 @@ const verifyRoles = require('../middleware/verifyRoles')
 router.use(verifyJWT)
 
 router.get('/',wordController.getAllWords)
-router.get('/getWord/:id',wordController.getSingleWord)
-router.get('/getByCategory/:categoryName', wordController.getWordsByCategory);
+router.get('/:id',wordController.getSingleWord)
+router.get('/getByCategory/:categoryName', wordController.getWordsByCategory)
 router.post('/',verifyRoles('Admin') ,wordController.createNewWord)
 router.put('/',verifyRoles('Admin') ,wordController.updateWord)
 router.delete('/',verifyRoles('Admin') ,wordController.deleteWord)

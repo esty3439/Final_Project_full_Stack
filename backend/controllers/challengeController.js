@@ -123,14 +123,14 @@ const getChallengeResults = async (req, res) => {
             (result) => result.challenge.toString() === id
         )
 
-        const results = foundChallenge.questions.map((questio) => {
+        const results = foundChallenge.questions.map((question) => {
             const userAnswer = challengeResult?.answers.find(
-                (answer) => answer.question.toString() === questio._id.toString()
+                (answer) => answer.question.toString() === question._id.toString()
             ) || null
             return {
-                ...questio.toObject(),
+                ...question.toObject(),
                 userAnswer,
-                status: userAnswer?.questionstatus
+                status: userAnswer?.questionStatus
             }
         })
 
