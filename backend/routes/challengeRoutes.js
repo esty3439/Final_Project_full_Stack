@@ -2,6 +2,7 @@ const expresss=require('express')
 const router=expresss.Router()
 const challengeController =require('../controllers/challengeController')
 const verifyJWT =require('../middleware/verifyJWT')
+const verifyRoles = require('../middleware/verifyRoles')
 
 //use middleware
 router.use(verifyJWT)
@@ -9,8 +10,8 @@ router.use(verifyJWT)
 router.get('/',challengeController.getAllChallenges)
 router.get('/getChallenge/:id',challengeController.getSingleChallenge)
 router.get('/:id/results',challengeController.getChallengeResults)
-router.post('/',challengeController.createNewChallenge)
-router.put('/',challengeController.updateChallenge)
-router.delete('/',challengeController.deleteChallenge)
+router.post('/',verifyRoles('Admin') ,challengeController.createNewChallenge)
+router.put('/',verifyRoles('Admin') ,challengeController.updateChallenge)
+router.delete('/',verifyRoles('Admin') ,challengeController.deleteChallenge)
 
 module.exports=router

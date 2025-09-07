@@ -2,9 +2,11 @@ const express = require('express')
 const router = express.Router()
 const myWordController = require('../controllers/myWordController')
 const verifyJWT = require('../middleware/verifyJWT')
+const verifyRoles = require('../middleware/verifyRoles')
 
 //use middleware
 router.use(verifyJWT)
+router.use(verifyRoles('User'))
 
 router.get('/',myWordController.getAllMyWords)
 router.post('/',myWordController.createMyWord)
