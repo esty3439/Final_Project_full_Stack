@@ -14,6 +14,7 @@ const QuestionCard = ({ question, index, handleUsersAnswer, questions, setCurren
     return (
         <div  style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "2rem"}}>
             <QuestionMenu questions={questions} setCurrentIndex={setCurrentIndex} />
+            <p>question {index}</p>
             <div >
                 {question.status === 0 ? (
                     <p>{question.question.word} ?</p>

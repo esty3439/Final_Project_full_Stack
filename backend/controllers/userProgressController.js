@@ -142,19 +142,22 @@ const deleteUserProgress = async (req, res) => {
 }
 
 const updateChallengeResultInUserProgress = async (req, res) => {
-    const { challengeResults ,categoryId} = req.body
+    const { challengeResults, categoryId } = req.body
 
-    if(!challengeResults || !categoryId)
+    if (!challengeResults || !categoryId)
         return res.status(400).send('challenge results and categoryId are required')
+
+    const completedAt = new Date()
+    challengeResults.completedAt = completedAt
 
     const user = req.user
 
-    const foundUserProgress = await UserProgress.findOne({user:user._id}).exec()
+    const foundUserProgress = await UserProgress.findOne({ user: user._id }).exec()
     if (!foundUserProgress)
         return res.status(400).json({ message: "no user progress found" })
 
-    foundUserProgress.challengeResults=[...foundUserProgress.challengeResults,challengeResults]
-    foundUserProgress.completedCategories=[...foundUserProgress.completedCategories,categoryId]
+    foundUserProgress.challengeResults = [...foundUserProgress.challengeResults, challengeResults]
+    foundUserProgress.completedCategories = [...foundUserProgress.completedCategories, categoryId]
 
     const updatedUserProgress = await foundUserProgress.save()
     if (!updatedUserProgress)
