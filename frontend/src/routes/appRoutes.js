@@ -16,6 +16,7 @@ import FavoriteWordsList from "../features/favoriteWords/FavoriteWordsList";
 import MyWordList from "../features/myWords/words/myWordList";
 import MyCategoryList from "../features/myWords/categories/myCategoryList";
 import MyWords from "../features/myWords/myWords";
+import ChallengeResults from "../features/category/challengeSection/results/challengeResults";
 
 const AppRoutes = () => {
   return (
@@ -44,10 +45,16 @@ const AppRoutes = () => {
           <Route path='category' element={<CategoriesSection />} />
           <Route path='words' element={<WordSection />} />
           <Route path='final-test' element={<h1>מבחן סופי על כל מילות הקורס</h1>} />
+
           <Route path='category/:categoryId' element={<CategoryLayout />}>
             <Route index element={<Navigate to='words' />} />
             <Route path='words' element={<CategoryWordSection />} />
-            <Route path='challenge' element={<ChallengeSection />} />
+
+            <Route path='challenge'>
+              <Route index element={<ChallengeSection />}/>
+              <Route path=':challengeId/results' element={<ChallengeResults/>}/>
+            </Route>
+
           </Route>
         </Route>
 
