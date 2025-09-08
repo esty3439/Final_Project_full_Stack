@@ -1,5 +1,6 @@
 const Challenge = require('../models/Challenge')
 const UserProgress = require('../models/UserProgress')
+const Question = require('../models/Question')
 
 //get all challenges for admin and user
 const getAllChallenges = async (req, res) => {
@@ -88,6 +89,16 @@ const deleteChallenge = async (req, res) => {
         if (!foundChallenge)
             return res.status(400).json({ message: "no challenge found" })
 
+        //delete the questions
+        await Promise.all(
+            foundChallenge.questions.map(async (question) => {
+                const foundQuestion = await Question.findById(question).exec()
+                if (foundQuestion)
+                    await foundQuestion.deleteOne()
+            })
+        )
+
+        //delete challenge
         const deletedChallenge = await foundChallenge.deleteOne()
         if (!deletedChallenge)
             return res.status(400).json({ message: `error occurred while deleting challenge with id ${id}` })
@@ -140,4 +151,4 @@ const getChallengeResults = async (req, res) => {
     }
 }
 
-module.exports = { getAllChallenges,getSingleChallenge,createNewChallenge,updateChallenge,deleteChallenge,getChallengeResults}
+module.exports = { getAllChallenges, getSingleChallenge, createNewChallenge, updateChallenge, deleteChallenge, getChallengeResults }
