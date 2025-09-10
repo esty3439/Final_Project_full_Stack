@@ -6,7 +6,7 @@ const Category = require('../models/Category')
 const Course = require('../models/Course')
 
 //data
-const { words, createQuestions, createChallenges, createCategories, createCourses } = require('./data')
+const { words, createQuestions, createChallenges, createCategories, courses } = require('./data')
 
 
 //functions
@@ -78,6 +78,27 @@ const insertChallenges = async () => {
     }
 }
 
+//insert courses to database
+const insertCourses = async () => {
+    const checkCourses = await Course.find().lean()
+    let courseCounter = 0
+    if (!checkCourses.length) {
+        for (let i = 0; i < courses.length; i++) {
+            const newCourse = await Course.create({
+                name: courses[i].name,
+                level: courses[i].level,
+                status:courses[i].status
+            })
+
+            if (!newCourse)
+                console.log(`error creating course`)
+            else
+                courseCounter++
+        }
+        console.log(`${courseCounter} courses were inserted successfully to courses table`)
+    }
+}
+
 //insert categories to database
 const insertCategories = async () => {
     const checkCategories = await Category.find().lean()
@@ -90,38 +111,23 @@ const insertCategories = async () => {
                 name: categories[i].name,
                 words: categories[i].words,
                 challenge: categories[i].challenge,
-                level:categories[i].level
+                course:categories[i].course
             })
 
-            if (!newCategory) 
+            if (!newCategory)
                console.log(`error creating category ${categories[i].name}`)
             else
-               categoriesCounter++
+            {
+                categoriesCounter++
+                //add the category to the course array
+                const foundCourse = await Course.findById(newCategory.course).exec()
+                foundCourse.categories.push(newCategory._id)
+                await foundCourse.save()
+            }
+               
         }
         console.log(`${categoriesCounter} categories were inserted successfully to categories table`)
     }
 }
-
-//insert courses to database
-const insertCourses = async () => {
-    const checkCourses = await Course.find().lean()
-    let courseCounter = 0
-    if (!checkCourses.length) {
-        const courses = await createCourses()
-        for (let i = 0; i < courses.length; i++) {
-            const newCourse = await Course.create({
-                level: courses[i].level,
-                categories: courses[i].categories
-            })
-
-            if (!newCourse)
-                console.log(`error creating course`)
-            else
-                courseCounter++
-        }
-        console.log(`${courseCounter} courses were inserted successfully to courses table`)
-    }
-}
-
 
 module.exports = { insertWords, insertQuestions, insertChallenges, insertCategories, insertCourses }

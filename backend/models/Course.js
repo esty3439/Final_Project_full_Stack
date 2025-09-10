@@ -2,6 +2,13 @@ const mongoose=require('mongoose')
 
 const CourseSchema=new mongoose.Schema(
     {
+        name:{
+            type:String,
+            required:true,
+            lowerCase:true,
+            trim:true
+        },
+
         level:{
             type:String,
             required:true,
@@ -10,9 +17,14 @@ const CourseSchema=new mongoose.Schema(
 
         categories:{
             type:[{type:mongoose.Schema.Types.ObjectId,ref:"Category"}],
-            required:true,
+            default:[]
         },
-        //final exam
+
+        status: { 
+            type: String,
+            enum: ["draft", "published"], 
+            default: "draft" 
+        }
     },
     {
         timestamps:true

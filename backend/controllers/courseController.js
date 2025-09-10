@@ -1,8 +1,23 @@
 const Course = require('../models/Course')
 const FavoriteWord = require('../models/FavoriteWord')
 
-// get all courses for admin and user
-const getAllCourses = async (req, res) => {
+// get all courses for user
+const getAllCoursesForUser = async (req, res) => {
+    try {
+        const courses = await Course.find({status:'published'}).lean()
+
+        //validation
+        if (!courses)
+            return res.status(400).json({ message: "no courses found" })
+        return res.json(courses)
+
+    } catch (err) {
+        return res.status(500).json({ message: "Internal server error" })
+    }
+}
+
+// get all courses for admin
+const getAllCoursesForAdmin = async (req, res) => {
     try {
         const courses = await Course.find().lean()
 
@@ -10,6 +25,7 @@ const getAllCourses = async (req, res) => {
         if (!courses)
             return res.status(400).json({ message: "no courses found" })
         return res.json(courses)
+
     } catch (err) {
         return res.status(500).json({ message: "Internal server error" })
     }
@@ -36,13 +52,13 @@ const getSingleCourse = async (req, res) => {
 // create new course for admin
 const createNewCourse = async (req, res) => {
     try {
-        const { level, categories } = req.body
+        const { level,name} = req.body
         
         //validation
-        if (!level || !categories)
+        if (!level || !name)
             return res.status(400).send('all fields are required')
 
-        const newCourse = await Course.create({ level, categories })
+        const newCourse = await Course.create({ level, name,status:'draft'})
         if (!newCourse)
             return res.status(400).json({ message: `error occurred while creating the course` })
 
@@ -55,10 +71,10 @@ const createNewCourse = async (req, res) => {
 // update course for admin
 const updateCourse = async (req, res) => {
     try {
-        const { level, categories, id } = req.body
+        const { level,name, id } = req.body
        
         //validation
-        if (!level || !categories || !id)
+        if (!level || !name || !id)
             return res.status(400).send('all fields are required')
 
         const foundCourse = await Course.findById(id).exec()
@@ -66,7 +82,7 @@ const updateCourse = async (req, res) => {
             return res.status(400).json({ message: "no course found" })
 
         foundCourse.level = level
-        foundCourse.categories = categories
+        foundCourse.name = name
 
         const updatedCourse = await foundCourse.save()
         if (!updatedCourse)
@@ -157,4 +173,4 @@ const getWordsOfCourseWithFavorites = async (req, res) => {
     }
 }
 
-module.exports = { getAllCourses, getSingleCourse, createNewCourse, updateCourse, deleteCourse, getCategoriesOfCourse, getWordsOfCourseWithFavorites }
+module.exports = { getAllCoursesForUser,getAllCoursesForAdmin, getSingleCourse, createNewCourse, updateCourse, deleteCourse, getCategoriesOfCourse, getWordsOfCourseWithFavorites }

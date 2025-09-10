@@ -2,10 +2,10 @@ const path = require('path')
 const fs = require('fs')
 
 //models
-const {Word}  = require('../models/Word')
+const { Word } = require('../models/Word')
 const Question = require('../models/Question')
 const Challenge = require('../models/Challenge')
-const Category = require('../models/Category')
+const Course = require('../models/Course')
 
 //functions
 //help function that checks if the word is already selected in questions
@@ -185,6 +185,11 @@ const createChallenges = async () => {
     return challenges
 }
 
+//courses
+const courses = [
+    { name: "course1", level: "Easy", status: "published" }
+]
+
 //create categories
 const createCategories = async () => {
     const challengesFromDB = await Challenge.find({}, { questions: 1 }).lean()
@@ -217,28 +222,15 @@ const createCategories = async () => {
         }
 
         //find the category's words
-        const words = await Word.find({ categoryName:categoryName}).lean() || []
+        const words = await Word.find({ categoryName: categoryName }).lean() || []
 
-        const newCategory = {name: categoryName,challenge: foundChallenge,level: "Easy",words:words}
-        categories.push({...newCategory})
+        //find the category's course
+        const foundCourse = await Course.findOne().lean()
+
+        const newCategory = { name: categoryName, challenge: foundChallenge, words: words ,course:foundCourse._id}
+        categories.push({ ...newCategory })
     }
     return categories
 }
 
-//courses
-const createCourses = async () => {
-    //find all the categories
-    const easyCategoriesFromDB = await Category.find({ level: "Easy" }).lean()
-    const mediumCategoriesFromDB = await Category.find({ level: "Medium" }).lean()
-    const hardCategoriesFromDB = await Category.find({ level: "Hard" }).lean()
-
-    const courses = [
-        { level: "Easy", categories: easyCategoriesFromDB },
-        { level: "Medium", categories: mediumCategoriesFromDB },
-        { level: "Hard", categories: hardCategoriesFromDB }
-    ]
-    return courses
-}
-
-
-module.exports = { words, createQuestions, createChallenges, createCategories, createCourses }
+module.exports = { words, createQuestions, createChallenges, createCategories, courses }

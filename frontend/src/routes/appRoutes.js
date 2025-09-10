@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import RegisterForm from "../features/auth/registerForm";
 import LoginForm from "../features/auth/loginForm";
 import CourseList from "../features/course/courseList";
-import CategoryWordSection from "../features/category/words/wordsSection"
+import CategoryWordSection from "../features/category/words/wordsSection";
 import CategoriesSection from "../features/course/categoriesSection";
 import ChallengeSection from "../features/category/challengeSection/challengeSection";
 import PublicLayout from "./layouts/publicLayout";
@@ -19,6 +19,7 @@ import MyWords from "../features/myWords/myWords";
 import ChallengeResults from "../features/category/challengeSection/results/challengeResults";
 import AdminLayout from "./layouts/adminLayout";
 import AdminCourseList from "../features/admin/course/courseList";
+import AddCourseForm from "../features/admin/course/addCourseForm";
 
 const AppRoutes = () => {
   return (
@@ -72,7 +73,10 @@ const AppRoutes = () => {
 
         <Route path={'admin'} element={<AdminLayout />} >
           <Route index element={<h1>הגעת ללוח הניהול כאן תוכל לנהל את הנתונים</h1>} />
-          <Route path='courses' element={<AdminCourseList/>} />
+          <Route path='courses'>
+            <Route index element={<AdminCourseList />} />
+            <Route path='add' element={<AddCourseForm/>} />
+          </Route >
           <Route path='categories' element={<h1>קטגוריות</h1>} />
           <Route path='words' element={<h1>מילים</h1>} />
           <Route path='users' element={<h1>משתמשים</h1>} />
@@ -80,6 +84,7 @@ const AppRoutes = () => {
           <Route path='questions' element={<h1>שאלות</h1>} />
           <Route path='recommendtions' element={<h1>המלצות</h1>} />
         </Route>
+
       </Route>
 
     </Routes>

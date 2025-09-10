@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { useGetAllCoursesQuery, useDeleteCourseMutation } from '../../course/courseApi'
+import NavigateButton from '../../../components/navigateButton'
+import { useGetAllCoursesQuery} from '../../course/courseApi'
 import CourseCard from "./courseCard"
 
 const CourseList = () => {
@@ -11,7 +11,7 @@ const CourseList = () => {
   return (
     <div>
       <h2>manage courses</h2>
-      <button>➕</button>
+      <NavigateButton navigation={'add'} buttonText={'➕'}/>
       {courses.map((course) => (
         <CourseCard course={course}/>
       ))}
