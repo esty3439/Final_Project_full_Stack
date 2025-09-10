@@ -17,6 +17,8 @@ import MyWordList from "../features/myWords/words/myWordList";
 import MyCategoryList from "../features/myWords/categories/myCategoryList";
 import MyWords from "../features/myWords/myWords";
 import ChallengeResults from "../features/category/challengeSection/results/challengeResults";
+import AdminLayout from "./layouts/adminLayout";
+import AdminCourseList from "../features/admin/course/courseList";
 
 const AppRoutes = () => {
   return (
@@ -51,8 +53,8 @@ const AppRoutes = () => {
             <Route path='words' element={<CategoryWordSection />} />
 
             <Route path='challenge'>
-              <Route index element={<ChallengeSection />}/>
-              <Route path=':challengeId/results' element={<ChallengeResults/>}/>
+              <Route index element={<ChallengeSection />} />
+              <Route path=':challengeId/results' element={<ChallengeResults />} />
             </Route>
 
           </Route>
@@ -68,6 +70,16 @@ const AppRoutes = () => {
           </Route>
         </Route>
 
+        <Route path={'admin'} element={<AdminLayout />} >
+          <Route index element={<h1>הגעת ללוח הניהול כאן תוכל לנהל את הנתונים</h1>} />
+          <Route path='courses' element={<AdminCourseList/>} />
+          <Route path='categories' element={<h1>קטגוריות</h1>} />
+          <Route path='words' element={<h1>מילים</h1>} />
+          <Route path='users' element={<h1>משתמשים</h1>} />
+          <Route path='challenges' element={<h1>אתגרים</h1>} />
+          <Route path='questions' element={<h1>שאלות</h1>} />
+          <Route path='recommendtions' element={<h1>המלצות</h1>} />
+        </Route>
       </Route>
 
     </Routes>

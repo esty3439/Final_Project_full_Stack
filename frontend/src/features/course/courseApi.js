@@ -32,9 +32,36 @@ const courseApi = baseApi.injectEndpoints({
                 method: 'GET'
             }),
             providesTags: ["Course"]
-        })
+        }),
+
+        createCourse: builder.mutation({
+            query: (courseData) => ({
+                url: '/course',
+                method: 'POST',
+                body: courseData,
+            }),
+            invalidatesTags: ["Course"]
+        }),
+
+        updateCourse: builder.mutation({
+            query: (courseData) => ({
+                url: '/course',
+                method: 'PUT',
+                body: courseData,
+            }),
+            invalidatesTags: ["Course"]
+        }),
+
+        deleteCourse: builder.mutation({
+            query: (courseData) => ({
+                url: '/course',
+                method: 'DELETE',
+                body:courseData,
+            }),
+            invalidatesTags: ["Course"]
+        }),
 
     })
 })
 
-export const { useGetAllCoursesQuery, useGetCourseByIdQuery, useGetCourseCategoriesQuery, useGetCourseWordsQuery } = courseApi
+export const { useGetAllCoursesQuery, useGetCourseByIdQuery, useGetCourseCategoriesQuery, useGetCourseWordsQuery,useCreateCourseMutation,useUpdateCourseMutation,useDeleteCourseMutation} = courseApi

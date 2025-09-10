@@ -25,7 +25,15 @@ const categoryApi=baseApi.injectEndpoints({
             }),
             providesTags: ["Category"]
         }),
+
+        getAllCategories:builder.query({
+            query:()=>({
+                url:`/category/`,
+                method:'GET'
+            }),
+            providesTags: ["Category"]
+        }),
     })
 })
 
-export const{useGetCategoryByIdQuery,useGetCategoryChallengeQuery,useGetCategoryWordsQuery}=categoryApi
+export const{useGetCategoryByIdQuery,useGetCategoryChallengeQuery,useGetCategoryWordsQuery,useGetAllCategoriesQuery}=categoryApi

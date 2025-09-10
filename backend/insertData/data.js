@@ -27,7 +27,7 @@ const chekWordInoptions = (id, options) => {
 //creates questions acording to the parameter category
 const createQuestionsAcordingToCategory = async (categoryName) => {
     const questionArr = []
-    const wordsFromDB = await Word.find({ categoryName: categoryName }).lean()//get all words that category is vegtables
+    const wordsFromDB = await Word.find({ categoryName: categoryName }).lean()
     for (let i = 0; i < wordsFromDB.length; i++)//loop that chooses in every round a word for the question
     {
         let wordPosition = Math.floor(Math.random() * wordsFromDB.length)//chooses the word

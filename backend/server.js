@@ -32,8 +32,6 @@ connectDB()
 mongoose.connection.once('open', async () => {
     console.log('connected successfuly to DB')
     app.listen(PORT, () => { console.log(`server is running on port ${PORT}`) })
-    //create admin user
-    await createInitialAdmin()
     //create words
     await insertData.insertWords()
     //create questions
@@ -44,6 +42,8 @@ mongoose.connection.once('open', async () => {
     await insertData.insertCategories()
     //create courses
     await insertData.insertCourses()
+    //create admin user
+    await createInitialAdmin()
 })
 
 mongoose.connection.on("error", (err) => {
