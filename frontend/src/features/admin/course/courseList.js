@@ -1,9 +1,9 @@
 import NavigateButton from '../../../components/navigateButton'
-import { useGetAllCoursesQuery} from '../../course/courseApi'
+import { useGetAllCoursesByAdminQuery} from '../../course/courseApi'
 import CourseCard from "./courseCard"
 
 const CourseList = () => {
-  const { data: courses, isLoading, error } = useGetAllCoursesQuery()
+  const { data: courses, isLoading, error } = useGetAllCoursesByAdminQuery()
 
   if (isLoading) return <p>loading courses...</p>
   if (error) return <p>{error?.data?.message || "something went wrong"}</p>

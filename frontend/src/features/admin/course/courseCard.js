@@ -39,8 +39,11 @@ const CourseCard = ({ course }) => {
         }}
       >
         <button style={{ backgroundColor: "gray", textDecoration: "underline" }}>
-          {course.level}
+          {course.name}
         </button>
+
+        <p>level:{course.level}</p>
+        <p>status:{course.status}</p>
 
         <div style={{ display: "flex", gap: "0.5rem" }}>
           <button

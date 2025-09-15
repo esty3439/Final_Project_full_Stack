@@ -10,6 +10,14 @@ const courseApi = baseApi.injectEndpoints({
             providesTags: ["Course"]
         }),
 
+        getAllCoursesByAdmin: builder.query({
+            query: () => ({
+                url: '/course/admin',
+                method: 'GET'
+            }),
+            providesTags: ["Course"]
+        }),
+
         getCourseById: builder.query({
             query: (courseId) => ({
                 url: `/course/${courseId}`,
@@ -56,7 +64,7 @@ const courseApi = baseApi.injectEndpoints({
             query: (courseData) => ({
                 url: '/course',
                 method: 'DELETE',
-                body:courseData,
+                body: courseData,
             }),
             invalidatesTags: ["Course"]
         }),
@@ -64,4 +72,4 @@ const courseApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetAllCoursesQuery, useGetCourseByIdQuery, useGetCourseCategoriesQuery, useGetCourseWordsQuery,useCreateCourseMutation,useUpdateCourseMutation,useDeleteCourseMutation} = courseApi
+export const { useGetAllCoursesQuery,useGetAllCoursesByAdminQuery, useGetCourseByIdQuery, useGetCourseCategoriesQuery, useGetCourseWordsQuery, useCreateCourseMutation, useUpdateCourseMutation, useDeleteCourseMutation} = courseApi
