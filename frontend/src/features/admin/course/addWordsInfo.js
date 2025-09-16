@@ -6,15 +6,20 @@ import { selectWizardWords, setWordInfo, goToStep } from "./courseWizardSlice"
 import FormInput from "../../../components/formInput"
 import { useState } from "react"
 
-const wordSchema = z.object({
-  word: z.string({ required_error: "Word is required" }).nonempty("Word must contain at least 1 character"),
-  translation: z.string({ required_error: "Translation is required" }).nonempty("Translation must contain at least 1 character"),
-})
-
 const AddWordsInfo = () => {
   const dispatch = useDispatch()
   const wordData = useSelector(selectWizardWords) || []
   const [showList, setShowList] = useState(false)
+
+  const wordSchema = z.object({
+    word: z.string({ required_error: "Word is required" })
+      .nonempty("Word must contain at least 1 character")
+      .refine((val) => !wordData.some((w) => w.word === val), {
+        message: "This word already exists!",
+      }),
+    translation: z.string({ required_error: "Translation is required" })
+      .nonempty("Translation must contain at least 1 character"),
+  })
 
   const {
     register,
@@ -102,8 +107,8 @@ const AddWordsInfo = () => {
             wordData.map((word) => {
               return <div>
                 <p>word: {word.word}</p>
-                <p>category: {word.categoryName? word.categoryName : 'no category'}</p>
-                </div>
+                <p>category: {word.categoryName ? word.categoryName : 'no category'}</p>
+              </div>
             })
           }
           <button type='button' onClick={() => setShowList(false)}>⬅️add words</button>
