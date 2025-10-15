@@ -5,7 +5,7 @@ const CourseSchema=new mongoose.Schema(
         name:{
             type:String,
             required:true,
-            lowerCase:true,
+            lowercase:true,
             trim:true
         },
 
@@ -15,10 +15,7 @@ const CourseSchema=new mongoose.Schema(
             enum:["Easy","Medium","Hard"]
         },
 
-        categories:{
-            type:[{type:mongoose.Schema.Types.ObjectId,ref:"Category"}],
-            default:[]
-        },
+        categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
 
         status: { 
             type: String,

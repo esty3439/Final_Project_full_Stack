@@ -2,13 +2,15 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useDispatch, useSelector } from "react-redux"
-import { setCategoryInfo, goToStep, selectWizardCategory, selectWizardWords } from "./courseWizardSlice"
 import FormInput from "../../../components/formInput"
 import { useState } from "react"
 
-const AddCategoriesInfo = () => {
+const AddCategoriesInfo = ({setCategoryInfo, goToStep, selectWizardCategory,selectWizardData, selectWizardWords,selectWizardStep}) => {
   const dispatch = useDispatch()
   const categoryData = useSelector(selectWizardCategory) || []
+  const step = useSelector(selectWizardStep)
+  const wizardData = useSelector(selectWizardData)
+
   const wordData = useSelector(selectWizardWords) || []
   const notUsedWords = wordData.filter((word)=>!word.categoryName)
   const [showList, setShowList] = useState(false)
@@ -48,35 +50,23 @@ const AddCategoriesInfo = () => {
         dispatch(goToStep(1))
       return
     }
-    const addAnother = window.confirm("whould you like to add another category???")
+    let addAnother =false
+    if(!wizardData.categoryInfo)
+    {
+       addAnother = window.confirm("whould you like to add another category???")
+    }
     reset({ words: [], name: "" })
     setSumSelected(0)
     if (!addAnother)
-      dispatch(goToStep(3))
+      dispatch(goToStep(step+1))
   }
 
   return (
     <div>
       {!showList ?
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-            width: "100%",
-            maxWidth: 480,
-            margin: "0 auto",
-            padding: 14,
-            border: "1px solid #eee",
-            borderRadius: 8,
-            background: "#fff",
-            boxShadow: "0 1px 4px rgba(16,24,40,0.04)",
-            fontFamily:
-              "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
-          }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex",flexDirection: "column",gap: 12,width: "100%",maxWidth: 480,margin: "0 auto",padding: 14,border: "1px solid #eee",borderRadius: 8,background: "#fff",boxShadow: "0 1px 4px rgba(16,24,40,0.04)",fontFamily:"system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",}}>
+          
           <h1>Add Category</h1>
 
           <FormInput
@@ -134,21 +124,8 @@ const AddCategoriesInfo = () => {
 
         </form>
         :
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 12,
-          width: "100%",
-          maxWidth: 480,
-          margin: "0 auto",
-          padding: 14,
-          border: "1px solid #eee",
-          borderRadius: 8,
-          background: "#fff",
-          boxShadow: "0 1px 4px rgba(16,24,40,0.04)",
-          fontFamily:
-            "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
-        }}>
+        <div style={{display: "flex",flexDirection: "column",gap: 12,width: "100%",maxWidth: 480,margin: "0 auto",padding: 14,border: "1px solid #eee",borderRadius: 8,background: "#fff",boxShadow: "0 1px 4px rgba(16,24,40,0.04)",fontFamily:"system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",}}>
+          
           <h1>categories list</h1>
           {
             categoryData.map((category) => {
