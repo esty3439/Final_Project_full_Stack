@@ -29,6 +29,10 @@ import SingleQuestionCard from "../features/admin/question/singleQuestionCard";
 import ChallengeWizard from "../features/admin/challenge/challengeWizard";
 import QuestionWizard from "../features/admin/question/questionWizard";
 import AddWordInfo from "../features/admin/word/addWordInfo";
+import UserList from "../features/admin/user/userList";
+import SingleUserCard from "../features/admin/user/singleUserCard";
+import AddUserForm from "../features/admin/user/addUserForm";
+import UpdateUserForm from "../features/admin/user/updateUserForm";
 
 const AppRoutes = () => {
   return (
@@ -95,13 +99,13 @@ const AppRoutes = () => {
                   <Route path="words/:wordId" element={<SingleWordCard />} />
 
                   <Route path='challenge/:challengeId'>
-                    <Route index  element={<SingleChallengeCard/>}/>
-                    <Route path='question/:questionId' element={<SingleQuestionCard/>}/>
-                    <Route path='question/add' element={<QuestionWizard/>}/>
+                    <Route index element={<SingleChallengeCard />} />
+                    <Route path='question/:questionId' element={<SingleQuestionCard />} />
+                    <Route path='question/add' element={<QuestionWizard />} />
                   </Route>
 
-                  <Route path='challenge/add' element={<ChallengeWizard/>}/>
-                  <Route path='words/add' element={<AddWordInfo/>}/>
+                  <Route path='challenge/add' element={<ChallengeWizard />} />
+                  <Route path='words/add' element={<AddWordInfo />} />
                 </Route>
 
                 <Route path='category/add' element={<CategoryWizard />} />
@@ -111,16 +115,21 @@ const AppRoutes = () => {
               <Route path='add' element={<CourseWizard />} />
 
             </Route>
-
           </Route >
 
-          <Route path='users' element={<h1>משתמשים</h1>} />
+          <Route path='users'>
+            <Route index element={<UserList />} />
+            <Route path=':userId' >
+              <Route index element={<SingleUserCard/>} /> 
+              <Route path="update" element={<UpdateUserForm/>}/>
+            </Route>
+            <Route path="add" element={<AddUserForm/>}/>
+          </Route>
+
           <Route path='recommendtions' element={<h1>המלצות</h1>} />
 
         </Route>
-
       </Route>
-
     </Routes>
   )
 }

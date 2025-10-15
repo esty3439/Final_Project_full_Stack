@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setCourseInfo, selectWizardCourse, goToStep, selectWizardStep } from "./courseWizardSlice"
 
 const createCourseSchema = z.object({
-  name: z.string({ required_error: "Course name is required" }).nonempty(),
+  name: z.string({ required_error: "Course name is required" }).nonempty("Course name is required"),
   level: z.enum(["Easy", "Medium", "Hard"]),
   categories: z.array(z.string()).optional()
 })
