@@ -1,7 +1,6 @@
 import { NavLink, useParams ,useNavigate} from "react-router-dom"
 import NavigateButton from "../../../components/navigateButton"
 import { useGetFullChallengeByIdQuery } from "../../challenge/challengeApi"
-import { use } from "react"
 
 const SingleChallengeCard = () => {
   const navigate = useNavigate()
