@@ -51,6 +51,15 @@ const categoryApi = baseApi.injectEndpoints({
             invalidatesTags: ["Category","Course"]
         }),
 
+        updateCategory:builder.mutation({
+            query: (data) => ({
+                url: "/category/",
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ["Category","Course"]
+        }),
+
         deleteCategory:builder.mutation({
             query: (data) => ({
                 url: "/category/",
@@ -62,4 +71,4 @@ const categoryApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetCategoryByIdQuery,useCreateFullCategorySimpleMutation, useGetFullCategoryByIdQuery, useGetCategoryChallengeQuery, useGetCategoryWordsQuery, useGetAllCategoriesQuery ,useDeleteCategoryMutation} = categoryApi
+export const { useGetCategoryByIdQuery,useCreateFullCategorySimpleMutation,useUpdateCategoryMutation, useGetFullCategoryByIdQuery, useGetCategoryChallengeQuery, useGetCategoryWordsQuery, useGetAllCategoriesQuery ,useDeleteCategoryMutation} = categoryApi

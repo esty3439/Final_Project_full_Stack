@@ -28,6 +28,15 @@ const challengeApi = baseApi.injectEndpoints({
             invalidatesTags: ["Category", "Challenge"]
         }),
 
+        updateChallenge: builder.mutation({
+            query: (data) => ({
+                url: "/challenge/",
+                method: "PUT",
+                body: data,
+            }),
+            invalidatesTags: ["Challenge"]
+        }),
+
         deleteChallenge:builder.mutation({
             query: (data) => ({
                 url: "/challenge/",
@@ -40,4 +49,4 @@ const challengeApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetChallengeResultsQuery, useGetFullChallengeByIdQuery ,useCreateFullChallengeMutation,useDeleteChallengeMutation} = challengeApi
+export const { useGetChallengeResultsQuery, useGetFullChallengeByIdQuery ,useCreateFullChallengeMutation,useUpdateChallengeMutation,useDeleteChallengeMutation} = challengeApi

@@ -10,6 +10,14 @@ const questionApi = baseApi.injectEndpoints({
       providesTags: ["Question"],
     }),
 
+    getQuestionById: builder.query({
+      query: (questionId) => ({
+        url: `/question/${questionId}`,
+        method: "GET",
+      }),
+      providesTags: ["Question"],
+    }),
+
     createQuestion: builder.mutation({
       query: (data) => ({
         url: "/question/",
@@ -19,16 +27,25 @@ const questionApi = baseApi.injectEndpoints({
       invalidatesTags: ["Challenge", "Question", "Category"]
     }),
 
+    updateQuestion: builder.mutation({
+      query: (data) => ({
+        url: "/question/",
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Question","Challenge"]
+    }),
+
     deleteQuestion: builder.mutation({
       query: (data) => ({
         url: "/question/",
         method: 'DELETE',
         body: data,
       }),
-      invalidatesTags: ["Question", "Challenge","Category"]
+      invalidatesTags: ["Question", "Challenge", "Category"]
     }),
   }),
 })
 
-export const { useGetFullQuestionByIdQuery, useCreateQuestionMutation,useDeleteQuestionMutation } = questionApi
+export const { useGetFullQuestionByIdQuery,useGetQuestionByIdQuery,useUpdateQuestionMutation, useCreateQuestionMutation, useDeleteQuestionMutation } = questionApi
 export default questionApi

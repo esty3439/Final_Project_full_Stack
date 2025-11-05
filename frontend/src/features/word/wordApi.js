@@ -20,6 +20,15 @@ const wordApi = baseApi.injectEndpoints({
             invalidatesTags: ["Word", "Category"]
         }),
 
+        updateWord: builder.mutation({
+            query: (wordData) => ({
+                url: '/word/',
+                method: 'PUT',
+                body: wordData
+            }),
+            invalidatesTags: ["Word", "Category"]
+        }),
+
         deleteword: builder.mutation({
             query: (data) => ({
                 url: "/word/",
@@ -32,4 +41,4 @@ const wordApi = baseApi.injectEndpoints({
 
 })
 
-export const { useGetWordByIdQuery, useCreateNewWordMutation,useDeletewordMutation } = wordApi
+export const { useGetWordByIdQuery, useCreateNewWordMutation,useDeletewordMutation ,useUpdateWordMutation} = wordApi
