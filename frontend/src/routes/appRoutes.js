@@ -38,6 +38,9 @@ import UpdateCategoryForm from "../features/admin/category/updateCategoryForm";
 import UpdateChallengeForm from "../features/admin/challenge/updateChallengeForm";
 import UpdateWordForm from "../features/admin/word/updateWordForm";
 import UpdateQuestion from "../features/admin/question/updateQuestionForm";
+import UserProfileForm from "../features/user/userProfileForm";
+import ResetPasswordForm from "../features/user/resetPasswordForm";
+import ProtectedRoute from "../components/protectedRoute";
 
 const AppRoutes = () => {
   return (
@@ -53,13 +56,14 @@ const AppRoutes = () => {
       </Route>
 
       {/* Layout פרטי - רק לאחר התחברות */}
-      <Route path='/user' element={<UserLayout />}>
+      <Route path='/user' element={<ProtectedRoute><UserLayout /></ProtectedRoute>}>
 
         <Route index element={<Navigate to='home-page' />} />
         <Route path='home-page' element={<HomePage />} />
         <Route path='course-list' element={<CourseList />} />
         <Route path='forums' element={<h1>פורומים</h1>} />
-        <Route path='profile' element={<h1>הפרופיל שלי</h1>} />
+        <Route path='profile' element={<UserProfileForm />} />
+        <Route path='reset-password' element={<ResetPasswordForm />} />
 
         <Route path='course/:courseId' element={<CourseLayout />}>
           <Route index element={<Navigate to='category' />} />
@@ -98,24 +102,24 @@ const AppRoutes = () => {
               <Route index element={<AdminCourseList />} />
               <Route path=':courseId' >
                 <Route index element={<SingleCourseCard />} />
-                <Route path='update' element={<UpdateCourseForm/>}/>
+                <Route path='update' element={<UpdateCourseForm />} />
 
                 <Route path="category/:categoryId" >
                   <Route index element={<SingleCategoryCard />} />
-                  <Route path='update' element={<UpdateCategoryForm/>}/>
+                  <Route path='update' element={<UpdateCategoryForm />} />
 
                   <Route path="words/:wordId">
-                    <Route index element={<SingleWordCard />}/>
-                    <Route path='update' element={<UpdateWordForm/>}/>
+                    <Route index element={<SingleWordCard />} />
+                    <Route path='update' element={<UpdateWordForm />} />
                   </Route>
 
                   <Route path='challenge/:challengeId'>
                     <Route index element={<SingleChallengeCard />} />
-                    <Route path='update' element={<UpdateChallengeForm/>}/>
+                    <Route path='update' element={<UpdateChallengeForm />} />
 
                     <Route path='question/:questionId'>
-                       <Route index element={<SingleQuestionCard />}/>
-                       <Route path='update' element={<UpdateQuestion/>}/>
+                      <Route index element={<SingleQuestionCard />} />
+                      <Route path='update' element={<UpdateQuestion />} />
                     </Route>
                     <Route path='question/add' element={<QuestionWizard />} />
                   </Route>
@@ -136,10 +140,10 @@ const AppRoutes = () => {
           <Route path='users'>
             <Route index element={<UserList />} />
             <Route path=':userId' >
-              <Route index element={<SingleUserCard/>} /> 
-              <Route path="update" element={<UpdateUserForm/>}/>
+              <Route index element={<SingleUserCard />} />
+              <Route path="update" element={<UpdateUserForm />} />
             </Route>
-            <Route path="add" element={<AddUserForm/>}/>
+            <Route path="add" element={<AddUserForm />} />
           </Route>
 
         </Route>

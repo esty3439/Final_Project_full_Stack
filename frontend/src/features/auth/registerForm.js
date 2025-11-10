@@ -26,7 +26,10 @@ const registerSchema = z.object({
   confirmPassword: z.string({ required_error: "confirm password is required" }),
   fullName: z.string({ required_error: "full name is required" }).min(1, "full name must contain at least 1 character"),
   email: z.string({ required_error: "email is required" }).nonempty("email is required").email("email is not valid"),
-  phone: z.string().min(9, "phone must contain at least 9 numbers")
+  phone: z.string().optional() 
+    .refine(val => !val || val.length >= 9, {
+      message: "phone must contain at least 9 numbers",
+    }),
 }).refine((data) => data.password === data.confirmPassword, {
   path: ['confirmPassword'],
   message: "confirm password doesn't match password"

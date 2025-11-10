@@ -11,8 +11,9 @@ router.use(verifyJWT)
 router.get('/', verifyRoles('Admin') ,userController.getAllUsers)
 router.get('/:id',userController.getSingleUser)
 router.post('/',verifyRoles('Admin'),userController.createNewUserByAdmin)
-router.put('/user',verifyRoles('User'),userController.updateUserByUser)
 router.put('/admin',verifyRoles('Admin'),userController.updateUserByAdmin)
+router.put('/update',verifyRoles('User'), userController.updateUserByUser);
+router.put('/updatePassword',verifyRoles('User'),userController.updatePassword);
 router.delete('/',verifyRoles('Admin'),userController.deleteUser)
 
 module.exports=router
