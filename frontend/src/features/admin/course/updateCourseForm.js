@@ -6,11 +6,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import FormContainer from "../../../components/formContainer";
-import FormTitle from "../../../components/formTitle";
 import FormInput from "../../../components/formInput";
 import SubmitButton from "../../../components/submitButton";
 import CustomLink from "../../../components/customLink";
-import NavigateButton from "../../../components/navigateButton";
 import BackButton from "../../../components/backButton";
 import DashedBox from "../../../components/dashedBox";
 import SectionTitle from "../../../components/sectionTitle";
@@ -94,7 +92,6 @@ const UpdateCourseForm = () => {
         htmlFor="name"
       />
 
-      {/* Level */}
       <FormInput
         label="Level"
         type="select"
@@ -104,7 +101,6 @@ const UpdateCourseForm = () => {
         htmlFor="level"
       />
 
-      {/* Status */}
       <FormInput
         label="Status"
         type="select"
