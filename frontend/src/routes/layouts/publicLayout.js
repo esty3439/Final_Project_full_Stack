@@ -4,7 +4,7 @@ import PublicNavigation from "../navigations/publicNavigation"
 const PublicLayout = () => {
     return <div>
         <PublicNavigation />
-        <main className="mt-[32px] p-4"><Outlet /></main>
+        <main className="mt-[64px] p-4"><Outlet /></main>
     </div>
 }
 
