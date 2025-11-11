@@ -4,9 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpdatePasswordMutation } from "./userApi";
 import { toast } from "react-toastify";
 import EditableFormInput from "../../components/editableFormInput"
-import NavigateButton from "../../components/navigateButton";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import FormContainer from "../../components/formContainer";
+import FormTitle from "../../components/formTitle";
+import SubmitButton from "../../components/submitButton";
+import BackButton from "../../components/backButton";
 
 const validPassword = (password) => {
   let capitalLetter = false
@@ -23,18 +26,18 @@ const validPassword = (password) => {
 }
 
 const passwordSchema = z.object({
-  oldPassword: z.string({ required_error: "Old password is required" }).min(8, "Password must contain at least 8 characters"),
-  newPassword: z.string({ required_error: "New password is required" }).min(8, "Password must contain at least 8 characters")
-    .refine(val => validPassword(val), { message: "Password must include a capital, small, and special character" }),
-  confirmPassword: z.string({ required_error: "Confirm password is required" }),
+  oldPassword: z.string({ required_error: "חובה להכניס סיסמא ישנה" }).min(8, "סיסמא חייבת להכיל לפחות 8 תוים"),
+  newPassword: z.string({ required_error: "חובה להכניס סיסמא חדשה "}).min(8, "סיסמא חייבת להכיל לפחות 8 תוים")
+    .refine(val => validPassword(val), { message: "סיסמא חייבת להכיל אות  גדולה , קטנה ותו מיוחד"}),
+  confirmPassword: z.string({ required_error: "חובה לאמת סיסמא" }),
 }).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "Confirm password doesn't match password",
+  message: "!!סיסמאת האימות אינה תואמת את הסיסמא",
   path: ["confirmPassword"],
 })
 
 const ResetPasswordForm = () => {
   const userId = useSelector((state) => state.auth.user?.id)
-  const [updatePassword] = useUpdatePasswordMutation()
+  const [updatePassword,{isLoading}] = useUpdatePasswordMutation()
 
   const navigate = useNavigate()
 
@@ -48,17 +51,14 @@ const ResetPasswordForm = () => {
     try {
       await updatePassword({ id: userId, oldPassword: data.oldPassword, newPassword: data.newPassword }).unwrap()
 
-      toast.success("Password was updated successfully", {
+      toast.success("סיסמא אופסה בהצלחה", {
         position: "top-right",
         autoClose: 3000,
+        onClose:()=>navigate("/user/profile")
       })
 
-      setTimeout(() => {
-        navigate("/user/profile")
-      }, 3000)
-
     } catch (err) {
-      toast.error(err?.data?.message || "Error updating password", {
+      toast.error(err?.data?.message || "שגיאה באיפוס סיסמא!!", {
         position: "top-right",
         autoClose: 3000,
       })
@@ -66,60 +66,39 @@ const ResetPasswordForm = () => {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{
-        maxWidth: "600px",
-        margin: "20px auto",
-        padding: "20px",
-        border: "1px solid #ddd",
-        borderRadius: "10px",
-        boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
-        backgroundColor: "#fff",
-      }}
-    >
-      <NavigateButton buttonText={'🔙'} navigation={'/user/profile'} />
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
 
-      <h2 style={{ textAlign: "center" }}>Reset Password</h2>
+      <BackButton navigation={'/user/profile'} />
+
+      <FormTitle text={'איפוס סיסמא'}/>
 
       <EditableFormInput
-        label="Current Password"
+        label="סיסמא ישנה"
         htmlFor="oldPassword"
         type="password"
         register={register("oldPassword")}
         error={errors.oldPassword?.message}
       />
+
       <EditableFormInput
-        label="New Password"
+        label="סיסמא חדשה"
         htmlFor="newPassword"
         type="password"
         register={register("newPassword")}
         error={errors.newPassword?.message}
       />
+
       <EditableFormInput
-        label="Confirm New Password"
+        label="אימות סיסמא חדשה"
         htmlFor="confirmPassword"
         type="password"
         register={register("confirmPassword")}
         error={errors.confirmPassword?.message}
       />
 
-      <button
-        type="submit"
-        style={{
-          marginTop: "16px",
-          backgroundColor: "#1976d2",
-          color: "#fff",
-          border: "none",
-          padding: "8px 12px",
-          borderRadius: "4px",
-          cursor: "pointer",
-          fontWeight: "bold",
-        }}
-      >
-        Save New Password
-      </button>
-    </form>
+      <SubmitButton text="אפס סיסמא" isLoading={isLoading} />
+
+    </FormContainer>
   )
 }
 

@@ -16,7 +16,7 @@ const CategoryLayout = () => {
       <div>
          <h1>{category.name} category</h1>
          <CategoryNavigation/>
-         <Outlet/>
+         <main className="mt-[32px] p-4"><Outlet /></main>
       </div>
    )
 }

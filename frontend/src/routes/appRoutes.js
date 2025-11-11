@@ -61,7 +61,6 @@ const AppRoutes = () => {
         <Route index element={<Navigate to='home-page' />} />
         <Route path='home-page' element={<HomePage />} />
         <Route path='course-list' element={<CourseList />} />
-        <Route path='forums' element={<h1>פורומים</h1>} />
         <Route path='profile' element={<UserProfileForm />} />
         <Route path='reset-password' element={<ResetPasswordForm />} />
 
@@ -69,7 +68,6 @@ const AppRoutes = () => {
           <Route index element={<Navigate to='category' />} />
           <Route path='category' element={<CategoriesSection />} />
           <Route path='words' element={<WordSection />} />
-          <Route path='final-test' element={<h1>מבחן סופי על כל מילות הקורס</h1>} />
 
           <Route path='category/:categoryId' element={<CategoryLayout />}>
             <Route index element={<Navigate to='words' />} />
@@ -94,6 +92,8 @@ const AppRoutes = () => {
         </Route>
 
         <Route path={'admin'} element={<AdminLayout />} >
+
+        <Route index element={<Navigate to='data' />} />
 
           <Route path='data'>
             <Route index element={<Navigate to='courses' />} />

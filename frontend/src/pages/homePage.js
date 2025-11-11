@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useGetAllCoursesQuery } from '../features/course/courseApi'
 import { selectUser } from '../features/auth/authSlice'
 import { useCreateUserProgressMutation } from '../features/userProgress/userProgressApi'
+import PageTitle from '../components/pageTitle'
 
 const HomePage = () => {
   const { data: courses, isLoading: isLoadingCourses, error: errorCourses } = useGetAllCoursesQuery()
@@ -38,8 +39,8 @@ const HomePage = () => {
   }
 
   return (
-    <div>
-      <h1>HELLO {user.fullName}</h1>
+    <div className="mt-[64px] p-4">
+      <PageTitle text={`HELLO ${user.fullName}`}/>
 
       {message && (
         <div

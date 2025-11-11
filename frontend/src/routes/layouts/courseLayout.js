@@ -1,6 +1,7 @@
 import { Outlet, useParams } from 'react-router-dom'
 import { useGetCourseByIdQuery } from '../../features/course/courseApi'
 import CourseNavigation from '../navigations/courseNavigation'
+import PageTitle from '../../components/pageTitle'
 
 const CourseLayout = () => {
     const { courseId} = useParams()
@@ -14,10 +15,10 @@ const CourseLayout = () => {
         return <p>{error?.data?.message || 'Error loading course detailes!!'}</p>
     
     return (
-        <div>
-            <h1>{course.level} course</h1>
+        <div className="mt-[64px] p-4">
+            <PageTitle text={`${course.name} קורס`}/>
             <CourseNavigation/>
-            <Outlet/>
+            <main className="mt-[32px] p-4"><Outlet /></main>
         </div>
     )
 }

@@ -4,8 +4,8 @@ import UserNavigation from '../navigations/userNavigation'
 const UserLayout = () => {
     return (
         <div>
-            <nav><UserNavigation /></nav>
-            <main><Outlet/></main>
+            <UserNavigation />
+            <main className="mt-[32px] p-4"><Outlet/></main>
         </div>
     )
 }
