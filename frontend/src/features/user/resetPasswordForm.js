@@ -27,8 +27,8 @@ const validPassword = (password) => {
 
 const passwordSchema = z.object({
   oldPassword: z.string({ required_error: "חובה להכניס סיסמא ישנה" }).min(8, "סיסמא חייבת להכיל לפחות 8 תוים"),
-  newPassword: z.string({ required_error: "חובה להכניס סיסמא חדשה "}).min(8, "סיסמא חייבת להכיל לפחות 8 תוים")
-    .refine(val => validPassword(val), { message: "סיסמא חייבת להכיל אות  גדולה , קטנה ותו מיוחד"}),
+  newPassword: z.string({ required_error: "חובה להכניס סיסמא חדשה " }).min(8, "סיסמא חייבת להכיל לפחות 8 תוים")
+    .refine(val => validPassword(val), { message: "סיסמא חייבת להכיל אות  גדולה , קטנה ותו מיוחד" }),
   confirmPassword: z.string({ required_error: "חובה לאמת סיסמא" }),
 }).refine((data) => data.newPassword === data.confirmPassword, {
   message: "!!סיסמאת האימות אינה תואמת את הסיסמא",
@@ -37,7 +37,7 @@ const passwordSchema = z.object({
 
 const ResetPasswordForm = () => {
   const userId = useSelector((state) => state.auth.user?.id)
-  const [updatePassword,{isLoading}] = useUpdatePasswordMutation()
+  const [updatePassword, { isLoading }] = useUpdatePasswordMutation()
 
   const navigate = useNavigate()
 
@@ -45,7 +45,7 @@ const ResetPasswordForm = () => {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm({ resolver: zodResolver(passwordSchema)})
+  } = useForm({ resolver: zodResolver(passwordSchema) })
 
   const onSubmit = async (data) => {
     try {
@@ -54,7 +54,7 @@ const ResetPasswordForm = () => {
       toast.success("סיסמא אופסה בהצלחה", {
         position: "top-right",
         autoClose: 3000,
-        onClose:()=>navigate("/user/profile")
+        onClose: () => navigate("/user/profile")
       })
 
     } catch (err) {
@@ -66,39 +66,43 @@ const ResetPasswordForm = () => {
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit(onSubmit)}>
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4">
+      <div className="w-full max-w-3xl">
+        <FormContainer onSubmit={handleSubmit(onSubmit)}>
 
-      <BackButton navigation={'/user/profile'} />
+          <BackButton navigation={'/user/profile'} />
 
-      <FormTitle text={'איפוס סיסמא'}/>
+          <FormTitle text={'איפוס סיסמא'} />
 
-      <EditableFormInput
-        label="סיסמא ישנה"
-        htmlFor="oldPassword"
-        type="password"
-        register={register("oldPassword")}
-        error={errors.oldPassword?.message}
-      />
+          <EditableFormInput
+            label="סיסמא ישנה"
+            htmlFor="oldPassword"
+            type="password"
+            register={register("oldPassword")}
+            error={errors.oldPassword?.message}
+          />
 
-      <EditableFormInput
-        label="סיסמא חדשה"
-        htmlFor="newPassword"
-        type="password"
-        register={register("newPassword")}
-        error={errors.newPassword?.message}
-      />
+          <EditableFormInput
+            label="סיסמא חדשה"
+            htmlFor="newPassword"
+            type="password"
+            register={register("newPassword")}
+            error={errors.newPassword?.message}
+          />
 
-      <EditableFormInput
-        label="אימות סיסמא חדשה"
-        htmlFor="confirmPassword"
-        type="password"
-        register={register("confirmPassword")}
-        error={errors.confirmPassword?.message}
-      />
+          <EditableFormInput
+            label="אימות סיסמא חדשה"
+            htmlFor="confirmPassword"
+            type="password"
+            register={register("confirmPassword")}
+            error={errors.confirmPassword?.message}
+          />
 
-      <SubmitButton text="אפס סיסמא" isLoading={isLoading} />
+          <SubmitButton text="אפס סיסמא" isLoading={isLoading} />
 
-    </FormContainer>
+        </FormContainer>
+      </div>
+    </div>
   )
 }
 

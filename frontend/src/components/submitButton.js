@@ -1,10 +1,10 @@
 import Button from "@mui/material/Button"
 import CircularProgress from "@mui/material/CircularProgress"
 
-const SubmitButton = ({ text, isLoading, onClick, disabled }) => {
+const SubmitButton = ({ text,type="submit", isLoading, onClick, disabled }) => {
   return (
     <Button
-      type="submit"
+      type={type}
       onClick={onClick}
       disabled={isLoading || disabled}
       fullWidth

@@ -1,20 +1,20 @@
 import { Outlet, useParams } from "react-router-dom"
 import { useGetCategoryByIdQuery } from "../../features/category/categoryApi"
 import CategoryNavigation from "../navigations/categoryNavigation"
+import FormTitle from "../../components/formTitle"
+import LoadingSpinner from "../../components/loadingSpinner"
+import ErrorMessage from "../../components/errorMessage"
 
 const CategoryLayout = () => {
    const { categoryId } = useParams()
    const { data: category, isLoading, error } = useGetCategoryByIdQuery(categoryId)
 
-   if (isLoading)
-      return <p>Loading category detailes....</p>
-
-   if (error)
-      return <p>Error loading category detailes!!</p>
+   if (isLoading) return <LoadingSpinner text="טוען פרטי קטגוריה..."/>
+   if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש"}/>
 
    return (
       <div>
-         <h1>{category.name} category</h1>
+         <FormTitle text={`${category.name} category`}/> 
          <CategoryNavigation/>
          <main className="mt-[32px] p-4"><Outlet /></main>
       </div>

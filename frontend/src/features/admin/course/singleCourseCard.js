@@ -15,6 +15,8 @@ import CardContainer from "../../../components/cardContainer";
 import DashedBox from "../../../components/dashedBox";
 import TagLabel from "../../../components/tagLable";
 import CardRow from "../../../components/cardRow";
+import LoadingSpinner from "../../../components/loadingSpinner";
+import ErrorMessage from "../../../components/errorMessage";
 
 const SingleCourseCard = () => {
   const { courseId } = useParams()
@@ -44,8 +46,8 @@ const SingleCourseCard = () => {
     }
   }
 
-  if (isLoading) return <p>Loading course...</p>
-  if (error) return <p>{error?.data?.message || "Something went wrong"}</p>
+  if (isLoading) return <LoadingSpinner text="טוען קורס"/>
+  if (error) return <ErrorMessage message={error?.data?.message || "Something went wrong"}/>
 
   return (
     <CardContainer>

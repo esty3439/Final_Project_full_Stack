@@ -17,6 +17,9 @@ import TagLabel from "../../../components/tagLable"
 import DeleteButton from "../../../components/deleteButton"
 import UpdateButton from "../../../components/updateButton"
 import ShowDetailsButton from "../../../components/showDetailesButton"
+import LoadingSpinner from "../../../components/loadingSpinner"
+import ErrorMessage from "../../../components/errorMessage"
+import InfoMessage from "../../../components/infoMessage"
 
 const SingleCategoryCard = () => {
   const { categoryId, courseId } = useParams()
@@ -70,9 +73,9 @@ const SingleCategoryCard = () => {
     }
   }
 
-  if (isLoading) return <p>loading category...</p>
-  if (error) return <p>{error?.data?.message || "something went wrong"}</p>
-  if (!category) return <p>Category not found</p>
+  if (isLoading) return <LoadingSpinner text="טוען קטגוריה"/>
+  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש"}/>
+  if (!category) return <InfoMessage message={"לא נמצאה קטגוריה"}/>
 
   return (
     <CardContainer>

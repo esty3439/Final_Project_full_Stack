@@ -16,6 +16,9 @@ import TagLabel from "../../../components/tagLable"
 import ShowDetailsButton from "../../../components/showDetailesButton"
 import DeleteButton from "../../../components/deleteButton"
 import UpdateButton from "../../../components/updateButton"
+import LoadingSpinner from "../../../components/loadingSpinner"
+import ErrorMessage from "../../../components/errorMessage"
+import InfoMessage from "../../../components/infoMessage"
 
 const SingleChallengeCard = () => {
   const navigate = useNavigate()
@@ -50,9 +53,9 @@ const SingleChallengeCard = () => {
     }
   }
 
-  if (isLoading) return <p>Loading challenge...</p>
-  if (error) return <p>{error?.data?.message || "Something went wrong"}</p>
-  if (!challenge) return <p>Challenge not found</p>
+  if (isLoading) return <LoadingSpinner text="טוען אתגר"/>
+  if (error) return <ErrorMessage message={error?.data?.message || "Something went wrong"}/>
+  if (!challenge) return <InfoMessage message="לא נמצא אתגר!!"/>
 
   return (
     <CardContainer>

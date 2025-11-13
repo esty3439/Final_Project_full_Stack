@@ -1,24 +1,28 @@
 import { useCreateFavoriteWordMutation } from './favoriteWordApi'
-import { useState } from "react"
+import { toast } from "react-toastify"
 
 const useFavoriteWord = () => {
   const [createFavoriteWord] = useCreateFavoriteWordMutation()
-  const [message, setMessage] = useState(null)
 
   const handleCreateFavoriteWord = async (favoriteWordData) => {
-    setMessage(null)
     try {
       const res = await createFavoriteWord(favoriteWordData).unwrap()
-      setMessage({ type: "success", text:res?.message|| "Word added to favorites!" })
-      setTimeout(()=>setMessage(null),2000)
+
+      toast.success(res?.message || "המילה נוספה למועדפים בהצלחה", {
+        position: "top-right",
+        autoClose: 3000,
+      })
+
     } catch (err) {
-      const errorMsg = err?.data?.message || err?.error || "Unknown error"
-      setMessage({ type: "error", text: errorMsg })
-      setTimeout(()=>setMessage(null),2000)
+      const errorMsg = err?.data?.message || err?.error || "שגיאה בהוספת המילה למועדפים"
+      toast.error(errorMsg, {
+        position: "top-right",
+        autoClose: 3000,
+      })
     }
   }
 
-  return { handleCreateFavoriteWord, message }
+  return { handleCreateFavoriteWord}
 }
 
 export default useFavoriteWord

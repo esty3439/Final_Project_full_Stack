@@ -7,13 +7,15 @@ import { Box } from "@mui/material"
 import SectionTitle from "../../../components/sectionTitle"
 import CardContainer from "../../../components/cardContainer"
 import DashedBox from "../../../components/dashedBox"
+import LoadingSpinner from "../../../components/loadingSpinner"
+import ErrorMessage from "../../../components/errorMessage"
 
 const CourseList = () => {
   const navigate = useNavigate()
   const { data: courses, isLoading, error } = useGetAllCoursesByAdminQuery()
 
-  if (isLoading) return <p>Loading courses...</p>
-  if (error) return <p>{error?.data?.message || "Something went wrong"}</p>
+  if (isLoading) return <LoadingSpinner text="טוען קורסים..."/>
+  if (error) return <ErrorMessage message={error?.data?.message || "Something went wrong"}/>
 
   return (
 

@@ -4,6 +4,8 @@ import { useGetAllCoursesQuery } from '../features/course/courseApi'
 import { selectUser } from '../features/auth/authSlice'
 import { useCreateUserProgressMutation } from '../features/userProgress/userProgressApi'
 import PageTitle from '../components/pageTitle'
+import LoadingSpinner from '../components/loadingSpinner'
+import ErrorMessage from '../components/errorMessage'
 
 const HomePage = () => {
   const { data: courses, isLoading: isLoadingCourses, error: errorCourses } = useGetAllCoursesQuery()
@@ -21,8 +23,8 @@ const HomePage = () => {
     }
   }, [message])
 
-  if (isLoadingCourses || isLoadingCreate) return <p>Loading...</p>
-  if (errorCourses) return <p>Error loading courses: {errorCourses.message || 'Unknown error'}</p>
+  if (isLoadingCourses || isLoadingCreate) return <LoadingSpinner/>
+  if (errorCourses)  return <ErrorMessage message={errorCourses?.data?.message || "משהו השתבש"}/>
 
   const handleCreateUserProgress = async (courseId) => {
     setMessage(null)
