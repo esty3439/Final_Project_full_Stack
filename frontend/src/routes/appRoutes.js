@@ -41,6 +41,8 @@ import ProtectedRoute from "../components/protectedRoute";
 import MyWordLayout from "./layouts/myWordLayout";
 import WordWizard from "../features/admin/word/wordWizard";
 import UserWizard from "../features/admin/user/userWizard";
+import ContactForm from "../features/contact/contactForm";
+import ContactMessages from "../features/contact/contactMessages";
 
 const AppRoutes = () => {
   return (
@@ -50,7 +52,7 @@ const AppRoutes = () => {
       <Route path='/' element={<PublicLayout />}>
         <Route index element={<Navigate to='about' />} />
         <Route path='about' element={<h1>אודותינו</h1>} />
-        <Route path='contact' element={<h1>יצירת קשר</h1>} />
+        <Route path='contact' element={<ContactForm/>} />
         <Route path='login' element={<LoginForm />} />
         <Route path='register' element={<RegisterForm />} />
       </Route>
@@ -145,6 +147,8 @@ const AppRoutes = () => {
             </Route>
             <Route path="add" element={<UserWizard />} />
           </Route>
+
+          <Route path='contact-messages' element={<ContactMessages/>}/>
 
         </Route>
       </Route>
