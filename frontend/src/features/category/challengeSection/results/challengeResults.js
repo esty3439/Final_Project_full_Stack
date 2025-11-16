@@ -2,64 +2,56 @@ import { useParams } from "react-router-dom"
 import { useGetChallengeResultsQuery } from "../../../challenge/challengeApi"
 import QuestionPrompt from "./questionPrompt"
 import OptionsReview from "./optionsReview"
-import NavigateButton from "../../../../components/navigateButton"
-
-const styles = {
-    container: { padding: '16px' },
-    card: { border: '1px solid #ddd', borderRadius: '8px', padding: '12px', margin: '12px auto', width: 'min(900px, 92vw)', background: 'white' },
-    headerRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' },
-    title: { fontWeight: 600, fontSize: '16px' },
-    score: { fontSize: '14px' },
-    prompt: { margin: '8px 0' },
-    promptImg: { width: "120px", height: "120px", objectFit: "contain", border: '1px solid #eee', borderRadius: '6px' },
-    optionsRow: { display: "flex", gap: "10px", flexWrap: 'wrap' },
-    optionBtn: { border: '2px solid transparent', borderRadius: '8px', padding: '8px', background: 'white', cursor: 'default' },
-    optionImg: { width: "80px", height: "80px", objectFit: "contain", display: 'block' },
-    legend: { display: 'flex', gap: '12px', fontSize: '12px', marginTop: '6px', color: '#555' },
-    legendBadge: (bg) => ({ display: 'inline-block', padding: '2px 6px', borderRadius: '6px', background: bg, color: 'white' })
-}
+import { Box, Typography, Paper } from "@mui/material"
+import CustomLink from "../../../../components/customLink"
+import LoadingSpinner from "../../../../components/loadingSpinner"
+import ErrorMessage from "../../../../components/errorMessage"
 
 const ChallengeResults = () => {
-    const { challengeId } = useParams()
-    const { courseId } = useParams()
-    const { data, isLoading, error } = useGetChallengeResultsQuery(challengeId)
+  const { challengeId, courseId } = useParams()
+  const { data, isLoading, error } = useGetChallengeResultsQuery(challengeId)
 
-    if (isLoading) return <p>loading challenge...</p>
-    if (error) return <p>error loading challenge...</p>
+  if (isLoading) return <LoadingSpinner text="טוען אתגר"/>
+  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש"}/>
 
-    const questions = data?.questions || []
-    const totalScore = data?.totalScore || 0
+  const questions = data?.questions || []
+  const totalScore = data?.totalScore || 0
 
-    return (
-        <div style={styles.container}>
-            <NavigateButton navigation={`/user/course/${courseId}/category`} buttonText={'back to course'} />
-            <h2 style={{ margin: '8px 0 16px' }}>challenge results</h2>
+  return (
+    <Box className="p-6 flex flex-col items-center gap-6">
+      <Typography variant="h4" className="text-pink-600 font-extrabold text-center mb-4">
+        🌟 Challenge Results 🌟
+      </Typography>
 
-            {questions.map((question, i) => (
-                <div key={question?._id || i} style={styles.card}>
-                    <div style={styles.headerRow}>
-                        <div style={styles.title}>שאלה {i + 1}</div>
-                        <div style={styles.score}>
-                            grade: {question?.userAnswer?.grade ?? 0}
-                        </div>
-                    </div>
+      {questions.map((question, i) => (
+        <Paper key={question?._id || i} className="w-full max-w-3xl p-6 rounded-3xl bg-gradient-to-br from-yellow-50 via-pink-50 to-purple-50 shadow-2xl transform hover:scale-105 transition-all">
+          <div className="flex justify-between items-center mb-4">
+            <Typography variant="h6" className="font-bold text-indigo-700">שאלה {i + 1}</Typography>
+            <Typography variant="h6" className="font-bold text-green-600">ציון: {question?.userAnswer?.grade ?? 0}</Typography>
+          </div>
 
-                    <QuestionPrompt question={question} status={question?.status ?? 0} styles={styles} />
-                    <OptionsReview question={question} styles={styles} />
+          <QuestionPrompt question={question} status={question?.status ?? 0} />
+          <OptionsReview question={question} isKidFriendly={true} />
 
-                    <div style={styles.legend}>
-                        <span><span style={styles.legendBadge('#24a148')}>correct</span> correct answer</span>
-                        <span><span style={styles.legendBadge('#da1e28')}>not correct</span> user's not correct answer</span>
-                    </div>
-                </div>
-            ))}
+          <div className="flex gap-4 mt-4 text-sm font-bold text-gray-700">
+            <span className="flex items-center gap-1">
+              <span className="inline-block w-5 h-5 rounded-full bg-green-500"></span> Correct
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="inline-block w-5 h-5 rounded-full bg-red-500"></span> Wrong
+            </span>
+          </div>
+        </Paper>
+      ))}
 
-            <div style={{ ...styles.card, display: 'flex', justifyContent: 'space-between' }}>
-                <strong>final grade:</strong>
-                <span>{totalScore}</span>
-            </div>
-        </div>
-    )
+      <Paper className="w-full max-w-3xl p-6 flex justify-between items-center rounded-3xl bg-gradient-to-r from-green-200 to-emerald-300 shadow-xl text-purple-800 font-extrabold text-xl">
+        <span>ציון סופי 🎉</span>
+        <span>{totalScore}</span>
+      </Paper>
+
+      <CustomLink to={`/user/course/${courseId}/category`} children={'חזרה לקורס'}/>
+    </Box>
+  )
 }
 
 export default ChallengeResults

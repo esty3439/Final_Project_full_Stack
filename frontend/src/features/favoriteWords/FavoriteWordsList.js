@@ -5,6 +5,8 @@ import SortSelect from "../../components/sortSelect"
 import FavoriteWordCard from "./favoriteWordCard"
 import Pagination from "../../components/pagination"
 import NavigateButton from "../../components/navigateButton"
+import LoadingSpinner from "../../components/loadingSpinner"
+import ErrorMessage from "../../components/errorMessage"
 
 const FavoriteWordsList = () => {
     const [message, setMessage] = useState(null)
@@ -31,11 +33,8 @@ const FavoriteWordsList = () => {
         sortBy === "words" ? sortByWord : sortBy === "rateing" ? sortByRateing : () => 0
     )
 
-    if (isLoading || deleteLoading || updateLoading)
-        return <p>loading ...</p>
-
-    if (error)
-        return <p>{error?.data?.message || "something went wrong"}</p>
+    if (isLoading || deleteLoading || updateLoading) return <LoadingSpinner/>
+    if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש"}/>
 
     return <div>
         {message && (<div style={{ color: message.type === 'error' ? 'red' : 'green', marginBottom: '1rem', }}>{message.text}</div>)}

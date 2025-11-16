@@ -11,7 +11,6 @@ import UserLayout from "./layouts/userLayout";
 import CategoryLayout from "./layouts/categoryLayout";
 import WordSection from "../features/course/wordsSection";
 import HomePage from "../pages/homePage";
-import MyWordNavigation from "./navigations/myWordsNavigation";
 import FavoriteWordsList from "../features/favoriteWords/FavoriteWordsList";
 import MyWordList from "../features/myWords/words/myWordList";
 import MyCategoryList from "../features/myWords/categories/myCategoryList";
@@ -28,10 +27,8 @@ import SingleChallengeCard from "../features/admin/challenge/singleChallengeCard
 import SingleQuestionCard from "../features/admin/question/singleQuestionCard";
 import ChallengeWizard from "../features/admin/challenge/challengeWizard";
 import QuestionWizard from "../features/admin/question/questionWizard";
-import AddWordInfo from "../features/admin/word/addWordInfo";
 import UserList from "../features/admin/user/userList";
 import SingleUserCard from "../features/admin/user/singleUserCard";
-import AddUserForm from "../features/admin/user/addUserForm";
 import UpdateUserForm from "../features/admin/user/updateUserForm";
 import UpdateCourseForm from "../features/admin/course/updateCourseForm";
 import UpdateCategoryForm from "../features/admin/category/updateCategoryForm";
@@ -41,6 +38,11 @@ import UpdateQuestion from "../features/admin/question/updateQuestionForm";
 import UserProfileForm from "../features/user/userProfileForm";
 import ResetPasswordForm from "../features/user/resetPasswordForm";
 import ProtectedRoute from "../components/protectedRoute";
+import MyWordLayout from "./layouts/myWordLayout";
+import WordWizard from "../features/admin/word/wordWizard";
+import UserWizard from "../features/admin/user/userWizard";
+import ContactForm from "../features/contact/contactForm";
+import ContactMessages from "../features/contact/contactMessages";
 
 const AppRoutes = () => {
   return (
@@ -50,7 +52,7 @@ const AppRoutes = () => {
       <Route path='/' element={<PublicLayout />}>
         <Route index element={<Navigate to='about' />} />
         <Route path='about' element={<h1>אודותינו</h1>} />
-        <Route path='contact' element={<h1>יצירת קשר</h1>} />
+        <Route path='contact' element={<ContactForm/>} />
         <Route path='login' element={<LoginForm />} />
         <Route path='register' element={<RegisterForm />} />
       </Route>
@@ -61,7 +63,6 @@ const AppRoutes = () => {
         <Route index element={<Navigate to='home-page' />} />
         <Route path='home-page' element={<HomePage />} />
         <Route path='course-list' element={<CourseList />} />
-        <Route path='forums' element={<h1>פורומים</h1>} />
         <Route path='profile' element={<UserProfileForm />} />
         <Route path='reset-password' element={<ResetPasswordForm />} />
 
@@ -69,7 +70,6 @@ const AppRoutes = () => {
           <Route index element={<Navigate to='category' />} />
           <Route path='category' element={<CategoriesSection />} />
           <Route path='words' element={<WordSection />} />
-          <Route path='final-test' element={<h1>מבחן סופי על כל מילות הקורס</h1>} />
 
           <Route path='category/:categoryId' element={<CategoryLayout />}>
             <Route index element={<Navigate to='words' />} />
@@ -83,8 +83,8 @@ const AppRoutes = () => {
           </Route>
         </Route>
 
-        <Route path='my-words'>
-          <Route index element={<MyWordNavigation />} />
+        <Route path='my-words' element={<MyWordLayout/>}>
+          <Route index  element={<Navigate to='favorites' />}/>
           <Route path='favorites' element={<FavoriteWordsList />} />
           <Route path='list' element={<MyWords />}>
             <Route index element={<Navigate to='words' />} />
@@ -94,6 +94,8 @@ const AppRoutes = () => {
         </Route>
 
         <Route path={'admin'} element={<AdminLayout />} >
+
+        <Route index element={<Navigate to='data' />} />
 
           <Route path='data'>
             <Route index element={<Navigate to='courses' />} />
@@ -125,7 +127,7 @@ const AppRoutes = () => {
                   </Route>
 
                   <Route path='challenge/add' element={<ChallengeWizard />} />
-                  <Route path='words/add' element={<AddWordInfo />} />
+                  <Route path='words/add' element={<WordWizard/>} />
                 </Route>
 
                 <Route path='category/add' element={<CategoryWizard />} />
@@ -143,8 +145,10 @@ const AppRoutes = () => {
               <Route index element={<SingleUserCard />} />
               <Route path="update" element={<UpdateUserForm />} />
             </Route>
-            <Route path="add" element={<AddUserForm />} />
+            <Route path="add" element={<UserWizard />} />
           </Route>
+
+          <Route path='contact-messages' element={<ContactMessages/>}/>
 
         </Route>
       </Route>

@@ -3,8 +3,8 @@ import PublicNavigation from "../navigations/publicNavigation"
 
 const PublicLayout = () => {
     return <div>
-        <nav><PublicNavigation /></nav>
-        <main><Outlet /></main>
+        <PublicNavigation />
+        <main className="mt-[64px] p-4"><Outlet /></main>
     </div>
 }
 

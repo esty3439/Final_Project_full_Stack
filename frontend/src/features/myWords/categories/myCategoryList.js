@@ -4,6 +4,8 @@ import { useGetAllMyCategorisQuery } from "./myCategoryApi"
 import AddCategoryForm from "./addCategoryForm"
 import CategoryCard from "./categoryCard"
 import SingleCategoryWords from "./singleCategoryWords"
+import ErrorMessage from "../../../components/errorMessage"
+import LoadingSpinner from "../../../components/loadingSpinner"
 
 const MyCategoryList = () => {
     const [searchText, setSearchText] = useState("")
@@ -14,11 +16,8 @@ const MyCategoryList = () => {
 
     const filteredCategories = categories.filter(category => category.name.indexOf(searchText.toLowerCase()) > -1)
 
-    if (isLoading)
-        return <p>Loading categories...</p>
-
-    if (error)
-        return <p>{error?.data?.message || "something went wrong"}</p>
+    if (isLoading) return <LoadingSpinner/>
+    if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש"}/>
 
     return (
         <div>

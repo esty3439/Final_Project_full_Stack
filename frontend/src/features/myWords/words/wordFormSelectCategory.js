@@ -1,3 +1,5 @@
+import ErrorMessage from "../../../components/errorMessage"
+import LoadingSpinner from "../../../components/loadingSpinner"
 import { useGetAllMyCategorisQuery } from "../categories/myCategoryApi"
 
 const WordFormSelectCategory = ({ label, registerProps, error, placeholder, currentCategory }) => {
@@ -15,11 +17,8 @@ const WordFormSelectCategory = ({ label, registerProps, error, placeholder, curr
         )
     }
 
-    if (isLoading)
-        return <p>Loading categories...</p>
-
-    if (categoryError)
-        return <p>{categoryError?.data?.message || "something went wrong"}</p>
+    if (isLoading)return <LoadingSpinner/>
+    if (categoryError) return <ErrorMessage message={categoryError?.data?.message || "משהו השתבש"}/>
 
     return (
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>

@@ -4,7 +4,7 @@ import MyWordsListNavigation from "../navigations/myWordsListNavigation"
 const MyWordsListLayout=()=>{
   return <div>
     <MyWordsListNavigation/>
-    <Outlet/>
+    <main className="mt-[32px] p-4"><Outlet /></main>
   </div>
 }
 
