@@ -9,20 +9,7 @@ import FormContainer from '../../components/formContainer'
 import FormTitle from '../../components/formTitle'
 import SubmitButton from '../../components/submitButton'
 import CustomLink from '../../components/customLink'
-
-const validPassword = (password) => {
-  let capitalLetter = false
-  let smallLetter = false
-  let special = false
-
-  for (let i = 0; i < password.length; i++) {
-    if (password[i] >= 'A' && password[i] <= 'Z') capitalLetter = true
-    if (password[i] >= 'a' && password[i] <= 'z') smallLetter = true
-    if ("!@#$%^&*(),.?:{}|<>".includes(password[i])) special = true
-  }
-
-  return capitalLetter && smallLetter && special
-}
+import validPassword from './service/validPassword'
 
 const registerSchema = z.object({
   userName: z.string({ required_error: "חובה להכניס שם משתמש" }).min(4, "שם משתמש חייב להכיל לפחות 4 תווים"),
