@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ErrorMessage from "../../components/errorMessage";
 import InfoMessage from "../../components/infoMessage";
 import LoadingSpinner from "../../components/loadingSpinner";
@@ -6,7 +5,7 @@ import { useDeleteMessageMutation, useGetAllMessagesQuery } from "./contactApi";
 import { Card, CardContent, CardActions, Button, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 
-export default function ContactMessagesList() {
+const ContactMessagesList=()=> {
   const { data: messages, isLoading, isError } = useGetAllMessagesQuery()
   const [deleteMessage] = useDeleteMessageMutation()
 
@@ -67,5 +66,7 @@ export default function ContactMessagesList() {
       ))}
 
     </div>
-  );
+  )
 }
+
+export default ContactMessagesList

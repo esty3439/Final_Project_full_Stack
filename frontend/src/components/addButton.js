@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material"
+import { Button } from "@mui/material"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 
 const AddButton = ({ text = "הוסף", onClick}) => {
