@@ -1,13 +1,13 @@
-import { useSelector, useDispatch } from "react-redux";
-import { goToStep, selectWizardStep, selectWizardData, setWordInfo, resetWizard } from "./wordWizardSlice";
-import { useParams, useNavigate } from "react-router-dom";
-import AddWordForm from "./addWordForm";
-import FinalSaveButton from "../common/finalSaveButton";
-import { useCreateNewWordMutation } from "../../word/wordApi";
-import WizardLayout from "../common/wizardLayout";
-import wizardSteps from "../common/wizardSteps";
-import { useGetCategoryByIdQuery } from "../../category/categoryApi";
-import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux"
+import { goToStep, selectWizardStep, selectWizardData, setWordInfo, resetWizard } from "./wordWizardSlice"
+import { useParams, useNavigate } from "react-router-dom"
+import AddWordForm from "./addWordForm"
+import FinalSaveButton from "../common/finalSaveButton"
+import { useCreateNewWordMutation } from "../../word/wordApi"
+import WizardLayout from "../common/wizardLayout"
+import wizardSteps from "../common/wizardSteps"
+import { useGetCategoryByIdQuery } from "../../category/categoryApi"
+import { toast } from "react-toastify"
 
 const WordWizard = () => {
   const step = useSelector(selectWizardStep)
@@ -19,46 +19,48 @@ const WordWizard = () => {
 
   const [createNewWord] = useCreateNewWordMutation()
 
-  if (isLoading) return <p>טוען...</p>;
-  if (error) return <p>{error?.data || "משהו השתבש"}</p>;
-  if (!category) return <p>לא נמצאה קטגוריה</p>;
+  if (isLoading) return <p>טוען...</p>
+  if (error) return <p>{error?.data || "משהו השתבש"}</p>
+  if (!category) return <p>לא נמצאה קטגוריה</p>
 
   const handleStepChange = (number) => {
-    dispatch(goToStep(number));
-  };
+    dispatch(goToStep(number))
+  }
 
   const onClick = async () => {
     try {
-
       if (!wizardData.wordInfo.word || !wizardData.wordInfo.translation) {
         toast.error("יש למלא את כל השדות לפני שמירה", {
-        position: "top-right",
-        autoClose: 3000,
-      })
+          position: "top-right",
+          autoClose: 3000,
+        })
         return
       }
 
-      const addWordData = {
-        word: wizardData.wordInfo.word,
-        translation: wizardData.wordInfo.translation,
-        img: wizardData.wordInfo.img,
-        categoryName: category.name,
-        categoryId
+      const formData = new FormData()
+      formData.append("word", wizardData.wordInfo.word)
+      formData.append("translation", wizardData.wordInfo.translation)
+      formData.append("categoryName", category.name)
+      formData.append("categoryId", categoryId)
+      if (wizardData.wordInfo.img) {
+        formData.append("img", wizardData.wordInfo.img)
       }
 
-      await createNewWord(addWordData).unwrap()
+      await createNewWord(formData).unwrap()
 
       toast.success("המילה נוצרה בהצלחה!", {
         position: "top-right",
         autoClose: 3000,
         onClose: () => {
-          const addQuestion = window.confirm('Would you like to add a question for this word?')
+          const addQuestion = window.confirm("Would you like to add a question for this word?")
           if (addQuestion)
-            navigate(`/user/admin/data/courses/${courseId}/category/${categoryId}/challenge/${category?.challenge}/question/add`)
-          else
-            navigate(`/user/admin/data/courses/${courseId}/category/${categoryId}`)
-        }
+            navigate(
+              `/user/admin/data/courses/${courseId}/category/${categoryId}/challenge/${category?.challenge}/question/add`
+            )
+          else navigate(`/user/admin/data/courses/${courseId}/category/${categoryId}`)
+        },
       })
+
       dispatch(resetWizard())
     } catch (err) {
       console.error(err)
