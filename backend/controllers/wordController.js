@@ -1,7 +1,11 @@
 const { Word } = require('../models/Word')
-const Category= require('../models/Category')
+const Category = require('../models/Category')
 const Challenge = require('../models/Challenge')
 const Question = require('../models/Question')
+const multer = require('multer')
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 
 //get all words for admin and user
 const getAllWords = async (req, res) => {
@@ -34,13 +38,16 @@ const getSingleWord = async (req, res) => {
 //create word only for admin
 const createNewWord = async (req, res) => {
   try {
-    const { word, translation, categoryName ,categoryId} = req.body
+    const { word, translation, categoryName, categoryId } = req.body
 
     //validation:
     if (!word || !translation || !categoryName || !categoryId)
       return res.status(400).send('all fields are required')
 
-    const newWord = await Word.create({ word, translation, categoryName })
+    //handle word img
+    const img = req.file ? { data: req.file.buffer, contentType: req.file.mimetype } : undefined
+
+    const newWord = await Word.create({ word, translation, categoryName,img })
     if (!newWord)
       return res.status(400).json({ message: `error occurred while creating word ${word}` })
 
@@ -147,8 +154,8 @@ const deleteWord = async (req, res) => {
           _id: { $in: challenge.questions },
           $or: [
             { correctAnswer: word._id },
-            { options: word._id } ,
-            {question:word._id}
+            { options: word._id },
+            { question: word._id }
           ]
         }).exec()
 
@@ -190,4 +197,4 @@ const getWordsByCategory = async (req, res) => {
   }
 }
 
-module.exports = { getAllWords, getSingleWord, createNewWord, updateWord, deleteWord, getWordsByCategory }
+module.exports = { getAllWords, getSingleWord, createNewWord, upload ,updateWord, deleteWord, getWordsByCategory }

@@ -4,7 +4,6 @@ import LoginForm from "../features/auth/loginForm";
 import CourseList from "../features/course/courseList";
 import CategoryWordSection from "../features/category/words/wordsSection";
 import CategoriesSection from "../features/course/categoriesSection";
-import ChallengeSection from "../features/category/challengeSection/challengeSection";
 import PublicLayout from "./layouts/publicLayout";
 import CourseLayout from "./layouts/courseLayout";
 import UserLayout from "./layouts/userLayout";
@@ -45,6 +44,8 @@ import ContactForm from "../features/contact/contactForm";
 import ContactMessages from "../features/contact/contactMessages";
 import ForgotPassword from "../features/auth/forgotPassword";
 import ResetPassword from "../features/auth/resetPassword";
+import ChallengeRoot from "../features/category/challengeSection/challengeRoot";
+import FinalExamRoot from "../features/course/finalExam/finalExamRoot";
 
 const AppRoutes = () => {
   return (
@@ -54,11 +55,11 @@ const AppRoutes = () => {
       <Route path='/' element={<PublicLayout />}>
         <Route index element={<Navigate to='about' />} />
         <Route path='about' element={<h1>אודותינו</h1>} />
-        <Route path='contact' element={<ContactForm/>} />
+        <Route path='contact' element={<ContactForm />} />
         <Route path='login' element={<LoginForm />} />
         <Route path='register' element={<RegisterForm />} />
-        <Route path="forgot-password" element={<ForgotPassword/>}/>
-        <Route path="reset-password/:token" element={<ResetPassword/>}/>
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password/:token" element={<ResetPassword />} />
       </Route>
 
       {/* Layout פרטי - רק לאחר התחברות */}
@@ -74,21 +75,22 @@ const AppRoutes = () => {
           <Route index element={<Navigate to='category' />} />
           <Route path='category' element={<CategoriesSection />} />
           <Route path='words' element={<WordSection />} />
+          <Route path='final-test' element={<FinalExamRoot />} />
 
           <Route path='category/:categoryId' element={<CategoryLayout />}>
             <Route index element={<Navigate to='words' />} />
             <Route path='words' element={<CategoryWordSection />} />
 
             <Route path='challenge'>
-              <Route index element={<ChallengeSection />} />
+              <Route index element={<ChallengeRoot />} />
               <Route path=':challengeId/results' element={<ChallengeResults />} />
             </Route>
 
           </Route>
         </Route>
 
-        <Route path='my-words' element={<MyWordLayout/>}>
-          <Route index  element={<Navigate to='favorites' />}/>
+        <Route path='my-words' element={<MyWordLayout />}>
+          <Route index element={<Navigate to='favorites' />} />
           <Route path='favorites' element={<FavoriteWordsList />} />
           <Route path='list' element={<MyWords />}>
             <Route index element={<Navigate to='words' />} />
@@ -99,7 +101,7 @@ const AppRoutes = () => {
 
         <Route path={'admin'} element={<AdminLayout />} >
 
-        <Route index element={<Navigate to='data' />} />
+          <Route index element={<Navigate to='data' />} />
 
           <Route path='data'>
             <Route index element={<Navigate to='courses' />} />
@@ -131,7 +133,7 @@ const AppRoutes = () => {
                   </Route>
 
                   <Route path='challenge/add' element={<ChallengeWizard />} />
-                  <Route path='words/add' element={<WordWizard/>} />
+                  <Route path='words/add' element={<WordWizard />} />
                 </Route>
 
                 <Route path='category/add' element={<CategoryWizard />} />
@@ -152,7 +154,7 @@ const AppRoutes = () => {
             <Route path="add" element={<UserWizard />} />
           </Route>
 
-          <Route path='contact-messages' element={<ContactMessages/>}/>
+          <Route path='contact-messages' element={<ContactMessages />} />
 
         </Route>
       </Route>
