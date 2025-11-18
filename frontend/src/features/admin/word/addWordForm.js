@@ -30,7 +30,7 @@ const AddWordForm = ({ categoryWords = [], categoryId }) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors ,isSubmitting },
   } = useForm({
     resolver: zodResolver(wordSchema),
   })
@@ -83,7 +83,7 @@ const AddWordForm = ({ categoryWords = [], categoryId }) => {
         />
       </div>
 
-      <SubmitButton text="שמירה" className="mt-4" />
+      <SubmitButton text="שמירה" isLoading={isSubmitting} className="mt-4" />
     </FormContainer>
   )
 }

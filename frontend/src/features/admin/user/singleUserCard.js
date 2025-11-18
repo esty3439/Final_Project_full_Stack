@@ -14,7 +14,7 @@ const SingleUserCard = () => {
   const { data: user, isLoading, error } = useGetSingleUserQuery(userId);
 
   if (isLoading) return <LoadingSpinner text="טוען פרטי משתמש..."/>
-  if (error) return <ErrorMessage message={error?.data?.message || "Something went wrong"}/>
+  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש!!"}/>
   if (!user) return <InfoMessage message="לא נמצא משתמש"/>
 
   const initial = user.userName?.charAt(0)?.toUpperCase() || "?";
@@ -28,17 +28,14 @@ const SingleUserCard = () => {
         <CardContent>
           <Box className="flex flex-col items-center text-center space-y-4">
             
-            {/* Initial avatar */}
             <div className="w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center text-2xl font-bold">
               {initial}
             </div>
 
-            {/* Username */}
             <Typography className="!text-[rgba(229,145,42,0.9)] font-semibold text-xl">
               {user.userName}
             </Typography>
 
-            {/* User details */}
             <Box className="w-full text-left space-y-1 text-gray-700">
               <Typography>
                 <strong className="!text-[rgba(229,145,42,0.9)]">ID:</strong> {user._id}
@@ -66,7 +63,7 @@ const SingleUserCard = () => {
         </CardContent>
       </Card>
     </CardContainer>
-  );
-};
+  )
+}
 
 export default SingleUserCard;

@@ -46,14 +46,14 @@ const UpdateUserForm = () => {
   }, [user, reset])
 
    if (isLoading) return <LoadingSpinner text="טוען פרטי משתמש..."/>
-  if (error) return <ErrorMessage message={error?.data?.message || "Something went wrong"}/>
+  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש!!!"}/>
   if (!user) return <InfoMessage message="לא נמצא משתמש"/>
 
   const onSubmit = async (data) => {
     try {
       await updateUserByAdmin({ id: userId, ...data }).unwrap()
 
-      toast.success(`User "${user.userName}" updated successfully!`, {
+      toast.success(`משתמש עודכן בהצלחה!!`, {
         position: "top-right",
         autoClose: 3000,
         onClose:()=>navigate("/user/admin/users")
@@ -61,7 +61,7 @@ const UpdateUserForm = () => {
 
     } catch (err) {
       console.error(err)
-      toast.error(err?.data?.message || "Update failed" , {
+      toast.error(err?.data?.message || "העדכון נכשל" , {
         position: "top-right",
         autoClose: 3000,
       })

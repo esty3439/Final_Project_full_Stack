@@ -22,7 +22,7 @@ const CategoryNavigation = () => {
         אתגר של קטגוריה
       </CustomNavLink>
     </FloatingMenu>
-  );
-};
+  )
+}
 
-export default CategoryNavigation;
+export default CategoryNavigation

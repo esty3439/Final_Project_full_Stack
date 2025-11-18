@@ -18,13 +18,13 @@ const CourseCard = ({ course }) => {
     setShowConfirm(false)
     try {
       await deleteCourse({ id: course._id }).unwrap();
-      toast.success(`Course "${course.name}" was deleted successfully!`, {
+      toast.success(`קורס נמחק בהצלחה`, {
         position: "top-right",
         autoClose: 3000,
       })
     } catch (err) {
       const errorMsg =
-        err?.data?.message || "Server error occurred while deleting the course."
+        err?.data?.message || "ארעה שגיאה במחיקה!!"
       toast.error(errorMsg, { position: "top-right", autoClose: 4000 })
     }
   }

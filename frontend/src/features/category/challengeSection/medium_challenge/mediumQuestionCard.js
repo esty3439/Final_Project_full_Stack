@@ -38,7 +38,6 @@ const MediumQuestionCard = ({ question, index, nextQuestion, handleUsersAnswer }
     setTimeout(() => nextQuestion(), 300)
   }
 
-  // כאן אנחנו מציגים את השאלה בהתאם לסטטוס
   return (
     <div className="relative w-full h-[500px] flex flex-col items-center justify-center">
       <div className="absolute top-4 flex items-center gap-2 text-red-600 text-3xl font-bold">

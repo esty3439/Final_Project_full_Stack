@@ -1,4 +1,3 @@
-
 import { useGetUserProgressByUserQuery } from "../userProgress/userProgressApi"
 import { Card, CardContent, CardActionArea, Typography, Grid } from "@mui/material"
 import { Link } from "react-router-dom"

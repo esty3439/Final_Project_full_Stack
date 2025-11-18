@@ -13,7 +13,7 @@ const SingleQuestionCard = () => {
   const { data: question, isLoading, error } = useGetFullQuestionByIdQuery(questionId)
 
   if (isLoading) return <LoadingSpinner text="טוען שאלה..."/>
-  if (error) return <ErrorMessage message={error?.data?.message || "Something went wrong"}/>
+  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש!!!"}/>
   if (!question) return <InfoMessage message="לא נמצאה שאלה"/>
 
   return (
