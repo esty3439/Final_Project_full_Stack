@@ -34,20 +34,20 @@ const SingleCourseCard = () => {
 
     try {
       await deleteCategory({ id: selectedCategory._id }).unwrap()
-      toast.success(`Category "${selectedCategory.name}" was deleted successfully ✅`, {
+      toast.success(`קטגוריה נמחקה בהצלחה!!`, {
         position: "top-right",
         autoClose: 3000,
       })
     } catch (err) {
-      const errorMsg = err?.data?.message || "Failed to delete category ❌"
-      toast.error(errorMsg, { position: "top-right", autoClose: 4000 })
+      const errorMsg = err?.data?.message || "ארעה שגיאה במחיקה"
+      toast.error(errorMsg, { position: "top-right", autoClose: 3000 })
     } finally {
-      setSelectedCategory(null);
+      setSelectedCategory(null)
     }
   }
 
   if (isLoading) return <LoadingSpinner text="טוען קורס"/>
-  if (error) return <ErrorMessage message={error?.data?.message || "Something went wrong"}/>
+  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש"}/>
 
   return (
     <CardContainer>

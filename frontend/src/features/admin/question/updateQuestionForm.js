@@ -18,8 +18,7 @@ import LoadingSpinner from "../../../components/loadingSpinner";
 import ErrorMessage from "../../../components/errorMessage";
 import InfoMessage from "../../../components/infoMessage";
 
-const updateQuestionSchema = z
-  .object({
+const updateQuestionSchema = z.object({
     option1: z.string().min(1, "חובה לבחור אפשרות 1"),
     option2: z.string().min(1, "חובה לבחור אפשרות 2"),
     option3: z.string().min(1, "חובה לבחור אפשרות 3"),
@@ -83,7 +82,7 @@ const UpdateQuestionForm = () => {
       const shuffledOptions = shuffleArray(options)
       await updateQuestion({ id: questionId, options: shuffledOptions }).unwrap()
 
-      toast.success("Question options updated successfully!", {
+      toast.success("אפשרויות עודכנו בהצלחה!!", {
         position: "top-right",
         autoClose: 3000,
         onClose: () => {
@@ -93,7 +92,7 @@ const UpdateQuestionForm = () => {
       })
 
     } catch (err) {
-      toast.error(err?.data?.message || "Update failed", {
+      toast.error(err?.data?.message || "העדכון נכשל!!", {
         position: "top-right",
         autoClose: 3000,
       })

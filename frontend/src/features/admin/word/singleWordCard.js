@@ -59,7 +59,7 @@ const SingleWordCard = () => {
                 className="text-gray-400 italic text-center mt-5"
                 variant="body2"
               >
-                No image found
+                לא נמצאה תמונה
               </Typography>
             )}
           </Box>

@@ -10,22 +10,22 @@ import TagLabel from "../../../components/tagLable";
 import CardRow from "../../../components/cardRow";
 
 const UserCard = ({ user }) => {
-  const navigate = useNavigate();
-  const [deleteUserByAdmin] = useDeleteUserByAdminMutation();
-  const [showConfirm, setShowConfirm] = useState(false);
+  const navigate = useNavigate()
+  const [deleteUserByAdmin] = useDeleteUserByAdminMutation()
+  const [showConfirm, setShowConfirm] = useState(false)
 
   const handleDelete = async () => {
-    setShowConfirm(false);
+    setShowConfirm(false)
     try {
       await deleteUserByAdmin(user._id).unwrap();
-      toast.success(`User "${user.userName}" was deleted successfully!`, {
+      toast.success(`משתמש נמחק בהצלחה!!`, {
         position: "top-right",
         autoClose: 3000,
-      });
+      })
     } catch (err) {
       const errorMsg =
-        err?.data?.message || "Server error occurred while deleting the user.";
-      toast.error(errorMsg, { position: "top-right", autoClose: 4000 });
+        err?.data?.message || "ארעה שגיאה במחיקה"
+      toast.error(errorMsg, { position: "top-right", autoClose: 4000 })
     }
   };
 
@@ -49,7 +49,7 @@ const UserCard = ({ user }) => {
       )}
 
     </CardRow>
-  );
-};
+  )
+}
 
-export default UserCard;
+export default UserCard

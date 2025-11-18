@@ -11,9 +11,11 @@ import FormTitle from "../../../components/formTitle"
 import FormSelect from "../../../components/formSelect"
 import SubmitButton from "../../../components/submitButton"
 import { Typography, Paper } from "@mui/material"
+import LoadingSpinner from "../../../components/loadingSpinner"
+import ErrorMessage from "../../../components/errorMessage"
 
 const questionSchema = z.object({
-  wordId: z.string({required_error:"חובה לבחור מילה"}).nonempty("בחר מילה"),
+  wordId: z.string({ required_error: "חובה לבחור מילה" }).nonempty("בחר מילה"),
 })
 
 const AddQuestionInfo = ({ categoryId }) => {
@@ -34,7 +36,7 @@ const AddQuestionInfo = ({ categoryId }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(questionSchema),
     defaultValues: { wordId: "" },
@@ -58,8 +60,8 @@ const AddQuestionInfo = ({ categoryId }) => {
     dispatch(goToStep(step + 1))
   }
 
-  if (isLoading) return <p className="text-gray-500 text-center mt-4">טוען...</p>
-  if (error) return <p className="text-red-500 text-center mt-4">שגיאה בטעינת קטגוריה</p>
+  if (isLoading) return <LoadingSpinner text='טוען פרטי שאלה' />
+  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש!!"} />
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
@@ -103,11 +105,11 @@ const AddQuestionInfo = ({ categoryId }) => {
               className="mt-2 rounded-md max-w-full"
             />
           )}
-          
+
         </Paper>
       )}
 
-      <SubmitButton text="שמירה" className="mt-4" />
+      <SubmitButton text="שמירה" isLoading={isSubmitting} className="mt-4" />
     </FormContainer>
   )
 }

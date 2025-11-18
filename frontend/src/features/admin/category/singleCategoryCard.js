@@ -39,14 +39,14 @@ const SingleCategoryCard = () => {
 
     try {
       await deleteChallenge({ id: selectedChallenge._id }).unwrap()
-      toast.success(`Challenge was deleted successfully ✅`, {
+      toast.success(`הקטגוריה נמחקה בהצלחה`, {
         position: "top-right",
         autoClose: 3000,
+        onClose:()=>navigate(`/user/admin/data/courses/${courseId}/category/${categoryId}`)
       })
-      navigate(`/user/admin/data/courses/${courseId}/category/${categoryId}`)
     } catch (err) {
       console.error("Delete challenge error:", err)
-      const errorMsg = err?.data?.message || "Failed to delete challenge ❌"
+      const errorMsg = err?.data?.message || "ארעה שגיאה במחיקה"
       toast.error(errorMsg, { position: "top-right", autoClose: 4000 })
     } finally {
       setSelectedChallenge(null)
@@ -59,14 +59,14 @@ const SingleCategoryCard = () => {
 
     try {
       await deleteWord({ id: selectedWord._id }).unwrap()
-      toast.success(`Word "${selectedWord.word}" was deleted successfully ✅`, {
+      toast.success(`המילה נמחקה בהצלחה`, {
         position: "top-right",
         autoClose: 3000,
+        onClose:()=> navigate(`/user/admin/data/courses/${courseId}/category/${categoryId}`)
       })
-      navigate(`/user/admin/data/courses/${courseId}/category/${categoryId}`)
     } catch (err) {
       console.error("Delete word error:", err)
-      const errorMsg = err?.data?.message || "Failed to delete word ❌"
+      const errorMsg = err?.data?.message || "ארעה שגיאה במחיקה"
       toast.error(errorMsg, { position: "top-right", autoClose: 4000 })
     } finally {
       setSelectedWord(null)

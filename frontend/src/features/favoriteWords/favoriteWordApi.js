@@ -2,6 +2,7 @@ import baseApi from "../../app/baseApi";
 
 const favoriteWordApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
+        
         getAllFavoriteWords: builder.query({
             query: (data) => ({
                 url: `/favoriteWord/?page=${data.page}&limit=${data.limit}&sortBy=${data.sortBy}`,

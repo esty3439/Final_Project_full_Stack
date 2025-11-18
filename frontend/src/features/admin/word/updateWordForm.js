@@ -18,9 +18,9 @@ import ErrorMessage from "../../../components/errorMessage"
 import InfoMessage from "../../../components/infoMessage"
 
 const updateWordSchema = z.object({
-  word: z.string().min(1, "Word is required"),
-  translation: z.string().min(1, "Translation is required"),
-  categoryName: z.string().min(1, "Category is required"),
+  word: z.string({ required_error: "חובה להכניס מילה" }).min(1, "חובה להכניס מילה"),
+  translation: z.string({ required_error: "חובה להכניס תרגום"}).min(1, "חובה להכניס תרגום"),
+  categoryName: z.string({required_error:"חובה לבחור שם קטגוריה"}).min(1, "חובה לבחור קטגוריה"),
 })
 
 const UpdateWordForm = () => {
@@ -95,7 +95,7 @@ const UpdateWordForm = () => {
           type="text"
           register={register("word")}
           error={errors.word?.message}
-          placeholder="Enter word..."
+          placeholder="הכנס מילה..."
           htmlFor="word"
         />
 
@@ -104,7 +104,7 @@ const UpdateWordForm = () => {
           type="text"
           register={register("translation")}
           error={errors.translation?.message}
-          placeholder="Enter translation..."
+          placeholder="הכנס תרגום..."
           htmlFor="translation"
         />
 
@@ -117,7 +117,7 @@ const UpdateWordForm = () => {
             value: category.name,
             label: category.name,
           }))}
-          defaultOption="-- Select Category --"
+          defaultOption="-- בחר קטגוריה --"
         />
 
         <SubmitButton text="Save" isLoading={isSubmitting} className="mt-6" />

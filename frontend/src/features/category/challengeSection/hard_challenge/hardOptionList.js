@@ -5,16 +5,15 @@ const HardOptionList = ({ options, status, answer, chooseAnswer }) => {
   const [positions, setPositions] = useState([])
 
   useEffect(() => {
-    // יצירת מיקומים אקראיים בהתחלה
     const generatePositions = () => options.map(() => ({
-      x: Math.random() * 240 - 120, // סביב מרכז המסך
+      x: Math.random() * 240 - 120, 
       y: Math.random() * 240 - 120
     }))
     setPositions(generatePositions())
 
     const interval = setInterval(() => {
       setPositions(generatePositions())
-    }, 1000) // עדכון כל שנייה
+    }, 1000) 
 
     return () => clearInterval(interval)
   }, [options])
@@ -51,7 +50,7 @@ const HardOptionList = ({ options, status, answer, chooseAnswer }) => {
           >
             {status === 0 ? (
               optionImageSrc ? (
-                <img src={optionImageSrc} className="w-16 h-16 object-contain" />
+                <img src={optionImageSrc} alt={option.word} className="w-16 h-16 object-contain" />
               ) : (
                 <p className="text-gray-400">אין תמונה</p>
               )

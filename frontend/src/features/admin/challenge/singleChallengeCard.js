@@ -37,13 +37,13 @@ const SingleChallengeCard = () => {
 
     try {
       await deleteQuestion({ id: selectedQuestion._id }).unwrap()
-      toast.success(`Question "${selectedQuestion.question.word}" deleted successfully ✅`, {
+      toast.success(`שאלה נמחקה בהצלחה!!`, {
         position: "top-right",
         autoClose: 3000,
       })
     } catch (err) {
       console.error("Delete question error:", err)
-      const errorMsg = err?.data?.message || "Failed to delete question ❌"
+      const errorMsg = err?.data?.message || "ארעה שגיאה במחיקה"
       toast.error(errorMsg, {
         position: "top-right",
         autoClose: 4000,
@@ -54,7 +54,7 @@ const SingleChallengeCard = () => {
   }
 
   if (isLoading) return <LoadingSpinner text="טוען אתגר"/>
-  if (error) return <ErrorMessage message={error?.data?.message || "Something went wrong"}/>
+  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש!!"}/>
   if (!challenge) return <InfoMessage message="לא נמצא אתגר!!"/>
 
   return (

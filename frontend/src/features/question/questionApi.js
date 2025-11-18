@@ -2,6 +2,7 @@ import baseApi from '../../app/baseApi'
 
 const questionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    
     getFullQuestionById: builder.query({
       query: (questionId) => ({
         url: `/question/${questionId}/full`,

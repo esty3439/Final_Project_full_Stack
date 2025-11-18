@@ -19,26 +19,24 @@ const AddWordsInfo = ({ selectWizardWords, setWordInfo, goToStep, selectWizardSt
 
   const handleData = (data) => {
     dispatch(setWordInfo({ word: data.word, translation: data.translation, categoryName: "" }))
-    const addAnother = window.confirm("whould you like to add another word???")
+    const addAnother = window.confirm("תרצה להוסיף מילה נוספת??")
     if (!addAnother)
       dispatch(goToStep(step + 1))
   }
 
   const wordSchema = z.object({
-    word: z.string({ required_error: "חובה להכניס מילה" })
-      .nonempty("חובה להכניס מילה")
+    word: z.string({ required_error: "חובה להכניס מילה" }).nonempty("חובה להכניס מילה")
       .refine((val) => !wordData?.some((w) => w.word === val), {
         message: "המילה כבר קיימת!",
       }),
-    translation: z.string({ required_error: "חובה להכניס תרגום" })
-      .nonempty("חובה להכניס תרגום"),
+    translation: z.string({ required_error: "חובה להכניס תרגום" }).nonempty("חובה להכניס תרגום"),
   })
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors,isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(wordSchema),
   })

@@ -47,7 +47,7 @@ const UpdateChallengeForm = () => {
       )
 
       if (!hasChanges) {
-        toast.info("No changes were made", {
+        toast.info("לא בוצעו שינויים!!", {
           position: "top-right",
           autoClose: 3000,
         })
@@ -55,13 +55,13 @@ const UpdateChallengeForm = () => {
       }
 
       await updateChallenge({ id: challengeId, ...data }).unwrap()
-      toast.success(`Challenge updated successfully!`, {
+      toast.success(`אתגר עודכן בהצלחה`, {
         position: "top-right",
         autoClose: 3000,
       })
     } catch (err) {
       console.error(err)
-      toast.error(err?.data?.message || "Update failed", {
+      toast.error(err?.data?.message || "העדכון נכשל!!", {
         position: "top-right",
         autoClose: 3000,
       })
@@ -100,7 +100,7 @@ const UpdateChallengeForm = () => {
                 </CustomLink>
               ))
             ) : (
-              <p className="text-gray-500">No questions in this challenge</p>
+              <p className="text-gray-500">אין שאלות זמינות באתגר זה</p>
             )}
           </div>
         </DashedBox>
