@@ -11,7 +11,7 @@ router.get('/',wordController.getAllWords)
 router.get('/:id',wordController.getSingleWord)
 router.get('/getByCategory/:categoryName', wordController.getWordsByCategory)
 router.post('/',verifyRoles('Admin'),wordController.upload.single('img'),wordController.createNewWord)
-router.put('/',verifyRoles('Admin') ,wordController.updateWord)
+router.put('/', verifyRoles('Admin'), wordController.upload.single('img'), wordController.updateWord)
 router.delete('/',verifyRoles('Admin') ,wordController.deleteWord)
 
 module.exports=router

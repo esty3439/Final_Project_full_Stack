@@ -21,11 +21,24 @@ const wordApi = baseApi.injectEndpoints({
         }),
 
         updateWord: builder.mutation({
-            query: (wordData) => ({
-                url: '/word/',
-                method: 'PUT',
-                body: wordData
-            }),
+            query: (data) => {
+                const formData = new FormData()
+
+                formData.append("id", data.id)
+                formData.append("word", data.word)
+                formData.append("translation", data.translation)
+                formData.append("categoryName", data.categoryName)
+
+                if (data.img) {
+                    formData.append("img", data.img)
+                }
+
+                return {
+                    url: '/word/',
+                    method: 'PUT',
+                    body: formData
+                }
+            },
             invalidatesTags: ["Word", "Category"]
         }),
 
@@ -41,4 +54,4 @@ const wordApi = baseApi.injectEndpoints({
 
 })
 
-export const { useGetWordByIdQuery, useCreateNewWordMutation,useDeletewordMutation ,useUpdateWordMutation} = wordApi
+export const { useGetWordByIdQuery, useCreateNewWordMutation, useDeletewordMutation, useUpdateWordMutation } = wordApi

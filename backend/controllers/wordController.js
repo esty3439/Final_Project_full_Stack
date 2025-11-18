@@ -68,38 +68,42 @@ const updateWord = async (req, res) => {
   try {
     const { id, word, translation, categoryName } = req.body
 
-    // Basic validation
     if (!id || !word || !translation || !categoryName)
       return res.status(400).json({ message: "All fields are required" })
 
-    // Find the existing word
+    // Find word
     const foundWord = await Word.findById(id).exec()
     if (!foundWord)
       return res.status(404).json({ message: "Word not found" })
 
-    // Check if category name changed
     const oldCategoryName = foundWord.categoryName
     const isCategoryChanged =
       oldCategoryName.toLowerCase() !== categoryName.toLowerCase()
 
-    // Update basic fields
+    // If new image uploaded:
+    if (req.file) {
+      foundWord.img = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      }
+    }
+
+    // Update text fields
     foundWord.word = word
     foundWord.translation = translation
     foundWord.categoryName = categoryName.toLowerCase()
 
-    // Save updated word
+    // Save word
     const updatedWord = await foundWord.save()
 
-    // If category changed – handle category arrays
+    // Handle category change
     if (isCategoryChanged) {
-      // Find old and new categories
       const oldCategory = await Category.findOne({ name: oldCategoryName }).exec()
       const newCategory = await Category.findOne({ name: categoryName }).exec()
 
       if (!newCategory)
         return res.status(400).json({ message: `Category '${categoryName}' not found` })
 
-      // Remove from old category
       if (oldCategory) {
         oldCategory.words = oldCategory.words.filter(
           (wId) => wId.toString() !== foundWord._id.toString()
@@ -107,7 +111,6 @@ const updateWord = async (req, res) => {
         await oldCategory.save()
       }
 
-      // Add to new category (if not already there)
       if (!newCategory.words.includes(foundWord._id)) {
         newCategory.words.push(foundWord._id)
         await newCategory.save()
@@ -118,6 +121,7 @@ const updateWord = async (req, res) => {
       message: `Word '${word}' was updated successfully`,
       word: updatedWord,
     })
+
   } catch (error) {
     console.error("Error updating word:", error)
     res.status(500).json({ message: error.message })

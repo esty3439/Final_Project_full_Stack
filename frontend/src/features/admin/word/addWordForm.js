@@ -23,7 +23,7 @@ const AddWordForm = ({ categoryWords = [], categoryId }) => {
       .string({ required_error: "חובה להכניס תרגום" })
       .nonempty("חובה להכניס תרגום"),
 
-    img: z.any().optional(),
+    img: z.any({required_error: "התמונה חובה"})
   })
 
   const {
