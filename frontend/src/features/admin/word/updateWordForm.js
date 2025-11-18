@@ -25,26 +25,6 @@ const updateWordSchema = z.object({
   img: z.any({required_error: "התמונה חובה"})
 })
 
-const arrayBufferToBase64 = (buffer) => {
-  let binary = '';
-  let bytes;
-  if (buffer?.data && Array.isArray(buffer.data)) {
-    bytes = buffer.data;
-  } else if (buffer instanceof Uint8Array) {
-    bytes = Array.from(buffer);
-  } else if (buffer && buffer.type === 'Buffer' && buffer.data) {
-    bytes = buffer.data;
-  } else {
-    return null;
-  }
-  const chunkSize = 0x8000;
-  for (let i = 0; i < bytes.length; i += chunkSize) {
-    const chunk = bytes.slice(i, i + chunkSize);
-    binary += String.fromCharCode.apply(null, chunk);
-  }
-  return btoa(binary);
-};
-
 const UpdateWordForm = () => {
   const { wordId, categoryId, courseId } = useParams()
   const navigate = useNavigate()
@@ -58,7 +38,6 @@ const UpdateWordForm = () => {
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(updateWordSchema),
