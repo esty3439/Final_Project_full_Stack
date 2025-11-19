@@ -46,6 +46,9 @@ import ForgotPassword from "../features/auth/forgotPassword";
 import ResetPassword from "../features/auth/resetPassword";
 import ChallengeRoot from "../features/category/challengeSection/challengeRoot";
 import FinalExamRoot from "../features/course/finalExam/finalExamRoot";
+import AdminRecommendionList from "../features/recommendtion/adminRecommendtionList";
+import AddRecommendionForm from "../features/recommendtion/addRecommendtionForm";
+import AboutUs from "../pages/aboutUs";
 
 const AppRoutes = () => {
   return (
@@ -54,7 +57,7 @@ const AppRoutes = () => {
       {/* Layout ציבורי - התחלה, הרשמה, התחברות וכו' */}
       <Route path='/' element={<PublicLayout />}>
         <Route index element={<Navigate to='about' />} />
-        <Route path='about' element={<h1>אודותינו</h1>} />
+        <Route path='about' element={<AboutUs/>} />
         <Route path='contact' element={<ContactForm />} />
         <Route path='login' element={<LoginForm />} />
         <Route path='register' element={<RegisterForm />} />
@@ -70,6 +73,7 @@ const AppRoutes = () => {
         <Route path='course-list' element={<CourseList />} />
         <Route path='profile' element={<UserProfileForm />} />
         <Route path='reset-password' element={<ResetPasswordForm />} />
+        <Route path="add-recommendion" element={<AddRecommendionForm />} />
 
         <Route path='course/:courseId' element={<CourseLayout />}>
           <Route index element={<Navigate to='category' />} />
@@ -155,6 +159,7 @@ const AppRoutes = () => {
           </Route>
 
           <Route path='contact-messages' element={<ContactMessages />} />
+          <Route path="recommendions" element={<AdminRecommendionList/>}/>
 
         </Route>
       </Route>
