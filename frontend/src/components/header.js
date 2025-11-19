@@ -7,7 +7,7 @@ const Header = ({ children }) => {
         <AppBar position="fixed" className="!bg-[rgba(229,145,42,0.62)] shadow-sm z-50 px-6 py-1">
             <Toolbar className='!justify-between  text-white font-bold text-xl'>
                 <Box>
-                    English city logo
+                    <img src='/logo.jpg' alt='english city' className='h-20'/>
                 </Box>
                 <Box className='!flex items-center gap-4'>
                     {children}
