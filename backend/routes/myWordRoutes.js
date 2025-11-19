@@ -9,7 +9,7 @@ router.use(verifyJWT)
 router.use(verifyRoles('User'))
 
 router.get('/',myWordController.getAllMyWords)
-router.post('/',myWordController.createMyWord)
+router.post('/',myWordController.upload.single('img'),myWordController.createMyWord)
 router.put('/',myWordController.updateMyWord)
 router.put('/rating',myWordController.updateMyWordRaiting)
 router.delete('/',myWordController.deleteMyWord)

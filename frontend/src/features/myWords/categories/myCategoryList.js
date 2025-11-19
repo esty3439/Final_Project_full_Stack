@@ -1,44 +1,49 @@
-import { useState } from "react"
-import SearchInput from "../../../components/searchInput"
-import { useGetAllMyCategorisQuery } from "./myCategoryApi"
-import AddCategoryForm from "./addCategoryForm"
-import CategoryCard from "./categoryCard"
-import SingleCategoryWords from "./singleCategoryWords"
-import ErrorMessage from "../../../components/errorMessage"
-import LoadingSpinner from "../../../components/loadingSpinner"
+import { useState } from "react";
+import BaseList from "../common/BaseList";
+import { useGetAllMyCategorisQuery } from "./myCategoryApi";
+import AddCategoryForm from "./addCategoryForm";
+import CategoryCard from "./categoryCard";
+import SingleCategoryWords from "./singleCategoryWords";
 
 const MyCategoryList = () => {
-    const [searchText, setSearchText] = useState("")
-    const [showAddForm, setShowAddForm] = useState(false)
-    const [showSingleCategory, setShowSingleCategory] = useState(null)
+  const [searchText, setSearchText] = useState("");
+  const [showSingleCategory, setShowSingleCategory] = useState(null);
 
-    const { data: categories = [], isLoading, error } = useGetAllMyCategorisQuery()
+  const { data: categories = [], isLoading, error } = useGetAllMyCategorisQuery();
 
-    const filteredCategories = categories.filter(category => category.name.indexOf(searchText.toLowerCase()) > -1)
+  const filteredCategories = categories.filter(category =>
+    category.name.toLowerCase().includes(searchText.toLowerCase())
+  );
 
-    if (isLoading) return <LoadingSpinner/>
-    if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש"}/>
+  const renderCategory = (category) => (
+    <CategoryCard
+      key={category._id}
+      category={category}
+      setShowSingleCategory={setShowSingleCategory}
+    />
+  );
 
+  if (showSingleCategory) {
     return (
-        <div>
-            {!showSingleCategory &&
-                <div>
-                    <header>
-                        <SearchInput searchText={searchText} setSearchText={setSearchText} placeholder={'Search category...'} />
-                        <button onClick={() => setShowAddForm(true)}>➕</button>
-                    </header>
+      <SingleCategoryWords
+        showSingleCategory={showSingleCategory}
+        setShowSingleCategory={setShowSingleCategory}
+      />
+    );
+  }
 
-                    {
-                    filteredCategories.length===0 ? <h1>No categories found!!</h1>:
-                    filteredCategories.map((category) => (<CategoryCard category={category} setShowSingleCategory={setShowSingleCategory} />))
-                    }
-                </div>
-            }
-            
-            {showSingleCategory && <SingleCategoryWords showSingleCategory={showSingleCategory} setShowSingleCategory={setShowSingleCategory} />}
-            {showAddForm && <AddCategoryForm setShowAddForm={setShowAddForm} />}
-        </div>
-    )
-}
+  return (
+    <BaseList
+      title="ניהול קטגוריות אישיות"
+      placeholder="🔎Search category..."
+      data={filteredCategories}
+      isLoading={isLoading}
+      error={error}
+      searchKey="name"
+      renderItem={renderCategory}
+      AddFormComponent={AddCategoryForm}
+    />
+  );
+};
 
-export default MyCategoryList
+export default MyCategoryList;
