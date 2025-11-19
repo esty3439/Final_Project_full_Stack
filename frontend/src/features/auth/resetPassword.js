@@ -3,14 +3,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useResetPasswordMutation } from "./authApi";
 import { toast } from "react-toastify";
-
 import FormContainer from "../../components/formContainer";
-import FormInput from "../../components/formInput";
 import SubmitButton from "../../components/submitButton";
 import FormTitle from "../../components/formTitle";
-
 import { z } from "zod";
 import validPassword from "./service/validPassword";
+import PasswordInput from "../../components/passwordInput";
 
 const resetPasswordSchema = z.object({
   password: z.string({ required_error: "חובה להכניס סיסמא" }).min(8, "סיסמא חייבת להכיל לפחות 8 תווים").refine(val => validPassword(val), { message: "סיסמא חייבת להכיל אות  גדולה , קטנה ותו מיוחד" }),
@@ -63,18 +61,16 @@ const ResetPassword = () => {
 
           <FormTitle text="איפוס סיסמא" />
 
-          <FormInput
+          <PasswordInput
             label="סיסמה חדשה"
-            type="password"
             register={register("password")}
             error={errors.password?.message}
             placeholder="הכנס סיסמה חדשה..."
             htmlFor="password"
           />
 
-          <FormInput
+          <PasswordInput
             label="אימות סיסמה"
-            type="password"
             register={register("confirmPassword")}
             error={errors.confirmPassword?.message}
             placeholder="אימות סיסמה..."

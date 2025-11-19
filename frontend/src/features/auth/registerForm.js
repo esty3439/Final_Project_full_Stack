@@ -10,6 +10,7 @@ import FormTitle from '../../components/formTitle'
 import SubmitButton from '../../components/submitButton'
 import CustomLink from '../../components/customLink'
 import validPassword from './service/validPassword'
+import PasswordInput from '../../components/passwordInput'
 
 const registerSchema = z.object({
   userName: z.string({ required_error: "חובה להכניס שם משתמש" }).min(4, "שם משתמש חייב להכיל לפחות 4 תווים"),
@@ -76,21 +77,19 @@ const RegisterForm = () => {
             htmlFor="fullName"
           />
 
-          <FormInput
+          <PasswordInput
             label="סיסמא"
-            type="password"
             register={register("password")}
             error={errors.password?.message}
             placeholder="הכנס סיסמא..."
             htmlFor="password"
           />
 
-          <FormInput
+          <PasswordInput
             label="אימות סיסמא"
-            type="password"
             register={register("confirmPassword")}
             error={errors.confirmPassword?.message}
-            placeholder="אמת סיסמא..."
+            placeholder="הכנס סיסמא לאימות..."
             htmlFor="confirmPassword"
           />
 

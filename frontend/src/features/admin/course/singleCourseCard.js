@@ -18,6 +18,7 @@ import CardRow from "../../../components/cardRow";
 import LoadingSpinner from "../../../components/loadingSpinner";
 import ErrorMessage from "../../../components/errorMessage";
 
+
 const SingleCourseCard = () => {
   const { courseId } = useParams()
   const { data: course, isLoading, error } = useGetFullCourseByIdQuery(courseId)

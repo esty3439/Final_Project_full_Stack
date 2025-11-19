@@ -3,7 +3,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpdatePasswordMutation } from "./userApi";
 import { toast } from "react-toastify";
-import EditableFormInput from "../../components/editableFormInput"
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FormContainer from "../../components/formContainer";
@@ -11,6 +10,7 @@ import FormTitle from "../../components/formTitle";
 import SubmitButton from "../../components/submitButton";
 import BackButton from "../../components/backButton";
 import validPassword from "../auth/service/validPassword";
+import PasswordInput from "../../components/passwordInput";
 
 const passwordSchema = z.object({
   oldPassword: z.string({ required_error: "חובה להכניס סיסמא ישנה" }).min(8, "סיסמא חייבת להכיל לפחות 8 תוים"),
@@ -61,28 +61,28 @@ const ResetPasswordForm = () => {
 
           <FormTitle text={'איפוס סיסמא'} />
 
-          <EditableFormInput
+          <PasswordInput
             label="סיסמא ישנה"
             htmlFor="oldPassword"
-            type="password"
             register={register("oldPassword")}
             error={errors.oldPassword?.message}
+            placeholder="הכנס סיסמא ישנה"
           />
 
-          <EditableFormInput
+          <PasswordInput
             label="סיסמא חדשה"
             htmlFor="newPassword"
-            type="password"
             register={register("newPassword")}
             error={errors.newPassword?.message}
+            placeholder="הכנס סיסמא חדשה..."
           />
 
-          <EditableFormInput
+          <PasswordInput
             label="אימות סיסמא חדשה"
             htmlFor="confirmPassword"
-            type="password"
             register={register("confirmPassword")}
             error={errors.confirmPassword?.message}
+            placeholder="אמת סיסמא חדשה..."
           />
 
           <SubmitButton text="אפס סיסמא" isLoading={isLoading} />
