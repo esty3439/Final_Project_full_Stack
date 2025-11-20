@@ -14,15 +14,19 @@ import FormSelect from "../../../components/formSelect";
 import SubmitButton from "../../../components/submitButton";
 import BackButton from "../../../components/backButton";
 import { Box, Button } from "@mui/material";
-import LoadingSpinner from "../../../components/loadingSpinner"
-import ErrorMessage from "../../../components/errorMessage"
-import InfoMessage from "../../../components/infoMessage"
+import LoadingSpinner from "../../../components/loadingSpinner";
+import ErrorMessage from "../../../components/errorMessage";
+import InfoMessage from "../../../components/infoMessage";
 
 const updateWordSchema = z.object({
   word: z.string({ required_error: "חובה להכניס מילה" }).min(1, "חובה להכניס מילה"),
-  translation: z.string({ required_error: "חובה להכניס תרגום"}).min(1, "חובה להכניס תרגום"),
-  categoryName: z.string({required_error:"חובה לבחור שם קטגוריה"}).min(1, "חובה לבחור קטגוריה"),
-  img: z.any({required_error: "התמונה חובה"})
+  translation: z.string({ required_error: "חובה להכניס תרגום" }).min(1, "חובה להכניס תרגום"),
+  categoryName: z.string({ required_error: "חובה לבחור שם קטגוריה" }).min(1, "חובה לבחור קטגוריה"),
+  img: z.any()
+    .refine(
+      (files) => files instanceof FileList && files.length > 0,
+      "התמונה חובה"
+    ),
 })
 
 const UpdateWordForm = () => {
@@ -34,6 +38,12 @@ const UpdateWordForm = () => {
   const { data: categories } = useGetAllCategoriesQuery()
   const [updateWord] = useUpdateWordMutation()
 
+  const [existingImageSrc, setExistingImageSrc] = useState(null)
+  const [newImageFile, setNewImageFile] = useState(null)
+  const [previewSrc, setPreviewSrc] = useState(null)
+  const [showFileInput, setShowFileInput] = useState(false)
+  const fileInputRef = useRef(null)
+
   const {
     register,
     handleSubmit,
@@ -44,35 +54,29 @@ const UpdateWordForm = () => {
     defaultValues: { word: "", translation: "", categoryName: "" },
   })
 
-  const [existingImageSrc, setExistingImageSrc] = useState(null)
-  const [newImageFile, setNewImageFile] = useState(null) 
-  const [previewSrc, setPreviewSrc] = useState(null)
-  const [showFileInput, setShowFileInput] = useState(false)
-  const fileInputRef = useRef(null)
+  useEffect(() => {
+    if (!word) return;
 
-useEffect(() => {
-  if (!word) return;
+    reset({
+      word: word.word,
+      translation: word.translation,
+      categoryName: word.categoryName,
+    });
 
-  reset({
-    word: word.word,
-    translation: word.translation,
-    categoryName: word.categoryName,
-  });
-
-  if (word.img?.data && word.img?.contentType) {
-    const src = `data:image/${word.img.contentType};base64,${word.img.data}`;
-    setExistingImageSrc(src);
-    setPreviewSrc(src);
-  } else {
-    setExistingImageSrc(null);
-    setPreviewSrc(null);
-  }
-}, [word, reset]);
+    if (word.img?.data && word.img?.contentType) {
+      const src = `data:image/${word.img.contentType};base64,${word.img.data}`
+      setExistingImageSrc(src)
+      setPreviewSrc(src)
+    } else {
+      setExistingImageSrc(null)
+      setPreviewSrc(null)
+    }
+  }, [word, reset])
 
 
-  if (isLoading) return <LoadingSpinner text="טוען מילה"/>
-  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש"}/>
-  if (!word) return <InfoMessage message="לא נמצאה מילה"/>
+  if (isLoading) return <LoadingSpinner text="טוען מילה" />
+  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש"} />
+  if (!word) return <InfoMessage message="לא נמצאה מילה" />
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0] || null
@@ -92,7 +96,7 @@ useEffect(() => {
   const handleRemoveImage = () => {
     setNewImageFile(null)
     setPreviewSrc(null)
-    setShowFileInput(true) 
+    setShowFileInput(true)
   }
 
   const onSubmit = async (data) => {
@@ -125,12 +129,7 @@ useEffect(() => {
   return (
     <Box className="p-6 max-w-3xl mx-auto relative bg-[rgba(255,265,25,0.2)]">
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
-        <BackButton
-          navigation={
-            location.state?.from ||
-            `/user/admin/data/courses/${courseId}/category/${categoryId}`
-          }
-        />
+        <BackButton navigation={location.state?.from ||`/user/admin/data/courses/${courseId}/category/${categoryId}`}/>
 
         <div className="mt-8">
           <SectionTitle text={`Update word: ${word.word}`} />

@@ -1,33 +1,34 @@
-import { useSelector, useDispatch } from "react-redux"
-import { goToStep, selectWizardStep, selectWizardData, setWordInfo, resetWizard } from "./wordWizardSlice"
-import { useParams, useNavigate } from "react-router-dom"
-import AddWordForm from "./addWordForm"
-import FinalSaveButton from "../common/finalSaveButton"
-import { useCreateNewWordMutation } from "../../word/wordApi"
-import WizardLayout from "../common/wizardLayout"
-import wizardSteps from "../common/wizardSteps"
-import { useGetCategoryByIdQuery } from "../../category/categoryApi"
-import { toast } from "react-toastify"
-import LoadingSpinner from "../../../components/loadingSpinner"
-import ErrorMessage from "../../../components/errorMessage"
-import InfoMessage from "../../../components/infoMessage"
+import { useSelector, useDispatch } from "react-redux";
+import {goToStep,selectWizardStep,selectWizardData,setWordInfo,resetWizard} from "./wordWizardSlice";
+import { useParams, useNavigate } from "react-router-dom";
+import AddWordForm from "./addWordForm";
+import FinalSaveButton from "../common/finalSaveButton";
+import { useCreateNewWordMutation } from "../../word/wordApi";
+import WizardLayout from "../common/wizardLayout";
+import wizardSteps from "../common/wizardSteps";
+import { useGetCategoryByIdQuery } from "../../category/categoryApi";
+import { toast } from "react-toastify";
+import LoadingSpinner from "../../../components/loadingSpinner";
+import ErrorMessage from "../../../components/errorMessage";
+import InfoMessage from "../../../components/infoMessage";
 
 const WordWizard = () => {
-  const step = useSelector(selectWizardStep)
-  const wizardData = useSelector(selectWizardData)
-  const dispatch = useDispatch()
-  const { categoryId, courseId } = useParams()
-  const { data: category, isLoading, error } = useGetCategoryByIdQuery(categoryId)
-  const navigate = useNavigate()
+  const step = useSelector(selectWizardStep);
+  const wizardData = useSelector(selectWizardData);
+  const dispatch = useDispatch();
+  const { categoryId, courseId } = useParams();
+  const { data: category, isLoading, error } =
+    useGetCategoryByIdQuery(categoryId);
+  const navigate = useNavigate();
 
-  const [createNewWord] = useCreateNewWordMutation()
+  const [createNewWord] = useCreateNewWordMutation();
 
-  if (isLoading) return <LoadingSpinner/>
-  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש!!"}/>
-  if (!category) return <InfoMessage/>
+  if (isLoading) return <LoadingSpinner />;
+  if (error)return <ErrorMessage message = {error?.data?.message || "משהו השתבש!!"}/>
+  if (!category) return <InfoMessage />;
 
   const handleStepChange = (number) => {
-    dispatch(goToStep(number))
+    dispatch(goToStep(number));
   }
 
   const onClick = async () => {
@@ -40,27 +41,32 @@ const WordWizard = () => {
         return
       }
 
-      const formData = new FormData()
-      formData.append("word", wizardData.wordInfo.word)
-      formData.append("translation", wizardData.wordInfo.translation)
-      formData.append("categoryName", category.name)
-      formData.append("categoryId", categoryId)
+      const formData = new FormData();
+      formData.append("word", wizardData.wordInfo.word);
+      formData.append("translation", wizardData.wordInfo.translation);
+      formData.append("categoryName", category.name);
+      formData.append("categoryId", categoryId);
+
       if (wizardData.wordInfo.img) {
-        formData.append("img", wizardData.wordInfo.img)
+        formData.append("img", wizardData.wordInfo.img);
       }
 
-      await createNewWord(formData).unwrap()
+      await createNewWord(formData).unwrap();
 
       toast.success("המילה נוצרה בהצלחה!", {
         position: "top-right",
         autoClose: 3000,
         onClose: () => {
-          const addQuestion = window.confirm("Would you like to add a question for this word?")
+          const addQuestion = window.confirm(
+            "Would you like to add a question for this word?"
+          )
           if (addQuestion)
             navigate(
               `/user/admin/data/courses/${courseId}/category/${categoryId}/challenge/${category?.challenge}/question/add`
             )
-          else navigate(`/user/admin/data/courses/${courseId}/category/${categoryId}`)
+          else navigate(
+            `/user/admin/data/courses/${courseId}/category/${categoryId}`
+          )
         },
       })
 
@@ -88,7 +94,10 @@ const WordWizard = () => {
         return (
           <FinalSaveButton
             onClick={onClick}
-            disabled={!wizardData.wordInfo.word || !wizardData.wordInfo.translation}
+            disabled={
+              !wizardData.wordInfo.word ||
+              !wizardData.wordInfo.translation
+            }
           />
         )
     }
