@@ -55,33 +55,29 @@ const ResetPassword = () => {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4">
-      <div className="w-full max-w-3xl">
-        <FormContainer onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
 
-          <FormTitle text="איפוס סיסמא" />
+      <FormTitle text="איפוס סיסמא" />
 
-          <PasswordInput
-            label="סיסמה חדשה"
-            register={register("password")}
-            error={errors.password?.message}
-            placeholder="הכנס סיסמה חדשה..."
-            htmlFor="password"
-          />
+      <PasswordInput
+        label="סיסמה חדשה"
+        register={register("password")}
+        error={errors.password?.message}
+        placeholder="הכנס סיסמה חדשה..."
+        htmlFor="password"
+      />
 
-          <PasswordInput
-            label="אימות סיסמה"
-            register={register("confirmPassword")}
-            error={errors.confirmPassword?.message}
-            placeholder="אימות סיסמה..."
-            htmlFor="confirmPassword"
-          />
+      <PasswordInput
+        label="אימות סיסמה"
+        register={register("confirmPassword")}
+        error={errors.confirmPassword?.message}
+        placeholder="אימות סיסמה..."
+        htmlFor="confirmPassword"
+      />
 
-          <SubmitButton text="אפס" isLoading={isLoading} />
+      <SubmitButton text="אפס" isLoading={isLoading} />
 
-        </FormContainer>
-      </div>
-    </div>
+    </FormContainer>
   )
 }
 

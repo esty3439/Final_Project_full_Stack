@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import {
-  useGetUserProgressByUserQuery,
-  useUpdateChallengeResultInUserProgressMutation,
-} from "../../userProgress/userProgressApi"
+import { useGetUserProgressByUserQuery, useUpdateChallengeResultInUserProgressMutation, } from "../../userProgress/userProgressApi"
 import LoadingSpinner from "../../../components/loadingSpinner"
 import ErrorMessage from "../../../components/errorMessage"
 import { toast } from "react-toastify"
 import { useGetCourseByIdQuery } from "../../course/courseApi"
 
-const ChallengeLogicRoot = ({ challenge,children,externalIndex,setExternalIndex,}) => {
-  
+const ChallengeLogicRoot = ({ challenge, children, externalIndex, setExternalIndex, }) => {
+
   const { categoryId, courseId } = useParams()
   const [updateChallengeResultInUserProgress] = useUpdateChallengeResultInUserProgressMutation()
   const { data: userProgress, isLoading, error } = useGetUserProgressByUserQuery()
@@ -78,6 +75,10 @@ const ChallengeLogicRoot = ({ challenge,children,externalIndex,setExternalIndex,
     if (currentIndex < questions.length - 1) setCurrentIndex(currentIndex + 1)
   }
 
+  const handlePrev = () => {
+    if (currentIndex > 0) setCurrentIndex(currentIndex - 1)
+  }
+
   const handleEnd = async () => {
     if (course.level === "Easy") {
       const unAnswered = questions.find((q) => !q.answer.userAnswer)
@@ -111,7 +112,7 @@ const ChallengeLogicRoot = ({ challenge,children,externalIndex,setExternalIndex,
   }
 
   if (isLoading || courseLoading) return <LoadingSpinner />
-  if (error || courseError) return <ErrorMessage message={error?.data?.message || "שגיאה בטעינת נתוני המשתמש"}/>
+  if (error || courseError) return <ErrorMessage message={error?.data?.message || "שגיאה בטעינת נתוני המשתמש"} />
 
 
   return children({
@@ -120,6 +121,7 @@ const ChallengeLogicRoot = ({ challenge,children,externalIndex,setExternalIndex,
     setCurrentIndex,
     handleUsersAnswer,
     handleNext,
+    handlePrev,
     handleEnd,
     challengeResults,
     courseId,
