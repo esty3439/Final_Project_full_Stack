@@ -4,12 +4,16 @@ const CustomLink = ({ to, children, className = "", ...props }) => {
   return (
     <Link
       to={to}
-      className={`text-[rgba(229,145,42,0.9)] underline hover:opacity-80 ${className}`}
+      className={`
+        text-[rgba(229,145,42,0.9)] underline hover:opacity-80
+        ${className}
+        max-md:text-sm
+      `}
       {...props}
     >
       {children}
     </Link>
-  );
-};
+  )
+}
 
-export default CustomLink;
+export default CustomLink

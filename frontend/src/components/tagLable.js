@@ -1,9 +1,11 @@
-const TagLabel = ({text,className = "",}) => {
+const TagLabel = ({text,className = ""}) => {
   return (
-    <p className={`font-semibold px-4 py-2 rounded-lg bg-[rgba(187,255,204,0.3)] border border-2 border-[rgba(32,255,87,0.62)] ${className}`}>
+    <p
+      className={`font-semibold px-4 py-2 max-md:px-3 max-md:py-1.5 rounded-lg border-[rgba(32,255,87,0.62)] text-cyan-900 ${className} border border-2 max-md:border-3 `}
+    >
       {text}
     </p>
   )
 }
 
-export default TagLabel;
+export default TagLabel
