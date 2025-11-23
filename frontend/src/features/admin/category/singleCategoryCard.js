@@ -39,7 +39,7 @@ const SingleCategoryCard = () => {
 
     try {
       await deleteChallenge({ id: selectedChallenge._id }).unwrap()
-      toast.success(`הקטגוריה נמחקה בהצלחה`, {
+      toast.success(`האתגר נמחק בהצלחה`, {
         position: "top-right",
         autoClose: 3000,
         onClose:()=>navigate(`/user/admin/data/courses/${courseId}/category/${categoryId}`)
