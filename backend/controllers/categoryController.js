@@ -6,7 +6,6 @@ const Question = require("../models/Question");
 const Course = require('../models/Course')
 const multer = require('multer');
 const { json } = require('express');
-
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
@@ -62,6 +61,81 @@ const getFullCategoryById = async (req, res) => {
   } catch (err) {
     console.error("getFullCategoryById error:", err)
     return res.status(500).json({ message: "Internal server error" })
+  }
+}
+
+//create category
+const createFullCategorySimple = async (req, res) => {
+  try {
+    const categoryInfo = JSON.parse(req.body.categoryInfo)
+    const questions = JSON.parse(req.body.questions)
+    let words = JSON.parse(req.body.words)
+    const courseId = req.body.courseId
+    const uploadedImages = req.files || []
+
+    if (!uploadedImages.length) {
+      return res.status(400).json({ message: "יש להעלות תמונה לכל מילה" })
+    }
+
+    for (const word of words) {
+      const imgForWord = uploadedImages.find(f => f.originalname.includes(word.word))
+      if (!imgForWord) {
+        return res.status(400).json({
+          message: `חסרה תמונה עבור המילה: ${word.word}`
+        })
+      }
+    }
+
+    words = words.map((wordObj) => {
+      const relevantImage = uploadedImages.find(f =>
+        f.originalname.includes(wordObj.word)
+      )
+
+      wordObj.img = {
+        data: relevantImage.buffer,
+        contentType: relevantImage.mimetype
+      }
+
+      return wordObj
+    })
+
+    // step 1: add words to DB
+    const createdWords = await Word.insertMany(words)
+
+    // step 2: add questions to DB
+    const questionsWithIds = questions.map(q => {
+
+      const questionWord = createdWords.find(w => w.word === q.question)
+
+      const optionsWords = q.options.map(opt => {
+        const word = createdWords.find(w => w.word === opt)
+        return word._id
+      })
+
+      return { question: questionWord._id, correctAnswer: questionWord._id, options: optionsWords }
+    })
+
+    const createdQuestions = await Question.insertMany(questionsWithIds)
+
+    //step 3: add challenge to DB
+    const questionsIds = createdQuestions.map((q) => q._id)
+    const createdChallenge = await Challenge.create({ questions: questionsIds })
+
+    //step 4: add category to DB
+    const wordsIds = createdWords.map(w => w._id)
+    const addCategoryData = { name: categoryInfo.name, course: courseId, challenge: createdChallenge._id, words: wordsIds }
+    const createdCategory = await Category.create(addCategoryData)
+
+    //step 5: update course categories
+    const foundCourse = await Course.findById(courseId).exec()
+    foundCourse.categories.push(createdCategory._id)
+    foundCourse.save()
+
+    res.status(201).json({ message: "created succsesfully" })
+  }
+  catch (err) {
+    console.error("createFullCourseSimple error:", err)
+    res.status(500).json({ message: "Server error", error: err.message })
   }
 }
 
@@ -184,6 +258,7 @@ const getChallengeOfCategory = async (req, res) => {
   }
 }
 
+//get challenge words
 const getWordsOfCategory = async (req, res) => {
   try {
     const { id } = req.params
@@ -207,70 +282,6 @@ const getWordsOfCategory = async (req, res) => {
     return res.json(wordsWithFavorites)
   } catch (err) {
     res.status(500).json({ message: err.message })
-  }
-}
-
-const createFullCategorySimple = async (req, res) => {
-  try {
-    const categoryInfo = JSON.parse(req.body.categoryInfo)
-    const questions = JSON.parse(req.body.questions)
-    let words = JSON.parse(req.body.words)
-    const courseId = req.body.courseId
-    const uploadedImages = req.files
-
-    if (!uploadedImages || uploadedImages.length === 0) {
-      console.log("No images uploaded")
-    }
-
-    words = words.map((wordObj, index) => {
-      const relevantImage = uploadedImages?.find(file => file.originalname.includes(wordObj.word))
-
-      if (relevantImage) {
-        wordObj.img = {
-          data: relevantImage.buffer,
-          contentType: relevantImage.mimetype
-        }
-      }
-      return wordObj
-    })
-
-    // step 1: add words to DB
-    const createdWords = await Word.insertMany(words)
-
-    // step 2: add questions to DB
-    const questionsWithIds = questions.map(q => {
-
-      const questionWord = createdWords.find(w => w.word === q.question)
-
-      const optionsWords = q.options.map(opt => {
-        const word = createdWords.find(w => w.word === opt)
-        return word._id
-      })
-
-      return { question: questionWord._id, correctAnswer: questionWord._id, options: optionsWords }
-    })
-
-    const createdQuestions = await Question.insertMany(questionsWithIds)
-
-    //step 3: add challenge to DB
-    const questionsIds = createdQuestions.map((q) => q._id)
-    const createdChallenge = await Challenge.create({ questions: questionsIds })
-
-    //step 4: add category to DB
-    const wordsIds = createdWords.map(w => w._id)
-    const addCategoryData = { name: categoryInfo.name, course: courseId, challenge: createdChallenge._id, words: wordsIds }
-    const createdCategory = await Category.create(addCategoryData)
-
-    //step 5: update course categories
-    const foundCourse = await Course.findById(courseId).exec()
-    foundCourse.categories.push(createdCategory._id)
-    foundCourse.save()
-
-    res.status(201).json({ message: "created succsesfully" })
-  }
-  catch (err) {
-    console.error("createFullCourseSimple error:", err)
-    res.status(500).json({ message: "Server error", error: err.message })
   }
 }
 

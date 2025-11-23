@@ -28,7 +28,7 @@ const ForgotPassword = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await forgotPassword({email:data.email}).unwrap()
+      const res = await forgotPassword({ email: data.email }).unwrap()
 
       toast.success(res?.message || "אם המייל קיים — נשלח קישור לאיפוס", {
         position: "top-right",
@@ -44,31 +44,27 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4">
-      <div className="w-full max-w-3xl">
-        <FormContainer onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
 
-          <FormTitle text="שחזור סיסמא" />
+      <FormTitle text="שחזור סיסמא" />
 
-          <FormInput
-            label="מייל"
-            type="email"
-            register={register("email")}
-            error={errors.email?.message}
-            placeholder="הכנס כתובת מייל..."
-            htmlFor="email"
-          />
+      <FormInput
+        label="מייל"
+        type="email"
+        register={register("email")}
+        error={errors.email?.message}
+        placeholder="הכנס כתובת מייל..."
+        htmlFor="email"
+      />
 
-          <SubmitButton text="שלח" isLoading={isLoading} />
+      <SubmitButton text="שלח" isLoading={isLoading} />
 
-          <p className="mt-4 text-center text-sm">
-            נזכרת בסיסמא?{" "}
-            <CustomLink to="/login">חזרה לכניסה</CustomLink>
-          </p>
+      <p className="mt-4 text-center text-sm">
+        נזכרת בסיסמא?{" "}
+        <CustomLink to="/login">חזרה לכניסה</CustomLink>
+      </p>
 
-        </FormContainer>
-      </div>
-    </div>
+    </FormContainer>
   )
 }
 

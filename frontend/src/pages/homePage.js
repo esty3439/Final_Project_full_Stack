@@ -4,7 +4,7 @@ import { useGetAllCoursesQuery } from '../features/course/courseApi'
 import { selectUser } from '../features/auth/authSlice'
 import { useCreateUserProgressMutation } from '../features/userProgress/userProgressApi'
 import PageTitle from '../components/pageTitle'
-import {Card,CardContent,CardActions,Typography,Button,Alert,CircularProgress,Box} from '@mui/material'
+import { Card, CardContent, CardActions, Typography, Button, Alert, CircularProgress, Box } from '@mui/material'
 
 const HomePage = () => {
   const { data: courses, isLoading: isLoadingCourses, error: errorCourses } = useGetAllCoursesQuery()
@@ -68,7 +68,7 @@ const HomePage = () => {
         הקורסים שלנו 🎓
       </Typography>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 md:grid-cols-2 gap-6">
         {courses.map((course, index) => (
           <Card
             key={course._id}

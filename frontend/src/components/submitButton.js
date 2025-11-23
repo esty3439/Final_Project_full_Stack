@@ -1,14 +1,14 @@
 import Button from "@mui/material/Button"
 import CircularProgress from "@mui/material/CircularProgress"
 
-const SubmitButton = ({ text,type="submit", isLoading, onClick, disabled }) => {
+const SubmitButton = ({ text, isLoading, onClick, disabled }) => {
   return (
     <Button
-      type={type}
+      type="submit"
       onClick={onClick}
       disabled={isLoading || disabled}
       fullWidth
-      className="flex justify-center items-center py-3 rounded-xl shadow-md" 
+      className="flex justify-center items-center py-3 max-md:py-2 rounded-xl shadow-md" 
       sx={{
         textTransform: "none",
         backgroundColor: "rgba(76, 175, 80, 1)",   

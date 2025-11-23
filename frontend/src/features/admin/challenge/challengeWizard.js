@@ -39,7 +39,7 @@ const ChallengeWizard = () => {
 
       await createFullChallenge(addChallengeData).unwrap()
       dispatch(resetWizard())
-      toast.success("האתגר נוצרה בהצלחה!", {
+      toast.success("האתגר נוצר בהצלחה!", {
         position: "top-right",
         autoClose: 3000,
         onClose: () => navigate(`/user/admin/data/courses/${courseId}/category/${categoryId}`)

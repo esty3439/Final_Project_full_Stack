@@ -45,9 +45,9 @@ const UpdateUserForm = () => {
     }
   }, [user, reset])
 
-   if (isLoading) return <LoadingSpinner text="טוען פרטי משתמש..."/>
-  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש!!!"}/>
-  if (!user) return <InfoMessage message="לא נמצא משתמש"/>
+  if (isLoading) return <LoadingSpinner text="טוען פרטי משתמש..." />
+  if (error) return <ErrorMessage message={error?.data?.message || "משהו השתבש!!!"} />
+  if (!user) return <InfoMessage message="לא נמצא משתמש" />
 
   const onSubmit = async (data) => {
     try {
@@ -56,12 +56,12 @@ const UpdateUserForm = () => {
       toast.success(`משתמש עודכן בהצלחה!!`, {
         position: "top-right",
         autoClose: 3000,
-        onClose:()=>navigate("/user/admin/users")
+        onClose: () => navigate("/user/admin/users")
       })
 
     } catch (err) {
       console.error(err)
-      toast.error(err?.data?.message || "העדכון נכשל" , {
+      toast.error(err?.data?.message || "העדכון נכשל", {
         position: "top-right",
         autoClose: 3000,
       })
@@ -69,40 +69,40 @@ const UpdateUserForm = () => {
   }
 
   return (
-    <Box className="p-6 max-w-3xl mx-auto relative bg-[rgba(255,265,25,0.2)]">
-    <FormContainer onSubmit={handleSubmit(onSubmit)}>
-      <BackButton navigation="/user/admin/users" />
+    <Box className="p-6 max-w-3xl mx-auto relative bg-[rgba(255,265,25,0.2)] max-md:p-3">
+      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+        <BackButton navigation="/user/admin/users" />
 
-      <div className="mt-8">
-        <SectionTitle text={`Update user: ${user.userName}`} />
-      </div>
-
-      <DashedBox className="flex-col items-start mt-4">
-        <p className="!text-[rgba(229,145,42,0.9)] font-semibold mb-2 text-lg">Roles:</p>
-        <div className="flex gap-4">
-          <label className="flex items-center gap-2">
-            <input type="checkbox" value="User" {...register("roles")} className="accent-orange-400" /> User
-          </label>
-          <label className="flex items-center gap-2">
-            <input type="checkbox" value="Admin" {...register("roles")} className="accent-orange-400" /> Admin
-          </label>
+        <div className="mt-8">
+          <SectionTitle text={`Update user: ${user.userName}`} />
         </div>
-      </DashedBox>
 
-      <FormSelect
-        label="Active"
-        id="active"
-        register={register("active", { setValueAs: value => value === "true" })}
-        options={[
-          { value: "true", label: "true" },
-          { value: "false", label: "false" },
-        ]}
-        defaultOption="-- Select Active Status --"
-      />
+        <DashedBox className="flex-col items-start mt-4">
+          <p className="!text-[rgba(229,145,42,0.9)] font-semibold mb-2 text-lg">Roles:</p>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" value="User" {...register("roles")} className="accent-orange-400" /> User
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" value="Admin" {...register("roles")} className="accent-orange-400" /> Admin
+            </label>
+          </div>
+        </DashedBox>
 
-      <SubmitButton text="Save" isLoading={false} className="mt-6" />
+        <FormSelect
+          label="Active"
+          id="active"
+          register={register("active", { setValueAs: value => value === "true" })}
+          options={[
+            { value: "true", label: "true" },
+            { value: "false", label: "false" },
+          ]}
+          defaultOption="-- Select Active Status --"
+        />
 
-    </FormContainer>
+        <SubmitButton text="Save" isLoading={false} className="mt-6" />
+
+      </FormContainer>
     </Box>
   )
 }

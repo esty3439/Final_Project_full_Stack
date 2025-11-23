@@ -12,10 +12,10 @@ const wordApi = baseApi.injectEndpoints({
         }),
 
         createNewWord: builder.mutation({
-            query: (wordData) => ({
+            query: (formData) => ({
                 url: '/word/',
                 method: 'POST',
-                body: wordData
+                body: formData
             }),
             invalidatesTags: ["Word", "Category"]
         }),
@@ -29,9 +29,8 @@ const wordApi = baseApi.injectEndpoints({
                 formData.append("translation", data.translation)
                 formData.append("categoryName", data.categoryName)
 
-                if (data.img) {
+                if (data.img) 
                     formData.append("img", data.img)
-                }
 
                 return {
                     url: '/word/',
