@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useGetUserProgressByUserQuery, useUpdateChallengeResultInUserProgressMutation, } from "../../userProgress/userProgressApi"
 import LoadingSpinner from "../../../components/loadingSpinner"
 import ErrorMessage from "../../../components/errorMessage"
@@ -9,6 +9,7 @@ import { useGetCourseByIdQuery } from "../../course/courseApi"
 const ChallengeLogicRoot = ({ challenge, children, externalIndex, setExternalIndex, }) => {
 
   const { categoryId, courseId } = useParams()
+  const navigate = useNavigate()
   const [updateChallengeResultInUserProgress] = useUpdateChallengeResultInUserProgressMutation()
   const { data: userProgress, isLoading, error } = useGetUserProgressByUserQuery()
   const { data: course, isLoading: courseLoading, error: courseError } = useGetCourseByIdQuery(courseId)
@@ -37,6 +38,7 @@ const ChallengeLogicRoot = ({ challenge, children, externalIndex, setExternalInd
       (r) => r.challenge._id.toString() === challenge._id.toString()
     )
     if (existingResult && isNewAttempt) {
+      navigate(`${existingResult.challenge._id}/results`)
       return
     }
 
