@@ -53,43 +53,39 @@ const ResetPasswordForm = () => {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4">
-      <div className="w-full max-w-3xl">
-        <FormContainer onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
 
-          <BackButton navigation={'/user/profile'} />
+      <BackButton navigation={'/user/profile'} />
 
-          <FormTitle text={'איפוס סיסמא'} />
+      <FormTitle text={'איפוס סיסמא'} />
 
-          <PasswordInput
-            label="סיסמא ישנה"
-            htmlFor="oldPassword"
-            register={register("oldPassword")}
-            error={errors.oldPassword?.message}
-            placeholder="הכנס סיסמא ישנה"
-          />
+      <PasswordInput
+        label="סיסמא ישנה"
+        htmlFor="oldPassword"
+        register={register("oldPassword")}
+        error={errors.oldPassword?.message}
+        placeholder="הכנס סיסמא ישנה"
+      />
 
-          <PasswordInput
-            label="סיסמא חדשה"
-            htmlFor="newPassword"
-            register={register("newPassword")}
-            error={errors.newPassword?.message}
-            placeholder="הכנס סיסמא חדשה..."
-          />
+      <PasswordInput
+        label="סיסמא חדשה"
+        htmlFor="newPassword"
+        register={register("newPassword")}
+        error={errors.newPassword?.message}
+        placeholder="הכנס סיסמא חדשה..."
+      />
 
-          <PasswordInput
-            label="אימות סיסמא חדשה"
-            htmlFor="confirmPassword"
-            register={register("confirmPassword")}
-            error={errors.confirmPassword?.message}
-            placeholder="אמת סיסמא חדשה..."
-          />
+      <PasswordInput
+        label="אימות סיסמא חדשה"
+        htmlFor="confirmPassword"
+        register={register("confirmPassword")}
+        error={errors.confirmPassword?.message}
+        placeholder="אמת סיסמא חדשה..."
+      />
 
-          <SubmitButton text="אפס סיסמא" isLoading={isLoading} />
+      <SubmitButton text="אפס סיסמא" isLoading={isLoading} />
 
-        </FormContainer>
-      </div>
-    </div>
+    </FormContainer>
   )
 }
 
