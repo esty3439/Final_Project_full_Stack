@@ -24,7 +24,7 @@ const MediumOptionList = ({ options, status, answer, chooseAnswer }) => {
             onClick={() => chooseAnswer(option.word)}
             className={`absolute flex flex-col items-center p-2 rounded-xl shadow-md cursor-pointer 
               ${isSelected ? "bg-yellow-200 ring-4 ring-yellow-400 scale-105" : "bg-white hover:scale-105"} 
-              max-md:p-1`}
+              max-md:p-1 transition-all`}
             style={{
               top: `calc(50% + ${y}px)`,
               left: `calc(50% + ${x}px)`,

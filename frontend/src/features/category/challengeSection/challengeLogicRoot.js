@@ -35,17 +35,17 @@ const ChallengeLogicRoot = ({ challenge, children, externalIndex, setExternalInd
     if (!challenge?.questions || !userProgress) return
 
     const existingResult = userProgress?.challengeResults?.find(
-      (r) => r.challenge?._id?.toString() === challenge?._id?.toString()
+      (r) => r.challenge._id.toString() === challenge._id.toString()
     )
     if (existingResult && isNewAttempt) {
-      navigate(`${existingResult?.challenge?._id}/results`)
+      navigate(`${existingResult.challenge._id}/results`)
       return
     }
 
     const questionsWithAnswers = challenge.questions.map((question) => {
       const status = Math.floor(Math.random() * 2)
       const answer = {
-        question: question?._id,
+        question: question._id,
         questionStatus: status,
         userAnswer: "",
         isCorrect: false,

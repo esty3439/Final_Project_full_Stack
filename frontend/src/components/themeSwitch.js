@@ -1,15 +1,10 @@
-import { useState } from "react";
-
 const ThemeSwitch = ({ theme, toggleTheme }) => {
-  const [hover, setHover] = useState(false);
 
   return (
     <div className="relative flex flex-col items-center">
     
       <div
         onClick={toggleTheme}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
         className={`
           w-14 h-7 rounded-full cursor-pointer flex items-center px-1
           transition-all duration-300

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import bufferToBase64 from "../../../../utils/imageUtils"
 
-const HardOptionList = ({ options, status, answer, chooseAnswer }) => {
+const HardOptionList = ({ options, status, answer, chooseAnswer, disabled }) => {
   const [positions, setPositions] = useState([])
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const HardOptionList = ({ options, status, answer, chooseAnswer }) => {
         return (
           <div
             key={i}
-            onClick={() => chooseAnswer(option.word)}
+            onClick={() => !disabled && chooseAnswer(option.word)}
             className={`absolute flex flex-col items-center p-2 rounded-xl shadow-md cursor-pointer 
               ${isSelected ? "bg-yellow-200 ring-4 ring-yellow-400 scale-105" : "bg-white hover:scale-105"} 
               transition-all duration-500 ease-in-out

@@ -16,6 +16,13 @@ const sendEmail = async ({ from = "English City", fromEmail, to, subject, html }
     to,
     subject,
     html,
+    attachments: [
+      {
+        filename: "logo.jpg",
+        path: __dirname + "/logo.jpg",
+        cid: "mylogo"
+      }
+    ]
   }
 
   const info = await transporter.sendMail(mailOptions)
